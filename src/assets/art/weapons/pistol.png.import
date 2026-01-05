@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://yd8cpf5xi3x0"
-path="res://.godot/imported/Idle (1).png-31165425628d7ba90ca45fa5c4d718db.ctex"
+uid="uid://bq78dhne73a8c"
+path="res://.godot/imported/pistol.png-855c35cb9039af4a486cbbf176826838.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/assets/art/player/Idle (1).png"
-dest_files=["res://.godot/imported/Idle (1).png-31165425628d7ba90ca45fa5c4d718db.ctex"]
+source_file="res://src/assets/art/weapons/pistol.png"
+dest_files=["res://.godot/imported/pistol.png-855c35cb9039af4a486cbbf176826838.ctex"]
 
 [params]
 
