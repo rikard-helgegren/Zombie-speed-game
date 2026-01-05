@@ -84,6 +84,7 @@ height = 88.0
 [node name="Zombie" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 11
+safe_margin = 1.08
 script = ExtResource("1_pxlqy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -92,7 +93,7 @@ scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_drc2j")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.22350518
+frame_progress = 0.04726449
 
 [node name="WalkCollission" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_sale8")

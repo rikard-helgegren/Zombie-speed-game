@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://c4grb4so5k0vx"]
+[gd_scene load_steps=15 format=4 uid="uid://c4grb4so5k0vx"]
 
 [ext_resource type="Script" uid="uid://bs6jky0yyfead" path="res://src/levels/test/test_level.gd" id="1_8hofm"]
 [ext_resource type="PackedScene" uid="uid://bfu3nao6fn6yi" path="res://src/features/player/player.tscn" id="1_kh8ri"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://fn4o7hv3lmy8" path="res://src/assets/art/environment/props/TX Props.png" id="4_qlgc6"]
 [ext_resource type="PackedScene" uid="uid://bqks3aoiirvba" path="res://src/features/ui/crosshair/crosshair.tscn" id="6_qlgc6"]
 [ext_resource type="PackedScene" uid="uid://bfcxu75f3axsk" path="res://src/features/zombies/zombie.tscn" id="7_3qqkp"]
+[ext_resource type="Script" uid="uid://drm5sb3f60mhf" path="res://src/systems/spawning/zombie_spawner.gd" id="8_wqgai"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qlgc6"]
 texture = ExtResource("3_ytfmf")
@@ -868,3 +869,9 @@ shape = SubResource("RectangleShape2D_l6jmp")
 
 [node name="Zombie" parent="Zombies" instance=ExtResource("7_3qqkp")]
 position = Vector2(1028, 141)
+
+[node name="ZombieSpawner" type="Node2D" parent="." node_paths=PackedStringArray("spawn_point")]
+position = Vector2(227, 129)
+script = ExtResource("8_wqgai")
+zombie_scene = ExtResource("7_3qqkp")
+spawn_point = NodePath(".")

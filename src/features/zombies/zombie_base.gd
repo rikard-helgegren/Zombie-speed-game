@@ -4,6 +4,8 @@ class_name ZombieBase
 @export var move_speed: float = 120.0
 @export var max_health: int = 3
 
+signal zombie_died
+
 var health: int
 
 var target: Node2D
@@ -35,4 +37,5 @@ func take_damage(amount: int):
 		die()
 
 func die():
+	emit_signal("zombie_died")
 	queue_free()
