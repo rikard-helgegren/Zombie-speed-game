@@ -96,7 +96,9 @@ animations = [{
 radius = 12.0
 height = 26.0
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_layer = 2
+collision_mask = 13
 script = ExtResource("1_oubcf")
 default_weapon_scene = ExtResource("2_hktew")
 
@@ -106,7 +108,7 @@ scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_hktew")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.4782262
+frame_progress = 0.14833184
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_0ph83")
@@ -120,6 +122,7 @@ script = ExtResource("3_p2vpv")
 script = ExtResource("4_ti7vc")
 
 [node name="WeaponPivot" type="Node2D" parent="."]
+position = Vector2(0, -10)
 
 [node name="Weapon" type="Node2D" parent="WeaponPivot"]
 script = ExtResource("21_xmri6")

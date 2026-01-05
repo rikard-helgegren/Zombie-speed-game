@@ -10,3 +10,4 @@ All user interface elements.
 - Keep UI logic separate from game logic.
 - Use CanvasLayer for HUD so it stays above the game world.
 
+**Note to self:**  HUD is short for Heads-Up Display, i.e. Hp, Xp etc.

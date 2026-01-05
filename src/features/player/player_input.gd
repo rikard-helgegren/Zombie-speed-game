@@ -6,13 +6,9 @@ signal action_input(action_name : String)
 
 func _process(_delta):
 	var input_vector = Vector2.ZERO
-	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	input_vector = Input.get_vector("left", "right", "up", "down")
 	
 	emit_signal("move_input", input_vector.normalized())
 
-	# Example actions
-	if Input.is_action_just_pressed("attack"):
-		emit_signal("action_input", "attack")
-	if Input.is_action_just_pressed("shoot"):
+	if Input.is_action_just_pressed("shoot"): #space/left click/ RB
 		emit_signal("action_input", "shoot")

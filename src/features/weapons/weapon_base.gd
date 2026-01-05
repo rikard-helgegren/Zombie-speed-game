@@ -7,7 +7,10 @@ class_name WeaponBase
 var can_fire := true
 var aim_direction := Vector2.RIGHT
 
-@onready var sprite: Sprite2D = $Sprite2D
+var sprite: Sprite2D = null
+
+func _ready():
+	sprite = get_node_or_null("Sprite2D")  # child can have it
 
 func set_aim_direction(direction: Vector2):
 	if direction.length() == 0:
@@ -22,4 +25,25 @@ func set_aim_direction(direction: Vector2):
 
 func fire():
 	# To be overridden by child weapons
+	print("Base wepon firea")
 	pass
+
+func hitscan_fire(damage: int, max_distance := 1000.0):
+	var space_state = get_world_2d().direct_space_state
+	
+	var muzzle = get_node_or_null("Muzzle")
+	var from = muzzle.global_position if muzzle else global_position
+	var to = from + aim_direction * max_distance
+	
+	var query = PhysicsRayQueryParameters2D.create(from, to)
+	query.exclude = [self]
+	query.collide_with_areas = true
+	query.collide_with_bodies = true
+	
+	var result = space_state.intersect_ray(query)
+	
+	if result:
+		var collider = result.collider
+		if collider.has_method("take_damage"):
+			collider.take_damage(damage)
+	

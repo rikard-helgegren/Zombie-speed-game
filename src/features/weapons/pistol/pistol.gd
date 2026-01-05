@@ -1,12 +1,19 @@
 extends WeaponBase
 class_name Pistol
 
+# Fire rate and damage is set in inspector
+func _init() -> void:
+	fire_rate = 0.5
+	damage = 2
+
 func fire():
+	print("pistol fire")
 	if not can_fire:
 		return
 
 	can_fire = false
-	print("Pistol fired")
-
+	
+	hitscan_fire(damage)
+	
 	await get_tree().create_timer(fire_rate).timeout
 	can_fire = true

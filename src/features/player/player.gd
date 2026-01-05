@@ -49,7 +49,7 @@ func _on_action_input(action_name: String):
 # ------------------------
 # Movement
 # ------------------------
-func move_player(delta):
+func move_player(_delta):
 	velocity = move_direction * speed
 	move_and_slide()
 
@@ -60,6 +60,7 @@ func attack():
 	print("Player attacks")
 
 func shoot():
+	print("player shot")
 	if weapon:
 		weapon.fire()
 
@@ -87,9 +88,8 @@ func update_animation():
 			sprite.play("idle")
 			
 func update_weapon_aim():
-	var mouse_pos = get_global_mouse_position()
-	var direction = mouse_pos - weapon.global_position
-
+	var aim_pos = get_aim_position()
+	var direction = aim_pos - weapon.global_position
 	weapon.set_aim_direction(direction)
 
 func spawn_default_weapon():
@@ -100,3 +100,6 @@ func spawn_default_weapon():
 	var weapon_instance = default_weapon_scene.instantiate() as WeaponBase
 	weapon_pivot.add_child(weapon_instance)
 	weapon = weapon_instance
+
+func get_aim_position() -> Vector2:
+	return get_global_mouse_position()
