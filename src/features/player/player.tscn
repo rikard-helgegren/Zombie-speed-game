@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://bfu3nao6fn6yi"]
+
+[ext_resource type="Script" uid="uid://cbbsj5l3rhdax" path="res://src/features/player/player.gd" id="1_oubcf"]
+[ext_resource type="Texture2D" uid="uid://dunqwxkn8km4l" path="res://src/assets/art/player/Idle (1).png" id="2_0ph83"]
+[ext_resource type="Script" uid="uid://dnsn2r33eyo5l" path="res://src/features/player/player_health.gd" id="3_p2vpv"]
+[ext_resource type="Script" uid="uid://cqhqnnemeugk6" path="res://src/features/player/player_input.gd" id="4_ti7vc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0ph83"]
+radius = 21.0
+height = 48.0
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_oubcf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-21.000002, -39)
+scale = Vector2(0.25336322, 0.27855888)
+texture = ExtResource("2_0ph83")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_0ph83")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="player_health" type="Node" parent="."]
+script = ExtResource("3_p2vpv")
+
+[node name="player_input" type="Node" parent="."]
+script = ExtResource("4_ti7vc")
