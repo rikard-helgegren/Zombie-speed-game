@@ -4,8 +4,13 @@ class_name WeaponBase
 @export var fire_rate: float = 0.3
 @export var damage: int = 1
 
+@onready var muzzle: MuzzleFlash = $Muzzle
+@onready var default_muzzle_pos := muzzle.position
+
 var can_fire := true
 var aim_direction := Vector2.RIGHT
+var facing_left := false
+
 
 var sprite: Sprite2D = null
 
@@ -22,11 +27,13 @@ func set_aim_direction(direction: Vector2):
 	# Flip sprite when aiming left
 	if sprite:
 		sprite.flip_v = abs(rad_to_deg(rotation)) > 90
-
+	
+		
 func fire():
 	# To be overridden by child weapons
 	print("Base weapon fire")
 	#pass
+
 
 func hitscan_fire(damage: int, max_distance := 1000.0):
 	print("hitscan")
@@ -51,4 +58,3 @@ func hitscan_fire(damage: int, max_distance := 1000.0):
 			if not collider.get_parent().has_method("take_damage"):
 				print("Error: hitbox parrent is missing take_damage function")
 			collider.get_parent().take_damage(damage)
-	

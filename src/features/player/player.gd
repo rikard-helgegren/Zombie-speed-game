@@ -80,17 +80,24 @@ func update_animation():
 		if sprite.animation != "walk":
 			sprite.play("walk")
 
-		# Flip sprite when moving left/right
+		"""# Flip sprite when moving left/right
 		if move_direction.x != 0:
-			sprite.flip_h = move_direction.x < 0
+			sprite.flip_h = move_direction.x < 0"""
 	else:
 		if sprite.animation != "idle":
 			sprite.play("idle")
 			
+#func update_weapon_aim():
+	#var aim_pos = get_aim_position()
+	#var direction = aim_pos - weapon.global_position
+	#weapon.set_aim_direction(direction)
+	
 func update_weapon_aim():
-	var aim_pos = get_aim_position()
-	var direction = aim_pos - weapon.global_position
-	weapon.set_aim_direction(direction)
+	if weapon == null:
+		return
+
+	var aim_direction = (get_global_mouse_position() - global_position).normalized()
+	weapon.set_aim_direction(aim_direction)
 
 func spawn_default_weapon():
 	if not default_weapon_scene:

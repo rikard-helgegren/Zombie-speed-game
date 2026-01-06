@@ -108,7 +108,7 @@ scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_hktew")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.3842874
+frame_progress = 0.5815353
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_0ph83")
@@ -122,7 +122,7 @@ script = ExtResource("3_p2vpv")
 script = ExtResource("4_ti7vc")
 
 [node name="WeaponPivot" type="Node2D" parent="."]
-position = Vector2(0, -10)
+position = Vector2(0, -12)
 
 [node name="Weapon" type="Node2D" parent="WeaponPivot"]
 script = ExtResource("21_xmri6")

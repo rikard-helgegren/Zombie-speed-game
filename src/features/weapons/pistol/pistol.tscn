@@ -1,17 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://fs2qdn8h1av6"]
+[gd_scene load_steps=5 format=3 uid="uid://fs2qdn8h1av6"]
 
 [ext_resource type="Script" uid="uid://dlf8yslvy3bxd" path="res://src/features/weapons/pistol/pistol.gd" id="1_4insx"]
 [ext_resource type="Texture2D" uid="uid://bq78dhne73a8c" path="res://src/assets/art/weapons/pistol.png" id="2_4insx"]
+[ext_resource type="Script" uid="uid://d0rx2idhpcsrk" path="res://src/features/weapons/muzzle_flash.gd" id="3_cvuy2"]
+[ext_resource type="Texture2D" uid="uid://pbrnxuhjokgh" path="res://src/assets/art/weapons/muzzle-explosion.png" id="5_xhetg"]
 
 [node name="Pistol" type="Node2D"]
 script = ExtResource("1_4insx")
 metadata/_custom_type_script = "uid://dgmpxvpyy51x"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -2.3841858e-07)
 scale = Vector2(0.05, 0.05)
 texture = ExtResource("2_4insx")
 offset = Vector2(600, 0)
 
 [node name="Muzzle" type="Node2D" parent="."]
-position = Vector2(47, -5)
+position = Vector2(47, -4.9999995)
 scale = Vector2(0.05, 0.05)
+script = ExtResource("3_cvuy2")
+
+[node name="Sprite2D" type="Sprite2D" parent="Muzzle"]
+visible = false
+position = Vector2(100, 0)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("5_xhetg")

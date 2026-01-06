@@ -1,7 +1,7 @@
 extends CharacterBody2D
 class_name ZombieBase
 
-@export var move_speed: float = 120.0
+@export var move_speed: float = 0 #120.0
 @export var max_health: int = 3
 
 @onready var hitbox: Hitbox = $Hitbox
