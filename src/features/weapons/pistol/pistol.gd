@@ -7,8 +7,9 @@ func _init() -> void:
 	damage = 2
 
 func fire():
-	print("pistol fire")
+	print("pistol trigger")
 	if not can_fire:
+		print("not ready")
 		return
 
 	can_fire = false

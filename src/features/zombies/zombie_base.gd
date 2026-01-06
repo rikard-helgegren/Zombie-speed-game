@@ -4,6 +4,8 @@ class_name ZombieBase
 @export var move_speed: float = 120.0
 @export var max_health: int = 3
 
+@onready var hitbox: Hitbox = $Hitbox
+
 signal zombie_died
 
 var health: int
@@ -33,6 +35,9 @@ func take_damage(amount: int):
 	health -= amount
 	print("Monster took damage: " + str(amount))
 
+	if hitbox:
+		hitbox.feedback_expand()
+		
 	if health <= 0:
 		die()
 

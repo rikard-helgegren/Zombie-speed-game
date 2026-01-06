@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bfcxu75f3axsk"]
+[gd_scene load_steps=21 format=3 uid="uid://bfcxu75f3axsk"]
 
 [ext_resource type="Script" uid="uid://dr81a3g6dtqsy" path="res://src/features/zombies/zombie_base.gd" id="1_pxlqy"]
 [ext_resource type="Texture2D" uid="uid://dgn5bmk8ol5qb" path="res://src/assets/art/zombies/normal/Idle (1).png" id="1_sale8"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://c23qkgs4c1dc1" path="res://src/assets/art/zombies/normal/Idle (13).png" id="13_m4lhf"]
 [ext_resource type="Texture2D" uid="uid://sdk74x3vvitd" path="res://src/assets/art/zombies/normal/Idle (14).png" id="14_g41h5"]
 [ext_resource type="Texture2D" uid="uid://fja45p7a4wmx" path="res://src/assets/art/zombies/normal/Idle (15).png" id="15_b5awq"]
+[ext_resource type="Script" uid="uid://ny1y3eb24u7i" path="res://src/systems/combat/hitbox.gd" id="17_n5fih"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_drc2j"]
 animations = [{
@@ -76,14 +77,15 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sale8"]
+height = 32.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pxlqy"]
 radius = 27.0
-height = 88.0
+height = 98.92587
 
-[node name="Zombie" type="CharacterBody2D"]
+[node name="ZombieBase" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 11
+collision_mask = 9
 safe_margin = 1.08
 script = ExtResource("1_pxlqy")
 
@@ -93,12 +95,17 @@ scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_drc2j")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.04726449
+frame_progress = 0.65032554
 
-[node name="WalkCollission" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_sale8")
 
-[node name="HitCollision" type="CollisionShape2D" parent="."]
-position = Vector2(7, -28)
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("17_n5fih")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(9, -29)
 rotation = 0.22090779
 shape = SubResource("CapsuleShape2D_pxlqy")

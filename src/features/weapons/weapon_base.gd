@@ -25,10 +25,11 @@ func set_aim_direction(direction: Vector2):
 
 func fire():
 	# To be overridden by child weapons
-	print("Base wepon firea")
-	pass
+	print("Base weapon fire")
+	#pass
 
 func hitscan_fire(damage: int, max_distance := 1000.0):
+	print("hitscan")
 	var space_state = get_world_2d().direct_space_state
 	
 	var muzzle = get_node_or_null("Muzzle")
@@ -39,11 +40,15 @@ func hitscan_fire(damage: int, max_distance := 1000.0):
 	query.exclude = [self]
 	query.collide_with_areas = true
 	query.collide_with_bodies = true
+	query.hit_from_inside = true
 	
 	var result = space_state.intersect_ray(query)
 	
 	if result:
 		var collider = result.collider
-		if collider.has_method("take_damage"):
-			collider.take_damage(damage)
+
+		if collider is Hitbox:
+			if not collider.get_parent().has_method("take_damage"):
+				print("Error: hitbox parrent is missing take_damage function")
+			collider.get_parent().take_damage(damage)
 	

@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bntrfay5ty58q" path="res://src/assets/art/environment/floor/TX Tileset Stone Ground.png" id="4_l6jmp"]
 [ext_resource type="Texture2D" uid="uid://fn4o7hv3lmy8" path="res://src/assets/art/environment/props/TX Props.png" id="4_qlgc6"]
 [ext_resource type="PackedScene" uid="uid://bqks3aoiirvba" path="res://src/features/ui/crosshair/crosshair.tscn" id="6_qlgc6"]
-[ext_resource type="PackedScene" uid="uid://bfcxu75f3axsk" path="res://src/features/zombies/zombie.tscn" id="7_3qqkp"]
+[ext_resource type="PackedScene" uid="uid://bfcxu75f3axsk" path="res://src/features/zombies/zombie_base.tscn" id="7_3qqkp"]
 [ext_resource type="Script" uid="uid://drm5sb3f60mhf" path="res://src/systems/spawning/zombie_spawner.gd" id="8_wqgai"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qlgc6"]
