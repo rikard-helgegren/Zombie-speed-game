@@ -80,9 +80,6 @@ func update_animation():
 		if sprite.animation != "walk":
 			sprite.play("walk")
 
-		"""# Flip sprite when moving left/right
-		if move_direction.x != 0:
-			sprite.flip_h = move_direction.x < 0"""
 	else:
 		if sprite.animation != "idle":
 			sprite.play("idle")

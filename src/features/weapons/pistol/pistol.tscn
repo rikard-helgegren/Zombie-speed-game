@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://fs2qdn8h1av6"]
+[gd_scene load_steps=7 format=3 uid="uid://fs2qdn8h1av6"]
 
 [ext_resource type="Script" uid="uid://dlf8yslvy3bxd" path="res://src/features/weapons/pistol/pistol.gd" id="1_4insx"]
 [ext_resource type="Texture2D" uid="uid://bq78dhne73a8c" path="res://src/assets/art/weapons/pistol.png" id="2_4insx"]
 [ext_resource type="Script" uid="uid://d0rx2idhpcsrk" path="res://src/features/weapons/muzzle_flash.gd" id="3_cvuy2"]
+[ext_resource type="AudioStream" uid="uid://dpsevljttkxfv" path="res://src/assets/audio/sfx/shot-single2.mp3" id="5_2cyx6"]
 [ext_resource type="Texture2D" uid="uid://pbrnxuhjokgh" path="res://src/assets/art/weapons/muzzle-explosion.png" id="5_xhetg"]
+[ext_resource type="AudioStream" uid="uid://cmgimwau38k7m" path="res://src/assets/audio/sfx/empty-gun-single2.mp3" id="6_d6t7n"]
 
 [node name="Pistol" type="Node2D"]
 script = ExtResource("1_4insx")
@@ -25,3 +27,11 @@ visible = false
 position = Vector2(100, 0)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("5_xhetg")
+
+[node name="Shoot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_2cyx6")
+volume_db = -15.0
+
+[node name="EmptyShot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_d6t7n")
+volume_db = -15.0
