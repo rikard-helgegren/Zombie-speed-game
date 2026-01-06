@@ -1,22 +1,23 @@
-[gd_scene load_steps=21 format=3 uid="uid://bfcxu75f3axsk"]
+[gd_scene load_steps=22 format=3 uid="uid://bfcxu75f3axsk"]
 
 [ext_resource type="Script" uid="uid://dr81a3g6dtqsy" path="res://src/features/zombies/zombie_base.gd" id="1_pxlqy"]
-[ext_resource type="Texture2D" uid="uid://dgn5bmk8ol5qb" path="res://src/assets/art/zombies/normal/Idle (1).png" id="1_sale8"]
-[ext_resource type="Texture2D" uid="uid://bgb4f1w6mcev0" path="res://src/assets/art/zombies/normal/Idle (2).png" id="2_pxlqy"]
-[ext_resource type="Texture2D" uid="uid://s8bi71m78g0n" path="res://src/assets/art/zombies/normal/Idle (3).png" id="3_u344o"]
-[ext_resource type="Texture2D" uid="uid://b5yr81tqm4kle" path="res://src/assets/art/zombies/normal/Idle (4).png" id="4_u5f06"]
-[ext_resource type="Texture2D" uid="uid://qhqcj0culf4g" path="res://src/assets/art/zombies/normal/Idle (5).png" id="5_jvtei"]
-[ext_resource type="Texture2D" uid="uid://con0qcbts3mh1" path="res://src/assets/art/zombies/normal/Idle (6).png" id="6_hlego"]
-[ext_resource type="Texture2D" uid="uid://drf0yg5t5q3nl" path="res://src/assets/art/zombies/normal/Idle (7).png" id="7_p5aui"]
-[ext_resource type="Texture2D" uid="uid://cy5k7f23xdjsk" path="res://src/assets/art/zombies/normal/Idle (8).png" id="8_gtx47"]
-[ext_resource type="Texture2D" uid="uid://246iqfkt3muo" path="res://src/assets/art/zombies/normal/Idle (9).png" id="9_limls"]
-[ext_resource type="Texture2D" uid="uid://c3isxc1v8g22p" path="res://src/assets/art/zombies/normal/Idle (10).png" id="10_vtn7u"]
-[ext_resource type="Texture2D" uid="uid://bx0wwbtgs3ne" path="res://src/assets/art/zombies/normal/Idle (11).png" id="11_nkx08"]
-[ext_resource type="Texture2D" uid="uid://ddx8nu8dtlx8l" path="res://src/assets/art/zombies/normal/Idle (12).png" id="12_wk78r"]
-[ext_resource type="Texture2D" uid="uid://c23qkgs4c1dc1" path="res://src/assets/art/zombies/normal/Idle (13).png" id="13_m4lhf"]
-[ext_resource type="Texture2D" uid="uid://sdk74x3vvitd" path="res://src/assets/art/zombies/normal/Idle (14).png" id="14_g41h5"]
-[ext_resource type="Texture2D" uid="uid://fja45p7a4wmx" path="res://src/assets/art/zombies/normal/Idle (15).png" id="15_b5awq"]
+[ext_resource type="Texture2D" path="res://src/assets/art/zombies/normal/Idle (1).png" id="1_sale8"]
+[ext_resource type="Texture2D" path="res://src/assets/art/zombies/normal/Idle (2).png" id="2_pxlqy"]
+[ext_resource type="Texture2D" path="res://src/assets/art/zombies/normal/Idle (3).png" id="3_u344o"]
+[ext_resource type="Texture2D" path="res://src/assets/art/zombies/normal/Idle (4).png" id="4_u5f06"]
+[ext_resource type="Texture2D" path="res://src/assets/art/zombies/normal/Idle (5).png" id="5_jvtei"]
+[ext_resource type="Texture2D" path="res://src/assets/art/zombies/normal/Idle (6).png" id="6_hlego"]
+[ext_resource type="Texture2D" path="res://src/assets/art/zombies/normal/Idle (7).png" id="7_p5aui"]
+[ext_resource type="Texture2D" path="res://src/assets/art/zombies/normal/Idle (8).png" id="8_gtx47"]
+[ext_resource type="Texture2D" path="res://src/assets/art/zombies/normal/Idle (9).png" id="9_limls"]
+[ext_resource type="Texture2D" path="res://src/assets/art/zombies/normal/Idle (10).png" id="10_vtn7u"]
+[ext_resource type="Texture2D" path="res://src/assets/art/zombies/normal/Idle (11).png" id="11_nkx08"]
+[ext_resource type="Texture2D" path="res://src/assets/art/zombies/normal/Idle (12).png" id="12_wk78r"]
+[ext_resource type="Texture2D" path="res://src/assets/art/zombies/normal/Idle (13).png" id="13_m4lhf"]
+[ext_resource type="Texture2D" path="res://src/assets/art/zombies/normal/Idle (14).png" id="14_g41h5"]
+[ext_resource type="Texture2D" path="res://src/assets/art/zombies/normal/Idle (15).png" id="15_b5awq"]
 [ext_resource type="Script" uid="uid://ny1y3eb24u7i" path="res://src/systems/combat/hitbox.gd" id="17_n5fih"]
+[ext_resource type="AudioStream" uid="uid://c68q58p361cyn" path="res://src/assets/audio/sfx/bulletimpact1.mp3" id="18_qffiy"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_drc2j"]
 animations = [{
@@ -88,6 +89,10 @@ collision_layer = 4
 collision_mask = 9
 safe_margin = 1.08
 script = ExtResource("1_pxlqy")
+move_speed = null
+max_health = null
+death_sound = ExtResource("18_qffiy")
+hit_sound = ExtResource("18_qffiy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(12.999999, -35.999996)
@@ -95,7 +100,7 @@ scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_drc2j")
 animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.44627038
+frame_progress = 0.84775037
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_sale8")

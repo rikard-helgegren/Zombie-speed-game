@@ -11,13 +11,11 @@ var move_direction = Vector2.ZERO
 @onready var health_node: PlayerHealth = $player_health
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var weapon_pivot: Node2D = $WeaponPivot
-#@onready var weapon: WeaponBase = $WeaponPivot/Weapon
 var weapon: WeaponBase
 
 
 func _ready():
 	# Connect input signals
-	 # Connect input
 	input_node.move_input.connect(Callable(self, "_on_move_input"))
 	input_node.action_input.connect(Callable(self, "_on_action_input"))
 	
@@ -83,11 +81,6 @@ func update_animation():
 	else:
 		if sprite.animation != "idle":
 			sprite.play("idle")
-			
-#func update_weapon_aim():
-	#var aim_pos = get_aim_position()
-	#var direction = aim_pos - weapon.global_position
-	#weapon.set_aim_direction(direction)
 	
 func update_weapon_aim():
 	if weapon == null:
