@@ -7,6 +7,11 @@ class_name ZombieBase
 @export var hit_sound: AudioStream
 @export var attack_range: float = 30.0
 @export var detection_range: float = 300.0
+@export var attack_damage: int = 1
+@export var attack_cooldown: float = 1.0  
+
+var _can_attack: bool = true
+
 
 @onready var hitbox: Hitbox = $Hitbox
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -28,7 +33,7 @@ func _ready():
 		target = players[0]
 	print("Zombie ready, target =", target)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if not target:
 		return
 
@@ -37,7 +42,7 @@ func _physics_process(delta):
 		ZombieState.IDLE:
 			idle_state()
 		ZombieState.WALK:
-			walk_state(delta)
+			walk_state()
 		ZombieState.ATTACK:
 			attack_state()
 		ZombieState.DIE:
@@ -77,7 +82,7 @@ func idle_state():
 	if player_in_range(detection_range):
 		change_state(ZombieState.WALK)
 
-func walk_state(delta):
+func walk_state():
 	sprite.play("walk")
 	if player_in_range(attack_range):
 		change_state(ZombieState.ATTACK)
@@ -86,7 +91,19 @@ func attack_state():
 	sprite.play("attack")
 	if not player_in_range(attack_range):
 		change_state(ZombieState.WALK)
-	# TODO: deal damage on animation frame
+		
+	velocity = Vector2.ZERO  # stop moving during attack
+
+	if _can_attack and player_in_range(attack_range):
+		deal_damage_to_player()
+		_can_attack = false
+		# cooldown timer
+		var t = Timer.new()
+		t.one_shot = true
+		t.wait_time = attack_cooldown
+		add_child(t)
+		t.start()
+		t.timeout.connect(Callable(self, "_on_attack_cooldown_finished"))
 
 func die_state():
 	sprite.play("die")
@@ -107,5 +124,19 @@ func player_in_range(range: float) -> bool:
 
 
 func _on_animation_finished() -> void:
-	print("animation finished, die")
-	die()
+	if state == ZombieState.DIE:
+		print("animation finished, die")
+		die()
+
+func deal_damage_to_player():
+	if not target:
+		return
+	# Check if target has a PlayerHealth node
+	if target.has_node("player_health"):
+		var health_node = target.get_node("player_health") as PlayerHealth
+		health_node.take_damage(attack_damage)
+
+
+func _on_animation_looped() -> void:
+	if  state == ZombieState.ATTACK:
+		_can_attack = true

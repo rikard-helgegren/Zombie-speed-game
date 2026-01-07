@@ -227,7 +227,7 @@ hit_sound = ExtResource("18_qffiy")
 position = Vector2(12.999999, -35.999996)
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_drc2j")
-animation = &"attack"
+animation = &"die"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -244,3 +244,4 @@ rotation = 0.22090779
 shape = SubResource("CapsuleShape2D_pxlqy")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]
+[connection signal="animation_looped" from="AnimatedSprite2D" to="." method="_on_animation_looped"]

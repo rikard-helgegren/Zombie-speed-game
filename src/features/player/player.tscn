@@ -1,33 +1,79 @@
-[gd_scene load_steps=25 format=3 uid="uid://bfu3nao6fn6yi"]
+[gd_scene load_steps=36 format=3 uid="uid://bfu3nao6fn6yi"]
 
 [ext_resource type="Script" uid="uid://cbbsj5l3rhdax" path="res://src/features/player/player.gd" id="1_oubcf"]
-[ext_resource type="Texture2D" uid="uid://yd8cpf5xi3x0" path="res://src/assets/art/player/Idle (1).png" id="2_0ph83"]
+[ext_resource type="Texture2D" uid="uid://yd8cpf5xi3x0" path="res://src/assets/art/player/idle/Idle (1).png" id="2_0ph83"]
 [ext_resource type="PackedScene" uid="uid://fs2qdn8h1av6" path="res://src/features/weapons/pistol/pistol.tscn" id="2_hktew"]
+[ext_resource type="Texture2D" uid="uid://rdst5p4psn45" path="res://src/assets/art/player/die/Dead (1).png" id="3_6d4q7"]
 [ext_resource type="Script" uid="uid://dnsn2r33eyo5l" path="res://src/features/player/player_health.gd" id="3_p2vpv"]
-[ext_resource type="Texture2D" uid="uid://crp1xuxggu850" path="res://src/assets/art/player/Idle (2).png" id="3_wy6v3"]
-[ext_resource type="Texture2D" uid="uid://4sy4xnawdj71" path="res://src/assets/art/player/Idle (3).png" id="4_q3iuk"]
+[ext_resource type="Texture2D" uid="uid://crp1xuxggu850" path="res://src/assets/art/player/idle/Idle (2).png" id="3_wy6v3"]
+[ext_resource type="Texture2D" uid="uid://7omfwqu12gpv" path="res://src/assets/art/player/die/Dead (2).png" id="4_ppdf5"]
+[ext_resource type="Texture2D" uid="uid://4sy4xnawdj71" path="res://src/assets/art/player/idle/Idle (3).png" id="4_q3iuk"]
 [ext_resource type="Script" uid="uid://cqhqnnemeugk6" path="res://src/features/player/player_input.gd" id="4_ti7vc"]
-[ext_resource type="Texture2D" uid="uid://kgy4hu3weg4e" path="res://src/assets/art/player/Idle (4).png" id="5_2m83w"]
-[ext_resource type="Texture2D" uid="uid://ctda3lpwugfpk" path="res://src/assets/art/player/Idle (5).png" id="6_hn5l5"]
-[ext_resource type="Texture2D" uid="uid://dwqmxfmgtds1d" path="res://src/assets/art/player/Idle (6).png" id="7_daxp2"]
-[ext_resource type="Texture2D" uid="uid://dwk0hlo1h42lp" path="res://src/assets/art/player/Idle (7).png" id="8_ug4fj"]
-[ext_resource type="Texture2D" uid="uid://cy6blh87w0ldj" path="res://src/assets/art/player/Idle (8).png" id="9_58hqn"]
-[ext_resource type="Texture2D" uid="uid://db1k17hglg7c4" path="res://src/assets/art/player/Idle (9).png" id="10_dfa3y"]
-[ext_resource type="Texture2D" uid="uid://r0rwrld2djvs" path="res://src/assets/art/player/Idle (10).png" id="11_xmri6"]
-[ext_resource type="Texture2D" uid="uid://b8j8e72pkw4aq" path="res://src/assets/art/player/Run (2).png" id="12_xmri6"]
-[ext_resource type="Texture2D" uid="uid://c5pfntpneaf6a" path="res://src/assets/art/player/Run (3).png" id="14_2tlun"]
-[ext_resource type="Texture2D" uid="uid://cxdadvpkr4n6e" path="res://src/assets/art/player/Run (4).png" id="15_5vq3e"]
-[ext_resource type="Texture2D" uid="uid://0u7uite8tyfh" path="res://src/assets/art/player/Run (5).png" id="16_0s35r"]
-[ext_resource type="Texture2D" uid="uid://dokiurvr7l8l1" path="res://src/assets/art/player/Run (6).png" id="17_q7n78"]
-[ext_resource type="Texture2D" uid="uid://4wcy4abdjyvg" path="res://src/assets/art/player/Run (7).png" id="18_kpimf"]
-[ext_resource type="Texture2D" uid="uid://bs0x0menqmffa" path="res://src/assets/art/player/Run (8).png" id="19_frcqk"]
+[ext_resource type="Texture2D" uid="uid://kgy4hu3weg4e" path="res://src/assets/art/player/idle/Idle (4).png" id="5_2m83w"]
+[ext_resource type="Texture2D" uid="uid://btkvcjhhpnixm" path="res://src/assets/art/player/die/Dead (3).png" id="5_52glq"]
+[ext_resource type="Texture2D" uid="uid://ctda3lpwugfpk" path="res://src/assets/art/player/idle/Idle (5).png" id="6_hn5l5"]
+[ext_resource type="Texture2D" uid="uid://ct1agfq6xnu3r" path="res://src/assets/art/player/die/Dead (4).png" id="6_qkicq"]
+[ext_resource type="Texture2D" uid="uid://8ovqclboa01j" path="res://src/assets/art/player/die/Dead (5).png" id="7_1va7w"]
+[ext_resource type="Texture2D" uid="uid://dwqmxfmgtds1d" path="res://src/assets/art/player/idle/Idle (6).png" id="7_daxp2"]
+[ext_resource type="Texture2D" uid="uid://dmgrotd85fup8" path="res://src/assets/art/player/die/Dead (6).png" id="8_rb3wx"]
+[ext_resource type="Texture2D" uid="uid://dwk0hlo1h42lp" path="res://src/assets/art/player/idle/Idle (7).png" id="8_ug4fj"]
+[ext_resource type="Texture2D" uid="uid://cy6blh87w0ldj" path="res://src/assets/art/player/idle/Idle (8).png" id="9_58hqn"]
+[ext_resource type="Texture2D" uid="uid://qq7svfmhssh" path="res://src/assets/art/player/die/Dead (7).png" id="9_mlcb0"]
+[ext_resource type="Texture2D" uid="uid://db1k17hglg7c4" path="res://src/assets/art/player/idle/Idle (9).png" id="10_dfa3y"]
+[ext_resource type="Texture2D" uid="uid://co1cvwvuwixe8" path="res://src/assets/art/player/die/Dead (8).png" id="10_n22fn"]
+[ext_resource type="Texture2D" uid="uid://r0rwrld2djvs" path="res://src/assets/art/player/idle/Idle (10).png" id="11_xmri6"]
+[ext_resource type="Texture2D" uid="uid://dyp328evvvjki" path="res://src/assets/art/player/die/Dead (9).png" id="11_yhmtn"]
+[ext_resource type="Texture2D" uid="uid://csceok757xkgo" path="res://src/assets/art/player/die/Dead (10).png" id="12_vsf6e"]
+[ext_resource type="Texture2D" uid="uid://b8j8e72pkw4aq" path="res://src/assets/art/player/run/Run (2).png" id="12_xmri6"]
+[ext_resource type="Texture2D" uid="uid://c5pfntpneaf6a" path="res://src/assets/art/player/run/Run (3).png" id="14_2tlun"]
+[ext_resource type="Texture2D" uid="uid://cxdadvpkr4n6e" path="res://src/assets/art/player/run/Run (4).png" id="15_5vq3e"]
+[ext_resource type="Texture2D" uid="uid://0u7uite8tyfh" path="res://src/assets/art/player/run/Run (5).png" id="16_0s35r"]
+[ext_resource type="Texture2D" uid="uid://dokiurvr7l8l1" path="res://src/assets/art/player/run/Run (6).png" id="17_q7n78"]
+[ext_resource type="Texture2D" uid="uid://4wcy4abdjyvg" path="res://src/assets/art/player/run/Run (7).png" id="18_kpimf"]
+[ext_resource type="Texture2D" uid="uid://bs0x0menqmffa" path="res://src/assets/art/player/run/Run (8).png" id="19_frcqk"]
 [ext_resource type="Script" uid="uid://dgmpxvpyy51x" path="res://src/features/weapons/weapon_base.gd" id="21_xmri6"]
+[ext_resource type="AudioStream" uid="uid://d2r77uxforcns" path="res://src/assets/audio/sfx/powerup-off.ogg" id="31_ppdf5"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hktew"]
 animations = [{
 "frames": [],
 "loop": true,
 "name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_6d4q7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ppdf5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_52glq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_qkicq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_1va7w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_rb3wx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_mlcb0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_n22fn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_yhmtn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_vsf6e")
+}],
+"loop": false,
+"name": &"die",
 "speed": 5.0
 }, {
 "frames": [{
@@ -106,9 +152,8 @@ default_weapon_scene = ExtResource("2_hktew")
 position = Vector2(-1.9999999, -29.999998)
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_hktew")
-animation = &"idle"
+animation = &"die"
 autoplay = "idle"
-frame_progress = 0.3162174
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_0ph83")
@@ -117,6 +162,10 @@ shape = SubResource("CapsuleShape2D_0ph83")
 
 [node name="player_health" type="Node" parent="."]
 script = ExtResource("3_p2vpv")
+damage_sound = ExtResource("31_ppdf5")
+
+[node name="damage" type="AudioStreamPlayer2D" parent="player_health"]
+stream = ExtResource("31_ppdf5")
 
 [node name="player_input" type="Node" parent="."]
 script = ExtResource("4_ti7vc")
@@ -127,3 +176,5 @@ position = Vector2(0, -12)
 [node name="Weapon" type="Node2D" parent="WeaponPivot"]
 script = ExtResource("21_xmri6")
 metadata/_custom_type_script = "uid://dgmpxvpyy51x"
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]

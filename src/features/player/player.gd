@@ -13,6 +13,11 @@ var move_direction = Vector2.ZERO
 @onready var weapon_pivot: Node2D = $WeaponPivot
 var weapon: WeaponBase
 
+enum PlayerState { IDLE, WALK, ATTACK, DIE }
+var state: PlayerState = PlayerState.IDLE
+var new_state: PlayerState = PlayerState.IDLE
+var is_alive := true
+
 
 func _ready():
 	# Connect input signals
@@ -28,8 +33,15 @@ func _ready():
 	
 func _physics_process(delta):
 	move_player(delta)
-	update_animation()
 	update_weapon_aim()
+	
+	match state:
+		PlayerState.IDLE:
+			idle_state()
+		PlayerState.WALK:
+			walk_state()
+		PlayerState.DIE:
+			die_state()
 
 # ------------------------
 # Input callbacks
@@ -44,16 +56,10 @@ func _on_action_input(action_name: String):
 		"shoot":
 			shoot()
 
-# ------------------------
-# Movement
-# ------------------------
 func move_player(_delta):
 	velocity = move_direction * speed
 	move_and_slide()
 
-# ------------------------
-# Example actions
-# ------------------------
 func attack():
 	print("Player attacks")
 
@@ -71,16 +77,8 @@ func _on_health_changed(new_health):
 
 func _on_player_died():
 	print("Player died")
-	queue_free() # or trigger level restart
-
-func update_animation():
-	if move_direction.length() > 0.1:
-		if sprite.animation != "walk":
-			sprite.play("walk")
-
-	else:
-		if sprite.animation != "idle":
-			sprite.play("idle")
+	die_state()
+	
 	
 func update_weapon_aim():
 	if weapon == null:
@@ -100,3 +98,51 @@ func spawn_default_weapon():
 
 func get_aim_position() -> Vector2:
 	return get_global_mouse_position()
+
+func idle_state():
+	sprite.play("idle")
+	
+	if move_direction.length() > 0.1:
+		change_state(PlayerState.WALK)
+
+func walk_state():
+	sprite.play("walk")
+	if move_direction.length() > 0.1:
+		if move_direction.x < 0:
+			sprite.flip_h = true   # facing left
+		elif move_direction.x > 0:
+			sprite.flip_h = false  # facing right
+	else:
+		change_state(PlayerState.IDLE)
+		
+	
+func die_state():
+	if (is_alive):
+		is_alive = false
+		sprite.play("die")
+		
+		#TODO: add that wepon falls to ground
+		weapon.hide()
+		
+		velocity = Vector2.ZERO  # stop moving
+		set_physics_process(false) 	# Freeze movement handled in _physics_process
+		#Note: calls die() when animation quits
+	
+
+func change_state(new: PlayerState):
+	if state == new:
+		return
+	state = new
+
+
+
+func _on_animation_finished() -> void:
+	if state == PlayerState.DIE:
+		print("animation finished, die")
+		die()
+
+
+func die():
+	
+	pass
+	# End scene, replay, menue etc.

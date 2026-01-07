@@ -1,7 +1,8 @@
 extends Node
 class_name PlayerHealth
 
-@export var max_health: int = 100
+@export var max_health: int = 1
+@export var damage_sound: AudioStream
 var current_health: int
 
 signal health_changed(current_health)
@@ -15,7 +16,8 @@ func take_damage(amount: int):
 	current_health -= amount
 	current_health = max(current_health, 0)
 	emit_signal("health_changed", current_health)
-	if current_health == 0:
+	$damage.play()
+	if current_health <= 0:
 		emit_signal("player_died")
 
 func heal(amount: int):
