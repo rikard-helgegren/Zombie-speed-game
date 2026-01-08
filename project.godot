@@ -78,6 +78,25 @@ exit={
 ]
 }
 
+[layer_names]
+
+2d_render/layer_1="world"
+2d_render/layer_2="player"
+2d_render/layer_3="enemies"
+2d_render/layer_4="border"
+2d_physics/layer_1="world"
+2d_navigation/layer_1="world"
+2d_physics/layer_2="player"
+2d_navigation/layer_2="player"
+2d_physics/layer_3="enemies"
+2d_navigation/layer_3="enemeis"
+2d_physics/layer_4="border"
+2d_navigation/layer_4="border"
+
+[physics]
+
+2d/default_gravity_vector=Vector2(0, 0)
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

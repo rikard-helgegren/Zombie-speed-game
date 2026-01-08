@@ -31,3 +31,7 @@ dist/
 Thumbs.db
 *.swp
 *.tmp
+
+
+# image readings
+*.import

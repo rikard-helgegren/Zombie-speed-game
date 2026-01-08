@@ -839,6 +839,7 @@ size = Vector2(9.529633, 11.738117)
 size = Vector2(234.20557, 69.37366)
 
 [node name="TestLevel" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_8hofm")
 
 [node name="Layer0" type="TileMapLayer" parent="."]
