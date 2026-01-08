@@ -6,6 +6,7 @@ class_name Player
 
 var move_direction = Vector2.ZERO
 
+
 # References to child components
 @onready var input_node: PlayerInput = $player_input
 @onready var health_node: PlayerHealth = $player_health
@@ -50,11 +51,12 @@ func _on_move_input(direction: Vector2):
 	move_direction = direction
 
 func _on_action_input(action_name: String):
-	match action_name:
-		"attack":
-			attack()
-		"shoot":
-			shoot()
+	if is_alive:
+		match action_name:
+			"attack":
+				attack()
+			"shoot":
+				shoot()
 
 func move_player(_delta):
 	velocity = move_direction * speed

@@ -146,6 +146,7 @@ height = 26.0
 collision_layer = 2
 collision_mask = 13
 script = ExtResource("1_oubcf")
+speed = null
 default_weapon_scene = ExtResource("2_hktew")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

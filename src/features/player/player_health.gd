@@ -4,6 +4,7 @@ class_name PlayerHealth
 @export var max_health: int = 1
 @export var damage_sound: AudioStream
 var current_health: int
+var is_alive := true
 
 signal health_changed(current_health)
 signal player_died()
@@ -16,9 +17,11 @@ func take_damage(amount: int):
 	current_health -= amount
 	current_health = max(current_health, 0)
 	emit_signal("health_changed", current_health)
-	$damage.play()
-	if current_health <= 0:
+	if is_alive:
+		$damage.play()
+	if current_health <= 0: 
 		emit_signal("player_died")
+		is_alive = false
 
 func heal(amount: int):
 	current_health += amount
