@@ -101,13 +101,18 @@ func play_sound(sound : AudioStream):
 func idle_state():
 	sprite.play("idle")
 	if player_in_range(detection_range):
+		has_heard_sound = false
 		change_state(ZombieState.WALK)
 
 func walk_state():
 	sprite.play("walk")
 	if player_in_range(attack_range):
-		has_heard_sound = false
 		change_state(ZombieState.ATTACK)
+	elif player_in_range(detection_range):
+		has_heard_sound = false
+	
+	if not player_in_range(detection_range*2):
+		change_state(ZombieState.IDLE)
 
 func attack_state():
 	sprite.play("attack")

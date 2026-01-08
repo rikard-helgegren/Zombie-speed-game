@@ -895,7 +895,7 @@ tile_map_data = PackedByteArray("AAAJAAwAAAAWAAoAAAA=")
 tile_set = SubResource("TileSet_vmry5")
 
 [node name="Player" parent="." instance=ExtResource("1_kh8ri")]
-position = Vector2(573, 327)
+position = Vector2(567, 298)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 scale = Vector2(-1.8850895, -1.6458764)
@@ -928,6 +928,9 @@ shape = SubResource("RectangleShape2D_wqgai")
 
 [node name="Zombie" parent="Zombies" instance=ExtResource("7_3qqkp")]
 position = Vector2(1028, 141)
+
+[node name="Zombie2" parent="Zombies" instance=ExtResource("7_3qqkp")]
+position = Vector2(75, 426)
 
 [node name="ZombieSpawner" type="Node2D" parent="." node_paths=PackedStringArray("spawn_point")]
 position = Vector2(227, 129)
