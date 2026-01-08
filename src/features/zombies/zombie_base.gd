@@ -128,10 +128,9 @@ func attack_state():
 		t.timeout.connect(Callable(self, "_on_attack_cooldown_finished"))
 
 func die_state():
+	is_alive = false
 	sprite.play("die")
-	velocity = Vector2.ZERO  # stop moving
-	set_physics_process(false) 	# Freeze movement handled in _physics_process
-	#Note: calls die() when animation quits
+	velocity = Vector2.ZERO 
 
 # --- Utility ---
 func change_state(new: ZombieState):

@@ -32,6 +32,5 @@ func spawn_zombie():
 
 func _on_zombie_dead():
 	zombie_instance = null
-	# Use await instead of yield
 	await get_tree().create_timer(respawn_delay).timeout
 	spawn_zombie()
