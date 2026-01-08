@@ -853,8 +853,11 @@ texture = ExtResource("4_qlgc6")
 22:10/size_in_atlas = Vector2i(2, 6)
 22:10/0 = 0
 22:10/0/y_sort_origin = 18
+22:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-15.108133, 16.187284, -15.805271, 42.33554, 14.676319, 41.771065, 15.240795, 16.369743)
 
 [sub_resource type="TileSet" id="TileSet_vmry5"]
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 7
 sources/0 = SubResource("TileSetAtlasSource_py2yn")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l6jmp"]
@@ -917,10 +920,6 @@ shape = SubResource("RectangleShape2D_wqgai")
 
 [node name="CollisionShape2D5" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(-522.5216, -272.80295)
-shape = SubResource("RectangleShape2D_wqgai")
-
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-241.36784, -419.22952)
 shape = SubResource("RectangleShape2D_wqgai")
 
 [node name="Crosshair2" parent="." instance=ExtResource("6_qlgc6")]

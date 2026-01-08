@@ -3,6 +3,7 @@ class_name WeaponBase
 
 @export var fire_rate: float = 0.3
 @export var damage: int = 1
+@export var sound_radius: float = 1000.0 
 
 var sprite: Sprite2D
 var muzzle: Node2D

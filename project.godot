@@ -15,6 +15,10 @@ run/main_scene="uid://c4grb4so5k0vx"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+MySoundEventSystem="*res://src/systems/sound/my_sound_event_system.gd"
+
 [input]
 
 up={

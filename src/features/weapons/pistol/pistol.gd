@@ -20,6 +20,10 @@ func fire():
 		muzzle_flash.flash()
 		
 	$Shoot.play()
+	MySoundEventSystem.sound_emitted.emit(
+		global_position,
+		sound_radius
+	)
 
 	hitscan_fire(damage)
 

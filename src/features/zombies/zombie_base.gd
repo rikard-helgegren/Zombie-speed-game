@@ -10,16 +10,20 @@ class_name ZombieBase
 @export var attack_damage: int = 1
 @export var attack_cooldown: float = 1.0  
 
-var _can_attack: bool = true
-
-
 @onready var hitbox: Hitbox = $Hitbox
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 signal zombie_died
 
+
+var _can_attack: bool = true
+var is_alive := true
+
 var health: int
 var target: Node2D = null
+
+var heard_sound_position: Vector2
+var has_heard_sound: bool = false
 
 # FSM
 enum ZombieState { IDLE, WALK, ATTACK, DIE }
@@ -32,6 +36,7 @@ func _ready():
 	if players.size() > 0:
 		target = players[0]
 	print("Zombie ready, target =", target)
+	MySoundEventSystem.sound_emitted.connect(_on_sound_emitted)
 
 func _physics_process(_delta):
 	if not target:
@@ -48,14 +53,30 @@ func _physics_process(_delta):
 		ZombieState.DIE:
 			die_state()
 	
-	# Movement (only if walking)
+	move_zombie()
+
+
+func move_zombie():
+		# Movement (only if walking)
 	if state == ZombieState.WALK:
-		var dir = (target.global_position - global_position).normalized()
+		var target_pos: Vector2
+		if has_heard_sound:
+			target_pos = heard_sound_position
+		else:
+			target_pos = target.global_position
+
+		var dir = (target_pos - global_position).normalized()
 		velocity = dir * move_speed
 		move_and_slide()
 	else:
 		velocity = Vector2.ZERO
 		move_and_slide()
+
+	# If reached sound location
+	if has_heard_sound and global_position.distance_to(heard_sound_position) < 10.0:
+		has_heard_sound = false
+		change_state(ZombieState.IDLE)
+
 
 func take_damage(amount: int):
 	health -= amount
@@ -85,6 +106,7 @@ func idle_state():
 func walk_state():
 	sprite.play("walk")
 	if player_in_range(attack_range):
+		has_heard_sound = false
 		change_state(ZombieState.ATTACK)
 
 func attack_state():
@@ -140,3 +162,18 @@ func deal_damage_to_player():
 func _on_animation_looped() -> void:
 	if  state == ZombieState.ATTACK:
 		_can_attack = true
+
+func _on_sound_emitted(sound_pos: Vector2, radius: float):
+	if not is_alive:
+		return
+
+	var dist = global_position.distance_to(sound_pos)
+	if dist > radius:
+		return
+
+	# Zombie heard the sound
+	heard_sound_position = sound_pos
+	has_heard_sound = true
+
+	# Switch to hunt / investigate state
+	change_state(ZombieState.WALK) # or HUNT_PLAYER later
