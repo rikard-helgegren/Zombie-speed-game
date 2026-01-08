@@ -85,6 +85,8 @@ func take_damage(amount: int):
 		hitbox.feedback_expand()
 	play_sound(hit_sound)
 	
+	change_state(ZombieState.WALK)
+	
 	if health <= 0:
 		change_state(ZombieState.DIE)
 
@@ -111,7 +113,7 @@ func walk_state():
 	elif player_in_range(detection_range):
 		has_heard_sound = false
 	
-	if not player_in_range(detection_range*2):
+	if not player_in_range(detection_range*2) and not has_heard_sound:
 		change_state(ZombieState.IDLE)
 
 func attack_state():
