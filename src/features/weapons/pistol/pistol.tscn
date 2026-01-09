@@ -29,6 +29,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("5_xhetg")
 
 [node name="Shoot" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(-1, 0)
 stream = ExtResource("5_2cyx6")
 volume_db = -15.0
 
