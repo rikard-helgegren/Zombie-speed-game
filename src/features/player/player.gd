@@ -53,8 +53,6 @@ func _on_move_input(direction: Vector2):
 func _on_action_input(action_name: String):
 	if is_alive:
 		match action_name:
-			"attack":
-				attack()
 			"shoot":
 				shoot()
 
@@ -62,8 +60,6 @@ func move_player(_delta):
 	velocity = move_direction * speed
 	move_and_slide()
 
-func attack():
-	print("Player attacks")
 
 func shoot():
 	print("player shot")

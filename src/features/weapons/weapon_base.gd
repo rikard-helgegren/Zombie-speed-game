@@ -54,7 +54,6 @@ func fire():
 
 
 func hitscan_fire(damage: int, max_distance := 1000.0):
-	print("hitscan")
 	var space_state = get_world_2d().direct_space_state
 	
 	var from = muzzle.global_position if muzzle else global_position
@@ -72,6 +71,12 @@ func hitscan_fire(damage: int, max_distance := 1000.0):
 		var collider = result.collider
 
 		if collider is Hitbox:
+			#TODO: unsafe code
 			if not collider.get_parent().has_method("take_damage"):
 				print("Error: hitbox parrent is missing take_damage function")
-			collider.get_parent().take_damage(damage)
+				return
+				
+			var hit_dir = (collider.get_parent().global_position - global_position).normalized()
+			collider.get_parent().take_damage(damage, hit_dir)
+			collider.get_parent().show_hit_splatter(result.position, hit_dir)
+			

@@ -7,13 +7,9 @@ extends Node2D
 var zombie_instance: Node = null
 
 func _ready():
-	print("ZombieSpawner _ready() called")
-	print("Zombie scene:", zombie_scene)
-	print("Spawn point:", spawn_point)
 	spawn_zombie()
 
 func spawn_zombie():
-	print("in spawn")
 	if not zombie_scene or not spawn_point:
 		print("Zombie spawner not properly instansiated")
 		return
@@ -23,8 +19,6 @@ func spawn_zombie():
 	zombie_instance.global_position = spawn_point.global_position
 	get_parent().call_deferred("add_child", zombie_instance)
 	
-	print("should add zombie")
-	print("Spawned zombie at", zombie_instance.global_position)
 
 	# Connect death signal
 	if zombie_instance.has_method("connect"):

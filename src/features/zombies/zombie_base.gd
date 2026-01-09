@@ -9,6 +9,9 @@ class_name ZombieBase
 @export var detection_range: float = 300.0
 @export var attack_damage: int = 1
 @export var attack_cooldown: float = 1.0  
+@export var recoil_strength: float = 220.0
+@export var recoil_duration: float = 0.06
+
 
 @onready var hitbox: Hitbox = $Hitbox
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -25,6 +28,9 @@ var target: Node2D = null
 var heard_sound_position: Vector2
 var has_heard_sound: bool = false
 
+var recoil_velocity: Vector2 = Vector2.ZERO
+var recoil_time_left: float = 0.0
+
 # FSM
 enum ZombieState { IDLE, WALK, ATTACK, DIE }
 var state: ZombieState = ZombieState.IDLE
@@ -35,7 +41,6 @@ func _ready():
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		target = players[0]
-	print("Zombie ready, target =", target)
 	MySoundEventSystem.sound_emitted.connect(_on_sound_emitted)
 
 func _physics_process(_delta):
@@ -57,6 +62,13 @@ func _physics_process(_delta):
 
 
 func move_zombie():
+	# Recoil overrides everything
+	if recoil_time_left > 0.0:
+		velocity = recoil_velocity
+		recoil_time_left -= get_physics_process_delta_time()
+		move_and_slide()
+		return
+	
 		# Movement (only if walking)
 	if state == ZombieState.WALK:
 		var target_pos: Vector2
@@ -78,14 +90,15 @@ func move_zombie():
 		change_state(ZombieState.IDLE)
 
 
-func take_damage(amount: int):
+func take_damage(amount: int, hit_dir: Vector2):
 	health -= amount
-	print("Zombie HP -" + str(amount))
 	if hitbox:
 		hitbox.feedback_expand()
 	play_sound(hit_sound)
 	
 	change_state(ZombieState.WALK)
+	
+	apply_recoil(hit_dir)
 	
 	if health <= 0:
 		change_state(ZombieState.DIE)
@@ -136,6 +149,8 @@ func attack_state():
 
 func die_state():
 	is_alive = false
+	recoil_time_left = 0.0 #Can remove?
+	sprite.offset = Vector2(40, 0)
 	sprite.play("die")
 	velocity = Vector2.ZERO 
 
@@ -183,3 +198,15 @@ func _on_sound_emitted(sound_pos: Vector2, radius: float):
 
 	# Switch to hunt / investigate state
 	change_state(ZombieState.WALK) # or HUNT_PLAYER later
+
+
+func apply_recoil(hit_dir: Vector2):
+	recoil_velocity = hit_dir.normalized() * recoil_strength
+	recoil_time_left = recoil_duration
+	
+	
+func show_hit_splatter(pos: Vector2, hit_dir:Vector2):
+	$HitSplatter.global_position = pos + hit_dir * 0.4
+	$HitSplatter.visible = true
+	await get_tree().create_timer(0.1).timeout
+	$HitSplatter.visible = false
