@@ -1,0 +1,70 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5pdt62mraq4e"]
+
+[ext_resource type="Script" uid="uid://ik083vll1btq" path="res://src/ui/menus/pause_menu.gd" id="1_xfja3"]
+
+[node name="PauseMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -574.0
+offset_top = -303.0
+offset_right = -574.0
+offset_bottom = -303.0
+grow_vertical = 2
+script = ExtResource("1_xfja3")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -591.5
+offset_top = -354.5
+offset_right = 591.5
+offset_bottom = 354.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.10980392, 0.08235294, 0.13725491, 0.3529412)
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -97.0
+offset_top = -197.0
+offset_right = -27.0
+offset_bottom = -69.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2.9599986, 2.920002)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Paused" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Paused"
+
+[node name="Resume" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+
+[node name="Restart" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Restart"
+
+[node name="Quit" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://lkw32tf5x0a5"]
+
+[ext_resource type="Script" uid="uid://cjvjamd7q1jrt" path="res://src/systems/spawning/zombie/repeated_zombie_spawner.gd" id="1_nlwgs"]
+
+[node name="RepeatedZombieSpawner" type="Node2D"]
+script = ExtResource("1_nlwgs")

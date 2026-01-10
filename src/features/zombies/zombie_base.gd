@@ -160,10 +160,10 @@ func change_state(new: ZombieState):
 		return
 	state = new
 
-func player_in_range(range: float) -> bool:
+func player_in_range(range_to_player: float) -> bool:
 	if not target:
 		return false
-	return global_position.distance_to(target.global_position) <= range
+	return global_position.distance_to(target.global_position) <= range_to_player
 
 
 func _on_animation_finished() -> void:

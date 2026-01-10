@@ -10,4 +10,3 @@ Singleton scripts registered in Project → Autoload.
 ## Tips:
 - Use autoloads for systems that need to be globally accessible.
 - Keep them decoupled from level-specific logic.
-

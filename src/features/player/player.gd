@@ -1,7 +1,7 @@
 extends CharacterBody2D
 class_name Player
 
-@export var speed: float = 500.0
+@export var speed: float = 300.0
 @export var default_weapon_scene: PackedScene
 
 var move_direction = Vector2.ZERO
@@ -33,6 +33,7 @@ func _ready():
 	
 	
 func _physics_process(delta):
+	Global.player_position = global_position
 	move_player(delta)
 	update_weapon_aim()
 	
