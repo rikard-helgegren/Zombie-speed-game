@@ -3,6 +3,7 @@ class_name WeaponBase
 
 @export var fire_rate: float = 0.3
 @export var damage: int = 1
+@export var max_ammo: int = 3
 @export var sound_radius: float = 1000.0 
 
 var sprite: Sprite2D
@@ -11,6 +12,7 @@ var default_muzzle_pos: Vector2
 
 var aim_direction := Vector2.RIGHT
 var can_fire := true
+var ammo : int
 var facing_left := false
 
 
@@ -20,6 +22,8 @@ func _ready():
 
 	if muzzle:
 		default_muzzle_pos = muzzle.position
+		
+	ammo = max_ammo
 		
 		
 func set_aim_direction(direction: Vector2):
@@ -80,3 +84,13 @@ func hitscan_fire(damage: int, max_distance := 1000.0):
 			collider.get_parent().take_damage(damage, hit_dir)
 			collider.get_parent().show_hit_splatter(result.position, hit_dir)
 			
+
+
+func consume_ammo():
+	ammo -= 1
+	print(ammo)
+	EventBus.player_ammo_changed.emit(ammo)
+
+func reload():
+	ammo = max_ammo
+	EventBus.player_ammo_changed.emit(ammo)

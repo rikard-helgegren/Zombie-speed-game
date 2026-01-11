@@ -12,3 +12,5 @@ func _process(_delta):
 
 	if Input.is_action_just_pressed("shoot"): #space/left click/ RB
 		emit_signal("action_input", "shoot")
+	if Input.is_action_just_pressed("reload"): # 'R'
+		emit_signal("action_input", "reload")

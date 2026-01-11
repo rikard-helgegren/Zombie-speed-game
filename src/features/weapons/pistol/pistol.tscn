@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bq78dhne73a8c" path="res://src/assets/art/weapons/pistol.png" id="2_4insx"]
 [ext_resource type="Script" uid="uid://d0rx2idhpcsrk" path="res://src/features/weapons/muzzle_flash.gd" id="3_cvuy2"]
 [ext_resource type="AudioStream" uid="uid://dpsevljttkxfv" path="res://src/assets/audio/sfx/shot-single2.mp3" id="5_2cyx6"]
-[ext_resource type="Texture2D" uid="uid://pbrnxuhjokgh" path="res://src/assets/art/weapons/muzzle-explosion.png" id="5_xhetg"]
+[ext_resource type="Texture2D" uid="uid://d1irhkfyqwiui" path="res://src/assets/art/weapons/muzzle-explosion.png" id="5_xhetg"]
 [ext_resource type="AudioStream" uid="uid://cmgimwau38k7m" path="res://src/assets/audio/sfx/empty-gun-single2.mp3" id="6_d6t7n"]
 
 [node name="Pistol" type="Node2D"]

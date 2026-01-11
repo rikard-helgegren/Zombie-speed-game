@@ -19,8 +19,8 @@ var state: PlayerState = PlayerState.IDLE
 var new_state: PlayerState = PlayerState.IDLE
 var is_alive := true
 
-var max_ammo := 3
-var ammo = max_ammo
+var max_ammo := 10
+var ammo: int = max_ammo
 
 
 func _ready():
@@ -35,7 +35,7 @@ func _ready():
 	spawn_default_weapon()
 	
 	EventBus.player_health_changed.emit(health_node.current_health)
-	EventBus.player_ammo_changed.emit(ammo)
+	EventBus.player_ammo_changed.emit(weapon.ammo)
 	
 	
 func _physics_process(delta):
@@ -58,10 +58,13 @@ func _on_move_input(direction: Vector2):
 	move_direction = direction
 
 func _on_action_input(action_name: String):
+	print("action_name: " + str(action_name))
 	if is_alive:
 		match action_name:
 			"shoot":
 				shoot()
+			"reload":
+				weapon.reload()
 
 func move_player(_delta):
 	velocity = move_direction * speed
@@ -69,7 +72,6 @@ func move_player(_delta):
 
 
 func shoot():
-	print("player shot")
 	if weapon:
 		weapon.fire()
 
@@ -150,10 +152,3 @@ func _on_animation_finished() -> void:
 func die():
 	pass
 	# End scene, replay, menue etc.
-
-func consume_ammo():
-	ammo -= 1
-	EventBus.player_ammo_changed.emit(ammo)
-
-func reload():
-	ammo = max_ammo

@@ -1,11 +1,47 @@
-[gd_scene load_steps=3 format=3 uid="uid://d2al7elrcjwc1"]
+[gd_scene load_steps=4 format=3 uid="uid://d2al7elrcjwc1"]
 
-[ext_resource type="Script" uid="uid://cpq5bkp26mjn2" path="res://src/ui/hud/hud.gd" id="1_cio14"]
 [ext_resource type="PackedScene" uid="uid://b2qasjav8ci1j" path="res://src/assets/art/HUD/heart_full.tscn" id="2_cvkdw"]
+[ext_resource type="PackedScene" uid="uid://c5t0uytsb03m4" path="res://src/assets/art/HUD/bullet.tscn" id="3_udh2q"]
+
+[sub_resource type="GDScript" id="GDScript_cvkdw"]
+script/source = "extends CanvasLayer
+
+@export var heart_scene: PackedScene
+@export var ammo_scene: PackedScene
+
+
+func _ready():
+	print(\"HUD READY\")
+	EventBus.player_health_changed.connect(set_health)
+	EventBus.player_ammo_changed.connect(set_ammo)
+
+
+func set_health(amount):	
+	for child in $MarginContainer/HealthHearts.get_children():
+		child.queue_free()
+		
+	for i in amount:
+		var texture_rect = heart_scene.instantiate()
+		$MarginContainer/HealthHearts.add_child(texture_rect)
+		
+		
+		
+
+func set_ammo(amount):	
+	print(\"setting ammo:\" + str(amount))
+	for child in $MarginContainer3/AmmoCounter.get_children():
+		child.queue_free()
+		
+	for i in amount:
+		var texture_rect = ammo_scene.instantiate()
+		$MarginContainer3/AmmoCounter.add_child(texture_rect)
+		
+"
 
 [node name="Hud" type="CanvasLayer" groups=["ui"]]
-script = ExtResource("1_cio14")
+script = SubResource("GDScript_cvkdw")
 heart_scene = ExtResource("2_cvkdw")
+ammo_scene = ExtResource("3_udh2q")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(20, 20)
@@ -23,12 +59,21 @@ layout_mode = 2
 size_flags_horizontal = 0
 
 [node name="MarginContainer3" type="MarginContainer" parent="."]
-anchors_preset = -1
-offset_left = 835.00006
-offset_top = 634.0
-offset_right = 840.00006
-offset_bottom = 661.0
-scale = Vector2(35.999996, 2.0400014)
+layout_direction = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1288.0
+offset_top = 137.0
+offset_right = -1268.0
+offset_bottom = 157.0
+grow_horizontal = 0
+grow_vertical = 0
+rotation = 3.1415927
+scale = Vector2(0.5, 0.5)
 
 [node name="AmmoCounter" type="HBoxContainer" parent="MarginContainer3"]
+layout_direction = 3
 layout_mode = 2

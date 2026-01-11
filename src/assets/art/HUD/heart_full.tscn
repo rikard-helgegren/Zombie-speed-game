@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b2qasjav8ci1j"]
 
-[ext_resource type="Texture2D" uid="uid://c7bbelr1t7nwt" path="res://src/assets/art/HUD/hearts_empty.png" id="1_u52nc"]
+[ext_resource type="Texture2D" uid="uid://drtt6qib8aj12" path="res://src/assets/art/HUD/hearts_full.png" id="1_u52nc"]
 
 [node name="HeartFull" type="TextureRect"]
 offset_right = 300.0

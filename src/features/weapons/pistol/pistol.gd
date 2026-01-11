@@ -5,19 +5,27 @@ class_name Pistol
 func _init() -> void:
 	fire_rate = 0.5
 	damage = 2
+	max_ammo = 4
+	
+	ammo = max_ammo
+	
 
 @onready var muzzle_flash: MuzzleFlash = $Muzzle
 
 
 func fire():
-	if not can_fire:
+	if not can_fire or ammo <= 0:
 		#$EmptyShot.play()
 		return
+
+	print("ammo: " + str(ammo) )
 
 	can_fire = false
 
 	if muzzle_flash:
 		muzzle_flash.flash()
+		
+	consume_ammo()
 		
 	$Shoot.play()
 	MySoundEventSystem.sound_emitted.emit(
@@ -29,6 +37,3 @@ func fire():
 
 	await get_tree().create_timer(fire_rate).timeout
 	can_fire = true
-
-
-	
