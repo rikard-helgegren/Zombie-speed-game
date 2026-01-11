@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2qasjav8ci1j"]
+
+[ext_resource type="Texture2D" uid="uid://c7bbelr1t7nwt" path="res://src/assets/art/HUD/hearts_empty.png" id="1_u52nc"]
+
+[node name="HeartFull" type="TextureRect"]
+offset_right = 300.0
+offset_bottom = 300.0
+texture = ExtResource("1_u52nc")
+stretch_mode = 4

@@ -19,6 +19,9 @@ var state: PlayerState = PlayerState.IDLE
 var new_state: PlayerState = PlayerState.IDLE
 var is_alive := true
 
+var max_ammo := 3
+var ammo = max_ammo
+
 
 func _ready():
 	# Connect input signals
@@ -30,6 +33,9 @@ func _ready():
 	health_node.player_died.connect(Callable(self, "_on_player_died"))
 	
 	spawn_default_weapon()
+	
+	EventBus.player_health_changed.emit(health_node.current_health)
+	EventBus.player_ammo_changed.emit(ammo)
 	
 	
 func _physics_process(delta):
@@ -142,6 +148,12 @@ func _on_animation_finished() -> void:
 
 
 func die():
-	
 	pass
 	# End scene, replay, menue etc.
+
+func consume_ammo():
+	ammo -= 1
+	EventBus.player_ammo_changed.emit(ammo)
+
+func reload():
+	ammo = max_ammo

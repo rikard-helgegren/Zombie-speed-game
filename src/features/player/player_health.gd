@@ -1,7 +1,7 @@
 extends Node
 class_name PlayerHealth
 
-@export var max_health: int = 1
+@export var max_health: int = 3
 @export var damage_sound: AudioStream
 var current_health: int
 var is_alive := true
@@ -15,6 +15,7 @@ func _ready():
 
 func take_damage(amount: int):
 	current_health -= amount
+	EventBus.player_health_changed.emit(current_health)
 	current_health = max(current_health, 0)
 	emit_signal("health_changed", current_health)
 	if is_alive:

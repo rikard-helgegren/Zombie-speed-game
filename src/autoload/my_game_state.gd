@@ -1,8 +1,8 @@
 extends Node
 class_name GameState
 
-@export var pause_menu_path: NodePath
-@onready var pause_menu := get_node(pause_menu_path)
+#@export var pause_menu_path: NodePath
+#@onready var pause_menu := get_node(pause_menu_path)
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS

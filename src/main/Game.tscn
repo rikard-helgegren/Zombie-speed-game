@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://v52sjpesgced"]
+[gd_scene load_steps=6 format=3 uid="uid://v52sjpesgced"]
 
 [ext_resource type="Script" uid="uid://cjlum2dqkjgey" path="res://src/main/game.gd" id="1_weeck"]
 [ext_resource type="PackedScene" uid="uid://c5pdt62mraq4e" path="res://src/ui/menus/pause_menu.tscn" id="3_8xfwg"]
 [ext_resource type="PackedScene" uid="uid://c4grb4so5k0vx" path="res://src/levels/test/test_level.tscn" id="3_xd34j"]
 [ext_resource type="PackedScene" uid="uid://d4gkameu7i75l" path="res://src/main/game_manager.tscn" id="4_xd34j"]
+[ext_resource type="PackedScene" uid="uid://d2al7elrcjwc1" path="res://src/ui/hud/hud.tscn" id="4_y1g32"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_weeck")
@@ -25,6 +26,8 @@ offset_top = 0.0
 offset_right = 0.0
 offset_bottom = 0.0
 grow_horizontal = 2
+
+[node name="Hud" parent="UI" instance=ExtResource("4_y1g32")]
 
 [node name="GameManager" parent="." instance=ExtResource("4_xd34j")]
 process_mode = 3
