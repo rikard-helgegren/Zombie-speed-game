@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bfu3nao6fn6yi"]
+[gd_scene load_steps=37 format=3 uid="uid://bfu3nao6fn6yi"]
 
 [ext_resource type="Script" uid="uid://cbbsj5l3rhdax" path="res://src/features/player/player.gd" id="1_oubcf"]
 [ext_resource type="Texture2D" uid="uid://bkw3x5fxnrn35" path="res://src/assets/art/player/idle/Idle (1).png" id="2_0ph83"]
@@ -33,6 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://3mi7irudgew1" path="res://src/assets/art/player/run/Run (8).png" id="19_frcqk"]
 [ext_resource type="Script" uid="uid://dgmpxvpyy51x" path="res://src/features/weapons/weapon_base.gd" id="21_xmri6"]
 [ext_resource type="AudioStream" uid="uid://d2r77uxforcns" path="res://src/assets/audio/sfx/powerup-off.ogg" id="31_ppdf5"]
+[ext_resource type="AudioStream" uid="uid://bdjewl3ykghgh" path="res://src/assets/audio/sfx/suffering-damage.mp3" id="32_52glq"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hktew"]
 animations = [{
@@ -165,7 +166,7 @@ script = ExtResource("3_p2vpv")
 damage_sound = ExtResource("31_ppdf5")
 
 [node name="damage" type="AudioStreamPlayer2D" parent="player_health"]
-stream = ExtResource("31_ppdf5")
+stream = ExtResource("32_52glq")
 
 [node name="player_input" type="Node" parent="."]
 script = ExtResource("4_ti7vc")

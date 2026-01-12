@@ -168,7 +168,6 @@ func player_in_range(range_to_player: float) -> bool:
 
 func _on_animation_finished() -> void:
 	if state == ZombieState.DIE:
-		print("animation finished, die")
 		die()
 
 func deal_damage_to_player():

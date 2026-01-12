@@ -75,13 +75,6 @@ func shoot():
 	if weapon:
 		weapon.fire()
 
-# ------------------------
-# Health callbacks
-# ------------------------
-func _on_health_changed(new_health):
-	print("Player health:", new_health)
-	# You could update HUD here or via signals
-
 func _on_player_died():
 	print("Player died")
 	die_state()
@@ -145,7 +138,6 @@ func change_state(new: PlayerState):
 
 func _on_animation_finished() -> void:
 	if state == PlayerState.DIE:
-		print("animation finished, die")
 		die()
 
 

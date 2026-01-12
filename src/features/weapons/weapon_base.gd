@@ -54,8 +54,7 @@ func apply_flip():
 		
 func fire():
 	# To be overridden by child weapons
-	print("Base weapon fire")
-	#pass
+	pass
 
 
 func hitscan_fire(damage: int, max_distance := 1000.0):
@@ -89,7 +88,6 @@ func hitscan_fire(damage: int, max_distance := 1000.0):
 
 func consume_ammo():
 	ammo -= 1
-	print(ammo)
 	EventBus.player_ammo_changed.emit(ammo)
 
 func reload():
