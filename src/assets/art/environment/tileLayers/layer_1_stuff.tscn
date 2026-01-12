@@ -6,9 +6,11 @@
 texture = ExtResource("1_fyuof")
 18:5/size_in_atlas = Vector2i(4, 3)
 18:5/0 = 0
+18:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-30.126335, -3.95689, -30.845772, 16.906723, 30.845772, 17.446297, 30.845772, -3.95689)
 22:10/size_in_atlas = Vector2i(2, 6)
 22:10/0 = 0
 22:10/0/y_sort_origin = 21
+22:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-14.907585, 17.1927, 13.819458, 16.97507, 14.254715, 41.56715, -14.037064, 41.131893)
 24:6/size_in_atlas = Vector2i(2, 4)
 24:6/0 = 0
 28:1/size_in_atlas = Vector2i(2, 5)
