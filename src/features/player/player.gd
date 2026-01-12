@@ -1,7 +1,7 @@
 extends CharacterBody2D
 class_name Player
 
-@export var speed: float = 300.0
+@export var speed: float = 1000.0
 @export var default_weapon_scene: PackedScene
 
 var move_direction = Vector2.ZERO
