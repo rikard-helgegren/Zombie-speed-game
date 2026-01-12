@@ -14,11 +14,16 @@ func _init() -> void:
 
 
 func fire():
-	if not can_fire or ammo <= 0:
+	if not can_fire:
 		#$EmptyShot.play()
 		return
-
-	print("ammo: " + str(ammo) )
+	
+	if reloading:
+		return
+		
+	if ammo <= 0:
+		$EmptyShot.play()
+		return
 
 	can_fire = false
 

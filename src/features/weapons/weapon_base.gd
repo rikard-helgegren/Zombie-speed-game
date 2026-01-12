@@ -14,6 +14,7 @@ var aim_direction := Vector2.RIGHT
 var can_fire := true
 var ammo : int
 var facing_left := false
+var reloading := false
 
 
 func _ready():
@@ -92,5 +93,14 @@ func consume_ammo():
 	EventBus.player_ammo_changed.emit(ammo)
 
 func reload():
+	reloading = true
 	ammo = max_ammo
+	$HolsterOff.play()
+	await  get_tree().create_timer(1).timeout
+	$HolsterOn.play()
+	await  get_tree().create_timer(1).timeout
+	$SafetyOff.play()
+	await  get_tree().create_timer(0.6).timeout
+	reloading = false
 	EventBus.player_ammo_changed.emit(ammo)
+	
