@@ -5,7 +5,7 @@ class_name Pistol
 func _init() -> void:
 	fire_rate = 0.5
 	damage = 2
-	max_ammo = 4
+	max_ammo = 5
 	
 	ammo = max_ammo
 	

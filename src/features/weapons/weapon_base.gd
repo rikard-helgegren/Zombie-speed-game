@@ -94,9 +94,9 @@ func reload():
 	reloading = true
 	ammo = max_ammo
 	$HolsterOff.play()
-	await  get_tree().create_timer(1).timeout
+	await  get_tree().create_timer(0.7).timeout
 	$HolsterOn.play()
-	await  get_tree().create_timer(1).timeout
+	await  get_tree().create_timer(0.7).timeout
 	$SafetyOff.play()
 	await  get_tree().create_timer(0.6).timeout
 	reloading = false

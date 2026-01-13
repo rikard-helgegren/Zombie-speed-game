@@ -1,11 +1,13 @@
-[gd_scene load_steps=12 format=4 uid="uid://bdowx6cgh1ucf"]
+[gd_scene load_steps=14 format=4 uid="uid://bdowx6cgh1ucf"]
 
-[ext_resource type="PackedScene" uid="uid://bfu3nao6fn6yi" path="res://src/features/player/player.tscn" id="1_bis7j"]
 [ext_resource type="Script" uid="uid://dsp8pnwjcbsey" path="res://src/levels/test/hallway.gd" id="1_xwbpb"]
 [ext_resource type="Texture2D" uid="uid://chkcp454nauyu" path="res://src/assets/art/environment/floor/TX Tileset Stone Ground-dark.png" id="2_jp3a0"]
 [ext_resource type="PackedScene" uid="uid://bqks3aoiirvba" path="res://src/features/ui/crosshair/crosshair.tscn" id="2_t2l6g"]
 [ext_resource type="Texture2D" uid="uid://58hdc18imaat" path="res://src/assets/art/environment/walls/TX Tileset Wall-dark.png" id="3_3igg4"]
 [ext_resource type="PackedScene" uid="uid://d3somu1pkl3cd" path="res://src/assets/art/environment/tileLayers/layer_1_stuff.tscn" id="4_n78bt"]
+[ext_resource type="PackedScene" uid="uid://btfyht0jb0w7b" path="res://src/systems/spawning/player_spawner.tscn" id="5_uiksr"]
+[ext_resource type="PackedScene" uid="uid://dd0k2och731dc" path="res://src/systems/spawning/zombie/single_zombie_spawner.tscn" id="7_1s3j2"]
+[ext_resource type="PackedScene" uid="uid://bfcxu75f3axsk" path="res://src/features/zombies/zombie_base.tscn" id="8_ffjvw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3igg4"]
 texture = ExtResource("2_jp3a0")
@@ -412,12 +414,51 @@ tile_set = SubResource("TileSet_1s3j2")
 
 [node name="Layer1Stuff" parent="Map" instance=ExtResource("4_n78bt")]
 visibility_layer = 31
-tile_map_data = PackedByteArray("AAAbABoAAAAWAAsAAAAbABsAAAAWAAwAAAAbABwAAAAWAA0AAAAbAB0AAAAWAA4AAAAbAB4AAAAWAA8AAAAcABoAAAAXAAsAAAAcABsAAAAXAAwAAAAcABwAAAAXAA0AAAAcAB0AAAAXAA4AAAAcAB4AAAAXAA8AAAAvABwAAAASAAUAAAAvAB0AAAASAAYAAAAvAB4AAAASAAcAAAAwABwAAAATAAUAAAAwAB0AAAATAAYAAAAwAB4AAAATAAcAAAAxABwAAAAUAAUAAAAxAB0AAAAUAAYAAAAxAB4AAAAUAAcAAAAyABwAAAAVAAUAAAAyAB0AAAAVAAYAAAAyAB4AAAAVAAcAAAApAAUAAAASAAUAAAApAAgAAAASAAUAAAAfAAwAAAAWAAoAAAAnAAwAAAAWAAoAAAAvAAwAAAAWAAoAAAAvAP//AAAWAAoAAAAfAP//AAAWAAoAAAAnAP//AAAWAAoAAAA=")
+tile_map_data = PackedByteArray("AAAbABoAAAAWAAsAAAAbABsAAAAWAAwAAAAbABwAAAAWAA0AAAAbAB0AAAAWAA4AAAAbAB4AAAAWAA8AAAAcABoAAAAXAAsAAAAcABsAAAAXAAwAAAAcABwAAAAXAA0AAAAcAB0AAAAXAA4AAAAcAB4AAAAXAA8AAAAvABwAAAASAAUAAAAvAB0AAAASAAYAAAAvAB4AAAASAAcAAAAwABwAAAATAAUAAAAwAB0AAAATAAYAAAAwAB4AAAATAAcAAAAxABwAAAAUAAUAAAAxAB0AAAAUAAYAAAAxAB4AAAAUAAcAAAAyABwAAAAVAAUAAAAyAB0AAAAVAAYAAAAyAB4AAAAVAAcAAAApAAUAAAASAAUAAAApAAgAAAASAAUAAAAfAAwAAAAWAAoAAAAnAAwAAAAWAAoAAAAvAAwAAAAWAAoAAAAvAP//AAAWAAoAAAAfAP//AAAWAAoAAAAnAP//AAAWAAoAAAAyAAcAAAAWABAAAAA=")
 
-[node name="Player2" parent="." instance=ExtResource("1_bis7j")]
-position = Vector2(204, 272)
-speed = 500.0
+[node name="PlayerSpawner" parent="." node_paths=PackedStringArray("spawn_point") instance=ExtResource("5_uiksr")]
+spawn_point = NodePath("spawnpointPlayer")
+
+[node name="spawnpointPlayer" type="Node2D" parent="PlayerSpawner"]
+position = Vector2(202.31195, 277.53052)
 
 [node name="Crosshair2" parent="." instance=ExtResource("2_t2l6g")]
 
 [node name="Zombies" type="Node2D" parent="."]
+light_mask = 4
+visibility_layer = 15
+y_sort_enabled = true
+
+[node name="SpawnPointsZ" type="Node2D" parent="."]
+visibility_layer = 29
+y_sort_enabled = true
+
+[node name="SingleZombieSpawner" parent="SpawnPointsZ" instance=ExtResource("7_1s3j2")]
+position = Vector2(1496.2147, -15.189972)
+zombie_scene = ExtResource("8_ffjvw")
+zombies_parent_path = NodePath("../../Zombies")
+
+[node name="SingleZombieSpawner2" parent="SpawnPointsZ" instance=ExtResource("7_1s3j2")]
+position = Vector2(1883.5598, 3.7974854)
+zombie_scene = ExtResource("8_ffjvw")
+zombies_parent_path = NodePath("../../Zombies")
+
+[node name="SingleZombieSpawner3" parent="SpawnPointsZ" instance=ExtResource("7_1s3j2")]
+position = Vector2(1500.0123, 759.4999)
+zombie_scene = ExtResource("8_ffjvw")
+zombies_parent_path = NodePath("../../Zombies")
+
+[node name="SingleZombieSpawner4" parent="SpawnPointsZ" instance=ExtResource("7_1s3j2")]
+position = Vector2(1887.3572, 744.3099)
+zombie_scene = ExtResource("8_ffjvw")
+zombies_parent_path = NodePath("../../Zombies")
+
+[node name="SingleZombieSpawner5" parent="SpawnPointsZ" instance=ExtResource("7_1s3j2")]
+position = Vector2(2132.057, 274.93677)
+zombie_scene = ExtResource("8_ffjvw")
+zombies_parent_path = NodePath("../../Zombies")
+
+[node name="SingleZombieSpawner6" parent="SpawnPointsZ" instance=ExtResource("7_1s3j2")]
+position = Vector2(2129.463, 402.03015)
+zombie_scene = ExtResource("8_ffjvw")
+zombies_parent_path = NodePath("../../Zombies")

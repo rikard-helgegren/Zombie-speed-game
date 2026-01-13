@@ -16,6 +16,9 @@ texture = ExtResource("1_fyuof")
 28:1/size_in_atlas = Vector2i(2, 5)
 28:1/0 = 0
 28:1/0/y_sort_origin = 16
+22:16/size_in_atlas = Vector2i(6, 6)
+22:16/0 = 0
+22:16/0/y_sort_origin = -43
 
 [sub_resource type="TileSet" id="TileSet_py2yn"]
 physics_layer_0/collision_layer = 1

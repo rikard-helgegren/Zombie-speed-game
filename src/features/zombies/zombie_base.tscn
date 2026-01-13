@@ -217,14 +217,20 @@ radius = 27.0
 height = 98.92587
 
 [node name="ZombieBase" type="CharacterBody2D"]
+light_mask = 4
+visibility_layer = 15
+y_sort_enabled = true
 collision_layer = 4
-collision_mask = 13
+collision_mask = 15
 safe_margin = 1.08
 script = ExtResource("1_pxlqy")
 death_sound = ExtResource("18_qffiy")
 hit_sound = ExtResource("18_qffiy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+light_mask = 4
+visibility_layer = 15
+y_sort_enabled = true
 position = Vector2(12.999999, -35.999996)
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_drc2j")

@@ -37,6 +37,8 @@ func _ready():
 	EventBus.player_health_changed.emit(health_node.current_health)
 	EventBus.player_ammo_changed.emit(weapon.ammo)
 	
+	add_to_group("player")
+	
 	
 func _physics_process(delta):
 	Global.player_position = global_position

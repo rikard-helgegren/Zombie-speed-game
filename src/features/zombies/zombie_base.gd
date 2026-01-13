@@ -44,8 +44,10 @@ func _ready():
 	MySoundEventSystem.sound_emitted.connect(_on_sound_emitted)
 
 func _physics_process(_delta):
-	if not target:
-		return
+	if target == null:
+		target = get_tree().get_first_node_in_group("player")
+		if target == null:
+			return
 
 	# State transitions
 	match state:

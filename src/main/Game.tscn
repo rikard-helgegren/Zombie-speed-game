@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cjlum2dqkjgey" path="res://src/main/game.gd" id="1_weeck"]
 [ext_resource type="PackedScene" uid="uid://c5pdt62mraq4e" path="res://src/ui/menus/pause_menu.tscn" id="3_8xfwg"]
-[ext_resource type="PackedScene" uid="uid://c4grb4so5k0vx" path="res://src/levels/test/test_level.tscn" id="3_xd34j"]
+[ext_resource type="PackedScene" uid="uid://bdowx6cgh1ucf" path="res://src/levels/test/hallway.tscn" id="3_y1g32"]
 [ext_resource type="PackedScene" uid="uid://d4gkameu7i75l" path="res://src/main/game_manager.tscn" id="4_xd34j"]
 [ext_resource type="PackedScene" uid="uid://d2al7elrcjwc1" path="res://src/ui/hud/hud.tscn" id="4_y1g32"]
 
@@ -10,12 +10,13 @@
 script = ExtResource("1_weeck")
 
 [node name="World" type="Node2D" parent="."]
-
-[node name="Zombies" type="Node2D" parent="World"]
+y_sort_enabled = true
 
 [node name="Level" type="Node2D" parent="World"]
+y_sort_enabled = true
 
-[node name="TestLevel" parent="World/Level" instance=ExtResource("3_xd34j")]
+[node name="Hallway" parent="World/Level" instance=ExtResource("3_y1g32")]
+visibility_layer = 7
 
 [node name="UI" type="CanvasLayer" parent="."]
 
