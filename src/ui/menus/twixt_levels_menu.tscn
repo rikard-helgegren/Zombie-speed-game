@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=3 uid="uid://yhms03imfewq"]
+
+[ext_resource type="Script" uid="uid://bqrh1xv2143ef" path="res://src/ui/menus/twixt_levels_menu.gd" id="1_oj2w3"]
+
+[node name="TwixtLevelsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oj2w3")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -270.0
+offset_top = -196.99998
+offset_right = 1536.0
+offset_bottom = -56.180786
+scale = Vector2(1, 7.08)
+color = Color(1, 0.22745098, 1, 0.44705883)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -117.5
+offset_top = -93.0
+offset_right = 117.5
+offset_bottom = 93.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Uppgrades"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect1" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+expand_mode = 2
+stretch_mode = 4
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Confirm"

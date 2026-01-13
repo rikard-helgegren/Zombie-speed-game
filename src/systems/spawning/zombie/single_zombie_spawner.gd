@@ -13,7 +13,7 @@ func spawn_zombie():
 		print("ERROR: Zombie spawner not properly instansiated")
 		return
 	
-	var zombie_instance = zombie_scene.instantiate()
+	zombie_instance = zombie_scene.instantiate()
 
 	var zombies_parent = get_node(zombies_parent_path)
 	zombies_parent.add_child(zombie_instance)
