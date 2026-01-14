@@ -5,25 +5,27 @@ extends Node
 @export var levels: Array[PackedScene] = []
 
 @onready var pause_menu: Control = get_node(pause_menu_path)
+
+@export var level_container_path: NodePath
 @onready var level_container := get_node("../World/Level")
 
-
+@export var player_node_path: NodePath
 @onready var player_node := get_node("../World/Player")
+
+@export var zombies_node_path: NodePath
 @onready var zombies_node := get_node("../World/Zombies")
 
 var current_level_index := -1
 var current_level_instance: Node = null
 
 
-
-
 func _ready():
-	# Ensure menu starts hidden
-	pause_menu.visible = false
-	
+	var world := get_tree().get_first_node_in_group("world")
+	world.level_cleared.connect(_on_level_cleared)
 
-	#if levels.size() > 0:
-#		load_first_level()
+func _on_level_cleared():
+	print("level cleared")
+	load_next_level()
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("pause"):
@@ -67,7 +69,13 @@ func load_first_level():
 	load_level(0)
 
 func load_next_level():
-	load_level(current_level_index + 1)
+	var next_level: int
+	if current_level_index >= levels.size() - 1:
+		next_level = 0 #loop levels
+	else:
+		next_level = current_level_index + 1
+	print("next_level: " + str(next_level))
+	load_level(next_level)
 
 func restart_level():
 	load_level(current_level_index)	
@@ -91,6 +99,3 @@ func apply_upgrade(option_index: int):
 			# Example: increase player damage
 			if player_node.has_method("upgrade_damage"):
 				player_node.upgrade_damage()
-
-
-		

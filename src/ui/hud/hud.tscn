@@ -11,7 +11,6 @@ script/source = "extends CanvasLayer
 
 
 func _ready():
-	print(\"HUD READY\")
 	EventBus.player_health_changed.connect(set_health)
 	EventBus.player_ammo_changed.connect(set_ammo)
 
@@ -28,7 +27,6 @@ func set_health(amount):
 		
 
 func set_ammo(amount):	
-	print(\"setting ammo:\" + str(amount))
 	for child in $MarginContainer3/AmmoCounter.get_children():
 		child.queue_free()
 		

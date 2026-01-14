@@ -1,22 +1,27 @@
 extends Node2D
+class_name SingleZombieSpawner
 
 @export var zombie_scene: PackedScene
-@export var zombies_parent_path: NodePath
+@export var auto_spawn := true
+@export var spawn_delay := 0.5
 
-var zombie_instance: Node = null
+var _world: World
 
 func _ready():
-	spawn_zombie()
-
-func spawn_zombie():
-	if not zombie_scene: 
-		print("ERROR: Zombie spawner not properly instansiated")
+	_world = get_tree().get_first_node_in_group("world")
+	if _world == null:
+		push_error("ZombieSpawner: World not found")
 		return
-	
-	zombie_instance = zombie_scene.instantiate()
 
-	var zombies_parent = get_node(zombies_parent_path)
-	zombies_parent.add_child(zombie_instance)
+	if auto_spawn:
+		await get_tree().create_timer(spawn_delay).timeout
+		spawn()
 
-	zombie_instance.global_position = global_position
-	
+func spawn():
+	if _world == null:
+		return
+
+	_world.request_zombie_spawn(
+		global_position,
+		zombie_scene
+	)

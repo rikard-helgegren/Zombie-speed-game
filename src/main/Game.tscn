@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://v52sjpesgced"]
+[gd_scene load_steps=11 format=3 uid="uid://v52sjpesgced"]
 
 [ext_resource type="Script" uid="uid://cjlum2dqkjgey" path="res://src/main/game.gd" id="1_weeck"]
+[ext_resource type="Script" uid="uid://dmhjebbnyxtl0" path="res://src/main/world.gd" id="2_q1dum"]
 [ext_resource type="PackedScene" uid="uid://c5pdt62mraq4e" path="res://src/ui/menus/pause_menu.tscn" id="3_8xfwg"]
 [ext_resource type="PackedScene" uid="uid://c4grb4so5k0vx" path="res://src/levels/test/test_level.tscn" id="3_xd34j"]
 [ext_resource type="PackedScene" uid="uid://bdowx6cgh1ucf" path="res://src/levels/test/hallway.tscn" id="3_y1g32"]
@@ -8,12 +9,14 @@
 [ext_resource type="PackedScene" uid="uid://d4gkameu7i75l" path="res://src/main/game_manager.tscn" id="4_xd34j"]
 [ext_resource type="PackedScene" uid="uid://d2al7elrcjwc1" path="res://src/ui/hud/hud.tscn" id="4_y1g32"]
 [ext_resource type="PackedScene" uid="uid://yhms03imfewq" path="res://src/ui/menus/twixt_levels_menu.tscn" id="5_ufkep"]
+[ext_resource type="PackedScene" uid="uid://5kfqllerkf30" path="res://src/levels/test/hallway1.tscn" id="7_uqnqm"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_weeck")
 
 [node name="World" type="Node2D" parent="."]
 y_sort_enabled = true
+script = ExtResource("2_q1dum")
 
 [node name="Level" type="Node2D" parent="World"]
 y_sort_enabled = true
@@ -44,4 +47,4 @@ grow_horizontal = 2
 [node name="GameManager" parent="." instance=ExtResource("4_xd34j")]
 process_mode = 3
 pause_menu_path = NodePath("../UI/PauseMenu")
-levels = Array[PackedScene]([ExtResource("3_y1g32"), ExtResource("3_xd34j")])
+levels = Array[PackedScene]([ExtResource("7_uqnqm"), ExtResource("3_y1g32"), ExtResource("3_xd34j")])

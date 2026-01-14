@@ -106,6 +106,10 @@ func take_damage(amount: int, hit_dir: Vector2):
 		change_state(ZombieState.DIE)
 
 func die():
+	var world := get_tree().get_first_node_in_group("world")
+	if world:
+		world.on_zombie_died()
+
 	emit_signal("zombie_died")
 	queue_free()
 

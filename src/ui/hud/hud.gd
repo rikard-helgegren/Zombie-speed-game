@@ -5,7 +5,6 @@ extends CanvasLayer
 
 
 func _ready():
-	print("HUD READY")
 	EventBus.player_health_changed.connect(set_health)
 	EventBus.player_ammo_changed.connect(set_ammo)
 
