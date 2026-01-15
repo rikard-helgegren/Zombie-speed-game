@@ -14,7 +14,6 @@ var active_spawners := 0
 func _ready():
 	add_to_group("world")
 
-# -------- PUBLIC API --------
 
 func request_zombie_spawn(
 	position: Vector2,
@@ -58,14 +57,10 @@ func on_zombie_died():
 
 
 func _check_level_cleared():
-	print("active_spawners: " + str(active_spawners))
 	if active_spawners > 0:
 		return
 	
-	print("alive_zombies: " + str(alive_zombies))
 	if alive_zombies > 0:
 		return
 		
-	
-
 	emit_signal("level_cleared")

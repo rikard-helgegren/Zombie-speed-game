@@ -1,11 +1,10 @@
 extends CharacterBody2D
 class_name Player
 
-@export var speed: float = 1000.0
+@export var speed: float = 300.0
 @export var default_weapon_scene: PackedScene
 
 var move_direction = Vector2.ZERO
-
 
 # References to child components
 @onready var input_node: PlayerInput = $player_input
@@ -53,23 +52,23 @@ func _physics_process(delta):
 		PlayerState.DIE:
 			die_state()
 
-# ------------------------
-# Input callbacks
-# ------------------------
+
 func _on_move_input(direction: Vector2):
 	move_direction = direction
 
 func _on_action_input(action_name: String):
-	print("action_name: " + str(action_name))
 	if is_alive:
 		match action_name:
 			"shoot":
 				shoot()
 			"reload":
 				weapon.reload()
+			_: 
+				print("action_name not found: " + str(action_name))
+		
 
 func move_player(_delta):
-	velocity = move_direction * speed
+	velocity = move_direction * (speed + 100 * Global.player_move_speed_modifier)
 	move_and_slide()
 
 
@@ -78,7 +77,6 @@ func shoot():
 		weapon.fire()
 
 func _on_player_died():
-	print("Player died")
 	die_state()
 	
 	
@@ -137,12 +135,25 @@ func change_state(new: PlayerState):
 	state = new
 
 
-
 func _on_animation_finished() -> void:
 	if state == PlayerState.DIE:
 		die()
 
-
 func die():
 	pass
 	# End scene, replay, menue etc.
+
+func upgrade_move_speed():
+	Global.player_move_speed_modifier += 1
+
+func upgrade_reload_speed():
+	Global.player_reload_speed_modifier += 1
+	
+func upgrade_damage():
+	Global.player_damage_modifier += 1
+	
+func  upgarde_ammo():
+	Global.player_ammo_modifier += 1
+	
+func upgarde_fire_rate():
+		Global.player_fire_rate_modifier += 1

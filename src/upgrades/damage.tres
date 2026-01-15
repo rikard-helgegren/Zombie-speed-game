@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="UpgradeDef" load_steps=3 format=3 uid="uid://bgw0m6kwwateh"]
+
+[ext_resource type="Script" uid="uid://cs52uhn2ghuk7" path="res://src/upgrades/upgarde_def.gd" id="1_ovfef"]
+[ext_resource type="Texture2D" uid="uid://oynbqeg3c6aj" path="res://src/assets/art/weapons/x-hair.png" id="1_rixlr"]
+
+[resource]
+script = ExtResource("1_ovfef")
+icon = ExtResource("1_rixlr")
+description = "damage"
+metadata/_custom_type_script = "uid://cs52uhn2ghuk7"

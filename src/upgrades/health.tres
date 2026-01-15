@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="UpgradeDef" load_steps=3 format=3 uid="uid://ovwuh2ijwoj1"]
+
+[ext_resource type="Script" uid="uid://cs52uhn2ghuk7" path="res://src/upgrades/upgarde_def.gd" id="1_0rybn"]
+[ext_resource type="Texture2D" uid="uid://drtt6qib8aj12" path="res://src/assets/art/HUD/hearts_full.png" id="1_8yai4"]
+
+[resource]
+script = ExtResource("1_0rybn")
+icon = ExtResource("1_8yai4")
+description = "HP"
+metadata/_custom_type_script = "uid://cs52uhn2ghuk7"

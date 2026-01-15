@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="UpgradeDef" load_steps=3 format=3 uid="uid://be2pwwbsi0rue"]
+
+[ext_resource type="Texture2D" uid="uid://bq78dhne73a8c" path="res://src/assets/art/weapons/pistol.png" id="1_bfknn"]
+[ext_resource type="Script" uid="uid://cs52uhn2ghuk7" path="res://src/upgrades/upgarde_def.gd" id="1_nnkgv"]
+
+[resource]
+script = ExtResource("1_nnkgv")
+icon = ExtResource("1_bfknn")
+description = "reload"
+metadata/_custom_type_script = "uid://cs52uhn2ghuk7"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="UpgradeDef" load_steps=3 format=3 uid="uid://bdrgr31jlex6f"]
+
+[ext_resource type="Script" uid="uid://cs52uhn2ghuk7" path="res://src/upgrades/upgarde_def.gd" id="1_2krw6"]
+[ext_resource type="Texture2D" uid="uid://be1sbqr3o5ebc" path="res://src/assets/art/player/run/Run (3).png" id="1_jslxc"]
+
+[resource]
+script = ExtResource("1_2krw6")
+icon = ExtResource("1_jslxc")
+description = "run"
+metadata/_custom_type_script = "uid://cs52uhn2ghuk7"

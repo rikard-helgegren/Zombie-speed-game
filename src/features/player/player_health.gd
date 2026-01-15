@@ -10,7 +10,7 @@ signal health_changed(current_health)
 signal player_died()
 
 func _ready():
-	current_health = max_health
+	current_health = max_health + Global.player_HP_modifier
 	emit_signal("health_changed", current_health)
 
 func take_damage(amount: int):

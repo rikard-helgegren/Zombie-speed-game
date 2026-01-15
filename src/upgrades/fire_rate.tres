@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="UpgradeDef" load_steps=3 format=3 uid="uid://dnetkuhavwgph"]
+
+[ext_resource type="Script" uid="uid://cs52uhn2ghuk7" path="res://src/upgrades/upgarde_def.gd" id="1_m80x5"]
+[ext_resource type="Texture2D" uid="uid://d1irhkfyqwiui" path="res://src/assets/art/weapons/muzzle-explosion.png" id="1_xmmwc"]
+
+[resource]
+script = ExtResource("1_m80x5")
+icon = ExtResource("1_xmmwc")
+description = "Fire"
+metadata/_custom_type_script = "uid://cs52uhn2ghuk7"

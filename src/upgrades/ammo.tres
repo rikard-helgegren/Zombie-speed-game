@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="UpgradeDef" load_steps=3 format=3 uid="uid://ba36r1id7plwv"]
+
+[ext_resource type="Script" uid="uid://cs52uhn2ghuk7" path="res://src/upgrades/upgarde_def.gd" id="1_8gffw"]
+[ext_resource type="Texture2D" uid="uid://7cuqb0uuawrs" path="res://src/assets/art/HUD/ammo.png" id="1_mjh1t"]
+
+[resource]
+script = ExtResource("1_8gffw")
+icon = ExtResource("1_mjh1t")
+description = "Ammo"
+metadata/_custom_type_script = "uid://cs52uhn2ghuk7"

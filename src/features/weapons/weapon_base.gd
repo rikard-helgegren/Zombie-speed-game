@@ -93,12 +93,14 @@ func consume_ammo():
 func reload():
 	reloading = true
 	ammo = max_ammo
+	
+	var delay = maxf(0.7 - 0.1 * Global.player_reload_speed_modifier, 0.1)
 	$HolsterOff.play()
-	await  get_tree().create_timer(0.7).timeout
+	await  get_tree().create_timer(delay).timeout
 	$HolsterOn.play()
-	await  get_tree().create_timer(0.7).timeout
+	await  get_tree().create_timer(delay).timeout
 	$SafetyOff.play()
-	await  get_tree().create_timer(0.6).timeout
+	await  get_tree().create_timer(delay).timeout
 	reloading = false
 	EventBus.player_ammo_changed.emit(ammo)
 	

@@ -15,17 +15,34 @@ extends Node
 @export var zombies_node_path: NodePath
 @onready var zombies_node := get_node("../World/Zombies")
 
+@export var ui_layer_path: NodePath
+@onready var ui_layer := get_node(ui_layer_path)
+
+@export var all_upgrades: Array[UpgradeDef] = []
+
 var current_level_index := -1
 var current_level_instance: Node = null
+
+
+@export var upgrade_menu_scene: PackedScene
+
+var _current_world: World
+var _upgrade_menu: Node
 
 
 func _ready():
 	var world := get_tree().get_first_node_in_group("world")
 	world.level_cleared.connect(_on_level_cleared)
 
+func register_world(world: World) -> void:
+	_current_world = world
+	world.level_cleared.connect(_on_level_cleared)
+
+
 func _on_level_cleared():
-	print("level cleared")
-	load_next_level()
+	print("_on_level_cleared")
+	load_upgrade_menu()
+	#load_next_level()
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("pause"):
@@ -74,7 +91,6 @@ func load_next_level():
 		next_level = 0 #loop levels
 	else:
 		next_level = current_level_index + 1
-	print("next_level: " + str(next_level))
 	load_level(next_level)
 
 func restart_level():
@@ -83,19 +99,39 @@ func restart_level():
 func load_start_menue():
 	pass
 	
-func load_upgarde_menue():
-	pass
+func load_upgrade_menu():
+	if upgrade_menu_scene == null:
+		push_error("GameManager: upgrade_menu_scene not set")
+		return
+		
+	get_tree().paused = true
+
+	var upgrades := get_random_upgrades(2)
+
+	_upgrade_menu = upgrade_menu_scene.instantiate()
+	#_upgrade_menu.pause_mode = Node.PAUSE_MODE_PROCESS
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	ui_layer.add_child(_upgrade_menu)
+
+	_upgrade_menu.show_menu(upgrades)	
 	
+	
+
 # Called by UpgradeMenu
-func apply_upgrade(option_index: int):
-	match option_index:
-		1:
-			print("Upgrade 1 applied")
-			# Example: increase player speed
-			if player_node.has_method("upgrade_speed"):
-				player_node.upgrade_speed()
-		2:
-			print("Upgrade 2 applied")
-			# Example: increase player damage
-			if player_node.has_method("upgrade_damage"):
-				player_node.upgrade_damage()
+func apply_upgrade(upgrade: UpgradeDef):
+	match upgrade.id:
+		"move_speed":
+			Global.player_move_speed_modifier += 1
+		"reload_speed":
+			Global.player_reload_speed_modifier += 1
+		"damage":
+			Global.player_damage_modifier += 1
+		"ammo":
+			Global.player_ammo_modifier += 1
+		_:
+			push_warning("Unknown upgrade: " + upgrade.id)
+
+func get_random_upgrades(count: int = 2) -> Array[UpgradeDef]:
+	var pool := all_upgrades.duplicate()
+	pool.shuffle()
+	return pool.slice(0, count)

@@ -1,19 +1,19 @@
 extends Control
 
-@onready var upgrade_option_1 := $VBoxContainer/HBoxContainer/TextureRect1
-@onready var upgrade_option_2 := $VBoxContainer/HBoxContainer/TextureRect2
+@onready var upgrade_option_1 := $VBoxContainer/HBoxContainer/Panel1/TextureRect1
+@onready var upgrade_option_2 := $VBoxContainer/HBoxContainer/Panel2/TextureRect2
 @onready var confirm_button := $VBoxContainer/Button
 
 # Stores which upgrade the player selected
 var selected_upgrade: int = -1
+var _shown_upgrades: Array[UpgradeDef] = []
 
 # Reference to GameManager
 @onready var game_manager := get_node("/root/Game/GameManager") # adjust path if needed
 
 func _ready():
-	# Start hidden
-	visible = false
-
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	
 	# Make TextureRects clickable
 	upgrade_option_1.mouse_filter = Control.MOUSE_FILTER_PASS
 	upgrade_option_2.mouse_filter = Control.MOUSE_FILTER_PASS
@@ -26,12 +26,13 @@ func _ready():
 	# Optional: highlight default selection
 	_update_highlight()
 
-func show_menu(upgrade_textures: Array[Texture]):
-	# Set textures dynamically
-	if upgrade_textures.size() >= 2:
-		upgrade_option_1.texture = upgrade_textures[0]
-		upgrade_option_2.texture = upgrade_textures[1]
+func show_menu(upgrades: Array[UpgradeDef]):
+	_shown_upgrades = upgrades
 	selected_upgrade = -1
+
+	upgrade_option_1.texture = upgrades[0].icon
+	upgrade_option_2.texture = upgrades[1].icon
+
 	visible = true
 	_update_highlight()
 
@@ -56,15 +57,17 @@ func _update_highlight():
 	elif selected_upgrade == 2:
 		upgrade_option_2.modulate = Color(0.7, 1, 0.7)
 
+
 func _on_confirm_pressed():
 	if selected_upgrade == -1:
-		# No selection, ignore
 		return
-	# Apply upgrade through GameManager
-	game_manager.apply_upgrade(selected_upgrade)
-	# Hide menu and continue
+
+	var chosen_upgrade := _shown_upgrades[selected_upgrade - 1]
+	game_manager.apply_upgrade(chosen_upgrade)
+
 	visible = false
 	game_manager.load_next_level()
+
 
 func level_ended():
 	pass

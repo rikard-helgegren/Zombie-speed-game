@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://v52sjpesgced"]
+[gd_scene load_steps=18 format=3 uid="uid://v52sjpesgced"]
 
 [ext_resource type="Script" uid="uid://cjlum2dqkjgey" path="res://src/main/game.gd" id="1_weeck"]
 [ext_resource type="Script" uid="uid://dmhjebbnyxtl0" path="res://src/main/world.gd" id="2_q1dum"]
@@ -8,8 +8,15 @@
 [ext_resource type="PackedScene" uid="uid://b2lip6etvee7l" path="res://src/ui/menus/start_menu.tscn" id="4_ufkep"]
 [ext_resource type="PackedScene" uid="uid://d4gkameu7i75l" path="res://src/main/game_manager.tscn" id="4_xd34j"]
 [ext_resource type="PackedScene" uid="uid://d2al7elrcjwc1" path="res://src/ui/hud/hud.tscn" id="4_y1g32"]
-[ext_resource type="PackedScene" uid="uid://yhms03imfewq" path="res://src/ui/menus/twixt_levels_menu.tscn" id="5_ufkep"]
+[ext_resource type="PackedScene" uid="uid://yhms03imfewq" path="res://src/ui/menus/upgrade_menu.tscn" id="5_ufkep"]
 [ext_resource type="PackedScene" uid="uid://5kfqllerkf30" path="res://src/levels/test/hallway1.tscn" id="7_uqnqm"]
+[ext_resource type="Script" uid="uid://cs52uhn2ghuk7" path="res://src/upgrades/upgarde_def.gd" id="10_fo4vm"]
+[ext_resource type="Resource" uid="uid://ba36r1id7plwv" path="res://src/upgrades/ammo.tres" id="11_21ye4"]
+[ext_resource type="Resource" uid="uid://bgw0m6kwwateh" path="res://src/upgrades/damage.tres" id="12_3ryma"]
+[ext_resource type="Resource" uid="uid://ovwuh2ijwoj1" path="res://src/upgrades/health.tres" id="13_0kwkg"]
+[ext_resource type="Resource" uid="uid://dnetkuhavwgph" path="res://src/upgrades/fire_rate.tres" id="14_846yi"]
+[ext_resource type="Resource" uid="uid://bdrgr31jlex6f" path="res://src/upgrades/move_speed.tres" id="15_8n4em"]
+[ext_resource type="Resource" uid="uid://be2pwwbsi0rue" path="res://src/upgrades/reload_speed.tres" id="16_po5mj"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_weeck")
@@ -42,9 +49,19 @@ grow_horizontal = 2
 
 [node name="StartMenu" parent="UI" instance=ExtResource("4_ufkep")]
 
-[node name="TwixtLevelsMenu" parent="UI" instance=ExtResource("5_ufkep")]
+[node name="UpgradeMenu" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="GameManager" parent="." instance=ExtResource("4_xd34j")]
 process_mode = 3
 pause_menu_path = NodePath("../UI/PauseMenu")
 levels = Array[PackedScene]([ExtResource("7_uqnqm"), ExtResource("3_y1g32"), ExtResource("3_xd34j")])
+level_container_path = NodePath("../World/Levels")
+player_node_path = NodePath("../World/Player")
+zombies_node_path = NodePath("../World/Zombies")
+ui_layer_path = NodePath("../UI")
+all_upgrades = Array[ExtResource("10_fo4vm")]([ExtResource("11_21ye4"), ExtResource("12_3ryma"), ExtResource("13_0kwkg"), ExtResource("14_846yi"), ExtResource("15_8n4em"), ExtResource("16_po5mj")])
+upgrade_menu_scene = ExtResource("5_ufkep")
