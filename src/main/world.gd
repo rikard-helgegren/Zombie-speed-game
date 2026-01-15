@@ -7,7 +7,7 @@ signal level_cleared
 
 @onready var zombies: Node2D = $Zombies
 
-var max_zombies := 30
+var max_zombies := 16
 var alive_zombies := 0
 var active_spawners := 0
 

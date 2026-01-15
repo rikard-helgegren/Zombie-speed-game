@@ -3,8 +3,8 @@ class_name Pistol
 
 # Fire rate and damage is set in inspector
 func _init() -> void:
-	fire_rate = 0.5 - maxf(0.4, 0.1 * Global.player_fire_rate_modifier)
-	damage = 2
+	fire_rate = 0.5 - minf(0.4, 0.1 * Global.player_fire_rate_modifier)
+	damage = 2 + Global.player_damage_modifier
 	max_ammo = 3 + Global.player_ammo_modifier
 	
 	ammo = max_ammo
