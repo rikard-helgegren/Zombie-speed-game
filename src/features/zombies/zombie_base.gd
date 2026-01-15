@@ -80,7 +80,7 @@ func move_zombie():
 			target_pos = target.global_position
 
 		var dir = (target_pos - global_position).normalized()
-		velocity = dir * move_speed
+		velocity = dir * (move_speed + 50 * Global.zombies_extra_speed)
 		move_and_slide()
 	else:
 		velocity = Vector2.ZERO

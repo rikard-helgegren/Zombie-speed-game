@@ -4,9 +4,8 @@ class_name Pistol
 # Fire rate and damage is set in inspector
 func _init() -> void:
 	fire_rate = 0.5 - maxf(0.4, 0.1 * Global.player_fire_rate_modifier)
-	damage = 20 #2
-	print("ini ammo, modifier: ", str(Global.player_ammo_modifier))
-	max_ammo = 5 + Global.player_ammo_modifier
+	damage = 2
+	max_ammo = 3 + Global.player_ammo_modifier
 	
 	ammo = max_ammo
 	
@@ -16,7 +15,6 @@ func _init() -> void:
 
 func fire():
 	if not can_fire:
-		#$EmptyShot.play()
 		return
 	
 	if reloading:

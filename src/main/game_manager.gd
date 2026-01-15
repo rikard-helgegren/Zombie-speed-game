@@ -40,9 +40,7 @@ func register_world(world: World) -> void:
 
 
 func _on_level_cleared():
-	print("_on_level_cleared")
 	load_upgrade_menu()
-	#load_next_level()
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("pause"):
@@ -89,6 +87,7 @@ func load_next_level():
 	var next_level: int
 	if current_level_index >= levels.size() - 1:
 		next_level = 0 #loop levels
+		Global.spawner_extra_zombies += 1
 	else:
 		next_level = current_level_index + 1
 	load_level(next_level)
@@ -100,7 +99,6 @@ func load_start_menue():
 	pass
 	
 func load_upgrade_menu():
-	print("load upgarde menu")
 	if upgrade_menu_scene == null:
 		push_error("GameManager: upgrade_menu_scene not set")
 		return
@@ -116,7 +114,6 @@ func load_upgrade_menu():
 
 	_upgrade_menu.show_menu(upgrades)	
 	
-
 
 # Called by UpgradeMenu
 func apply_upgrade(upgrade: UpgradeDef):

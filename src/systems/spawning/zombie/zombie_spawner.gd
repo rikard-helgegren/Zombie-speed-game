@@ -18,7 +18,9 @@ func _ready():
 	_spawn_all()
 
 func _spawn_all():
-	for i in spawn_count:
+	for i in spawn_count + Global.spawner_extra_zombies:
 		_world.request_zombie_spawn(global_position, zombie_scene)
+		await get_tree().create_timer(0.1).timeout
+		
 
 	_world.spawner_finished()

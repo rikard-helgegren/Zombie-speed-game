@@ -11,7 +11,7 @@ func _ready() -> void:
 
 func spawn_player():
 	if not player_scene or not spawn_point:
-		print("Player spawner not properly instansiated")
+		push_error("Player spawner not properly instansiated")
 		return
 		
 	# Instance the zombie

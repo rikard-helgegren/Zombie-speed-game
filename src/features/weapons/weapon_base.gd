@@ -77,7 +77,7 @@ func hitscan_fire(damage: int, max_distance := 1000.0):
 		if collider is Hitbox:
 			#TODO: unsafe code
 			if not collider.get_parent().has_method("take_damage"):
-				print("Error: hitbox parrent is missing take_damage function")
+				push_error("Error: hitbox parrent is missing take_damage function")
 				return
 				
 			var hit_dir = (collider.get_parent().global_position - global_position).normalized()
@@ -89,6 +89,9 @@ func hitscan_fire(damage: int, max_distance := 1000.0):
 func consume_ammo():
 	ammo -= 1
 	EventBus.player_ammo_changed.emit(ammo)
+	
+	if ammo <= 0:
+		reload()
 
 func reload():
 	reloading = true

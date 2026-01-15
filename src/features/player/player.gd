@@ -64,7 +64,7 @@ func _on_action_input(action_name: String):
 			"reload":
 				weapon.reload()
 			_: 
-				print("action_name not found: " + str(action_name))
+				push_error("action_name not found: " + str(action_name))
 		
 
 func move_player(_delta):

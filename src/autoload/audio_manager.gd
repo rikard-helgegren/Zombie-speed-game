@@ -6,4 +6,4 @@ func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _on_pause_changed(paused: bool) -> void:
-	print("Pause Audio? Todo R2")
+	push_error("Pause Audio? Todo R2")
