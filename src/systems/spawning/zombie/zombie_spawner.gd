@@ -3,7 +3,7 @@ class_name ZombieSpawner
 
 @export var zombie_scene: PackedScene
 @export var spawn_count := 1
-@export var spawn_delay := 0.5
+@export var spawn_delay := 0.01
 
 var _world: World
 

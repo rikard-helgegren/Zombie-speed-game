@@ -68,8 +68,3 @@ func _on_confirm_pressed():
 
 	visible = false
 	game_manager.load_next_level()
-
-
-func level_ended():
-	pass
-	#upgrade_menu.show_menu([upgrade_texture_1, upgrade_texture_2])

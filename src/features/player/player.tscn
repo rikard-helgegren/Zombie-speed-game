@@ -154,7 +154,7 @@ default_weapon_scene = ExtResource("2_hktew")
 position = Vector2(-1.9999999, -29.999998)
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_hktew")
-animation = &"idle"
+animation = &"die"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

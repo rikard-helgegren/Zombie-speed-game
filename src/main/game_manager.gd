@@ -12,6 +12,9 @@ extends Node
 @export var player_node_path: NodePath
 @onready var player_node := get_node("../World/Player")
 
+@export var world_node_path: NodePath
+@onready var world_node := get_node("../World")
+
 @export var zombies_node_path: NodePath
 @onready var zombies_node := get_node("../World/Zombies")
 
@@ -62,7 +65,14 @@ func load_level(index: int) -> void:
 	if index < 0 or index >= levels.size():
 		push_error("Invalid level index: %d" % index)
 		return
-
+		
+	# Remove prev Zombies
+	for child in zombies_node.get_children():
+		child.queue_free()
+	
+	world_node.alive_zombies = 0
+	world_node.active_spawners = 0
+	
 	# Remove current level
 	if current_level_instance:
 		current_level_instance.queue_free()
@@ -88,6 +98,8 @@ func load_next_level():
 	if current_level_index >= levels.size() - 1:
 		next_level = 0 #loop levels
 		Global.spawner_extra_zombies += 1
+		Global.zombies_extra_speed += 1
+		
 	else:
 		next_level = current_level_index + 1
 	load_level(next_level)

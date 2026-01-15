@@ -46,7 +46,6 @@ offset_left = 0.0
 offset_top = 0.0
 offset_right = 0.0
 offset_bottom = 0.0
-grow_horizontal = 2
 
 [node name="Hud" parent="UI" instance=ExtResource("4_y1g32")]
 

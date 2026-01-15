@@ -6,6 +6,10 @@ class_name Player
 
 var move_direction = Vector2.ZERO
 
+
+@onready var game_manager := get_node("/root/Game/GameManager")
+
+
 # References to child components
 @onready var input_node: PlayerInput = $player_input
 @onready var health_node: PlayerHealth = $player_health
@@ -77,6 +81,7 @@ func shoot():
 		weapon.fire()
 
 func _on_player_died():
+	state = PlayerState.DIE
 	die_state()
 	
 	
@@ -136,12 +141,14 @@ func change_state(new: PlayerState):
 
 
 func _on_animation_finished() -> void:
+	print("player anim finsh")
+	print(state)
 	if state == PlayerState.DIE:
 		die()
 
 func die():
-	pass
-	# End scene, replay, menue etc.
+	print("Die player, pause menue")
+	game_manager.toggle_pause()
 
 func upgrade_move_speed():
 	Global.player_move_speed_modifier += 1
