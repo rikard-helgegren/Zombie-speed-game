@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("1_m80x5")
+id = "fire_rate"
 icon = ExtResource("1_xmmwc")
 description = "Fire"
 metadata/_custom_type_script = "uid://cs52uhn2ghuk7"

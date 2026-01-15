@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("1_0rybn")
+id = "HP"
 icon = ExtResource("1_8yai4")
 description = "HP"
 metadata/_custom_type_script = "uid://cs52uhn2ghuk7"

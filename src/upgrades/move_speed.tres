@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("1_2krw6")
+id = "move_speed"
 icon = ExtResource("1_jslxc")
 description = "run"
 metadata/_custom_type_script = "uid://cs52uhn2ghuk7"

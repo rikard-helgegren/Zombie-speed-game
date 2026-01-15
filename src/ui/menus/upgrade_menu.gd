@@ -59,7 +59,9 @@ func _update_highlight():
 
 
 func _on_confirm_pressed():
+	print("_on_confirm_pressed")
 	if selected_upgrade == -1:
+		print("No upgrade selevted")
 		return
 
 	var chosen_upgrade := _shown_upgrades[selected_upgrade - 1]

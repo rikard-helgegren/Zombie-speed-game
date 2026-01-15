@@ -100,6 +100,7 @@ func load_start_menue():
 	pass
 	
 func load_upgrade_menu():
+	print("load upgarde menu")
 	if upgrade_menu_scene == null:
 		push_error("GameManager: upgrade_menu_scene not set")
 		return
@@ -115,7 +116,7 @@ func load_upgrade_menu():
 
 	_upgrade_menu.show_menu(upgrades)	
 	
-	
+
 
 # Called by UpgradeMenu
 func apply_upgrade(upgrade: UpgradeDef):
@@ -128,6 +129,10 @@ func apply_upgrade(upgrade: UpgradeDef):
 			Global.player_damage_modifier += 1
 		"ammo":
 			Global.player_ammo_modifier += 1
+		"fire_rate":
+			Global.player_fire_rate_modifier += 1
+		"HP":
+			Global.player_hp_modifier += 1
 		_:
 			push_warning("Unknown upgrade: " + upgrade.id)
 

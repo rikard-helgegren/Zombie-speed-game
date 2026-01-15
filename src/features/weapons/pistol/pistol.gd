@@ -5,6 +5,7 @@ class_name Pistol
 func _init() -> void:
 	fire_rate = 0.5 - maxf(0.4, 0.1 * Global.player_fire_rate_modifier)
 	damage = 20 #2
+	print("ini ammo, modifier: ", str(Global.player_ammo_modifier))
 	max_ammo = 5 + Global.player_ammo_modifier
 	
 	ammo = max_ammo

@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("1_nnkgv")
+id = "reload_speed"
 icon = ExtResource("1_bfknn")
 description = "reload"
 metadata/_custom_type_script = "uid://cs52uhn2ghuk7"
