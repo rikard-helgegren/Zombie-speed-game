@@ -120,7 +120,6 @@ func load_upgrade_menu():
 	var upgrades := get_random_upgrades(2)
 
 	_upgrade_menu = upgrade_menu_scene.instantiate()
-	#_upgrade_menu.pause_mode = Node.PAUSE_MODE_PROCESS
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	ui_layer.add_child(_upgrade_menu)
 

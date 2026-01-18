@@ -2,7 +2,7 @@ extends CharacterBody2D
 class_name ZombieBase
 
 @export var move_speed: float = 120.0
-@export var max_health: int = 3
+@export var max_health: int = 4
 @export var death_sound: AudioStream
 @export var hit_sound: AudioStream
 @export var attack_range: float = 30.0
