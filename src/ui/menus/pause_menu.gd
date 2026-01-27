@@ -1,9 +1,9 @@
 extends Control
 
-
 @onready var first_button: Button = $PanelContainer/VBoxContainer/Resume
-
 @onready var game_manager := get_node("/root/Game/GameManager")
+
+#TODO: adjust selected buttun with inpupt arrows, jouystick and enter
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -16,7 +16,6 @@ func _on_resume_pressed():
 	MyGameState.set_paused(false)
 	get_tree().paused = false
 	visible = false
-
 
 func _on_restart_pressed():
 	MyGameState.set_paused(false)
