@@ -15,8 +15,8 @@ script = ExtResource("1_af6qn")
 layout_mode = 0
 offset_left = -375.0
 offset_top = -203.0
-offset_right = -49.6528
-offset_bottom = 18.169373
+offset_right = 130.72913
+offset_bottom = 175.02423
 scale = Vector2(5.76, 4.9599996)
 color = Color(0.7529412, 0.8352941, 0.5529412, 0.8352941)
 

@@ -6,6 +6,7 @@ extends Control
 # Reference to GameManager
 @onready var game_manager := get_node("/root/Game/GameManager") # adjust path if needed
 
+#TODO: make button shaded when having focus
 
 func _ready():
 	# Populate level selector
@@ -15,11 +16,11 @@ func _ready():
 		var level_name = level_scene.resource_path.get_file().get_basename()
 		level_selector.add_item(level_name)
 
-	# Connect Start button properly (Godot 4)
+
 	start_button.pressed.connect(Callable(self, "_on_start_pressed"))
 
-
-
+func _set_focus_on_start():
+	start_button.grab_focus()
 	
 func _on_start_pressed():
 	var level_index = level_selector.selected
