@@ -14,8 +14,11 @@ class_name ZombieBase
 
 
 @onready var hitbox: Hitbox = $Hitbox
+@onready var hitbox_shape: CollisionShape2D = $Hitbox/CollisionShape2D
+@onready var body_collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var agent: NavigationAgent2D = $NavigationAgent2D
+@onready var hit_splatter: Node2D = $HitSplatter
 
 signal zombie_died
 
@@ -32,6 +35,13 @@ var has_heard_sound: bool = false
 var recoil_velocity: Vector2 = Vector2.ZERO
 var recoil_time_left: float = 0.0
 
+const FACING_EPSILON := 0.01
+var hitbox_shape_default_position: Vector2
+var hitbox_shape_default_rotation: float
+var body_collision_shape_default_position: Vector2
+var body_collision_shape_default_rotation: float
+var facing_pivot_x: float
+
 # FSM
 enum ZombieState { IDLE, WALK, ATTACK, DIE }
 var state: ZombieState = ZombieState.IDLE
@@ -42,12 +52,23 @@ func _ready():
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		target = players[0]
+	if hitbox_shape:
+		hitbox_shape_default_position = hitbox_shape.position
+		hitbox_shape_default_rotation = hitbox_shape.rotation
+	if body_collision_shape:
+		body_collision_shape_default_position = body_collision_shape.position
+		body_collision_shape_default_rotation = body_collision_shape.rotation
+	if sprite:
+		facing_pivot_x = sprite.position.x
+	if hit_splatter:
+		hit_splatter.top_level = true
+		hit_splatter.visible = false
 	MySoundEventSystem.sound_emitted.connect(_on_sound_emitted)
 
 func _physics_process(_delta):
 	queue_redraw()
-	# update the nav agent target every frame during walking so the agent can
-	# track a moving player or new sound.  Afterwards check for arrival.
+	# Update nav agent target every frame during walking to track the player
+	# or investigated sound location, then check if we've arrived.
 	if state == ZombieState.WALK:
 		update_navigation_target()
 		if agent.is_navigation_finished():
@@ -80,6 +101,7 @@ func _physics_process(_delta):
 
 
 func update_navigation_target():
+	# Point agent toward sound or player, whichever takes priority
 	if has_heard_sound:
 		agent.target_position = heard_sound_position
 	elif target:
@@ -88,6 +110,7 @@ func update_navigation_target():
 func move_zombie():
 	# Recoil overrides everything
 	if recoil_time_left > 0.0:
+		update_facing_from_x(recoil_velocity.x)
 		velocity = recoil_velocity
 		recoil_time_left -= get_physics_process_delta_time()
 		move_and_slide()
@@ -99,6 +122,7 @@ func move_zombie():
 
 		if dir.length() > 1.0:
 			dir = dir.normalized()
+			update_facing_from_x(dir.x)
 			velocity = dir * (move_speed + 50 * Global.zombies_extra_speed)
 		else:
 			velocity = Vector2.ZERO
@@ -108,11 +132,26 @@ func move_zombie():
 		velocity = Vector2.ZERO
 		move_and_slide()
 
-	# if we're heading toward a sound but walked all the way there, stop
-	if state == ZombieState.WALK and has_heard_sound and agent.is_navigation_finished():
-		has_heard_sound = false
-		if not player_in_range(detection_range * 2):
-			change_state(ZombieState.IDLE)
+func update_facing_from_x(x_direction: float) -> void:
+	if absf(x_direction) <= FACING_EPSILON:
+		return
+
+	var facing_left := x_direction < 0.0
+	sprite.flip_h = facing_left
+
+	# Mirror hitbox and body collision when zombie turns
+	if not hitbox_shape or not body_collision_shape:
+		return
+		
+	var mirrored_hitbox_x := (2.0 * facing_pivot_x) - hitbox_shape_default_position.x if facing_left else hitbox_shape_default_position.x
+	hitbox_shape.position.x = mirrored_hitbox_x
+	hitbox_shape.position.y = hitbox_shape_default_position.y
+	hitbox_shape.rotation = -hitbox_shape_default_rotation if facing_left else hitbox_shape_default_rotation
+
+	var hitbox_x_delta := mirrored_hitbox_x - hitbox_shape_default_position.x
+	body_collision_shape.position.x = body_collision_shape_default_position.x + hitbox_x_delta
+	body_collision_shape.position.y = body_collision_shape_default_position.y
+	body_collision_shape.rotation = -body_collision_shape_default_rotation if facing_left else body_collision_shape_default_rotation
 
 
 func take_damage(amount: int, hit_dir: Vector2):
@@ -141,7 +180,7 @@ func play_sound(sound : AudioStream):
 	get_tree().current_scene.add_child(player)
 	player.play(sound, global_position, 0.0)
 
-# --- State functions ---
+# --- State Functions ---
 func idle_state():
 	sprite.play("idle")
 	if player_in_range(detection_range):
@@ -152,9 +191,7 @@ func walk_state():
 	sprite.play("walk")
 	if player_in_range(attack_range):
 		change_state(ZombieState.ATTACK)
-	# while walking we still want to "see" the player out to twice the
-	# detection radius.  if we lose sight of the sound but the player is
-	# nearby we should switch to directly chasing the player.
+	# Detect player within 2x range to switch from heard sound to direct chase
 	elif player_in_range(detection_range * 2):
 		has_heard_sound = false
 	
@@ -166,12 +203,12 @@ func attack_state():
 	if not player_in_range(attack_range):
 		change_state(ZombieState.WALK)
 		
-	velocity = Vector2.ZERO  # stop moving during attack
+	velocity = Vector2.ZERO  # Stop moving while attacking
 
 	if _can_attack and player_in_range(attack_range):
 		deal_damage_to_player()
 		_can_attack = false
-		# cooldown timer
+		# Start attack cooldown timer
 		var t = Timer.new()
 		t.one_shot = true
 		t.wait_time = attack_cooldown
@@ -181,7 +218,7 @@ func attack_state():
 
 func die_state():
 	is_alive = false
-	recoil_time_left = 0.0 #Can remove?
+	recoil_time_left = 0.0
 	sprite.offset = Vector2(40, 0)
 	sprite.play("die")
 	velocity = Vector2.ZERO 
@@ -240,8 +277,8 @@ func apply_recoil(hit_dir: Vector2):
 	recoil_time_left = recoil_duration
 	
 	
-func show_hit_splatter(pos: Vector2, hit_dir:Vector2):
-	$HitSplatter.global_position = pos + hit_dir * 0.4
-	$HitSplatter.visible = true
+func show_hit_splatter(pos: Vector2, hit_dir: Vector2) -> void:
+	hit_splatter.global_position = pos + hit_dir * 0.4
+	hit_splatter.visible = true
 	await get_tree().create_timer(0.1).timeout
-	$HitSplatter.visible = false
+	hit_splatter.visible = false

@@ -213,7 +213,7 @@ animations = [{
 height = 20.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pxlqy"]
-radius = 27.0
+radius = 25.268936
 height = 98.92587
 
 [node name="ZombieBase" type="CharacterBody2D"]
@@ -234,8 +234,9 @@ y_sort_enabled = true
 position = Vector2(12.999999, -35.999996)
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_drc2j")
-animation = &"die"
+animation = &"walk"
 autoplay = "idle"
+frame_progress = 0.8113833
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_sale8")
