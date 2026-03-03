@@ -6,11 +6,11 @@
 texture = ExtResource("1_fyuof")
 18:5/size_in_atlas = Vector2i(4, 3)
 18:5/0 = 0
-18:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-30.126335, -3.95689, -30.845772, 16.906723, 30.845772, 17.446297, 30.845772, -3.95689)
+18:5/0/physics_layer_0/polygon_0/points = PackedVector2Array(-25.831394, 1.1566277, -26.216936, 13.879555, 24.289223, 13.108467, 24.289223, 0)
 22:10/size_in_atlas = Vector2i(2, 6)
 22:10/0 = 0
 22:10/0/y_sort_origin = 21
-22:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-14.907585, 17.1927, 13.819458, 16.97507, 14.254715, 41.56715, -14.037064, 41.131893)
+22:10/0/physics_layer_0/polygon_0/points = PackedVector2Array(-3.5549622, 19.091515, -6.188278, 19.091515, -9.084915, 20.671501, -9.611588, 25.41146, -9.874924, 29.361427, -6.9782715, 33.048065, -1.9749756, 33.83806, 3.0283203, 33.311394, 6.7149506, 33.048065, 7.76828, 30.15142, 9.08493, 27.254776, 9.08493, 23.041481, 7.2416077, 18.828178, 3.2916412, 17.511528, -1.1849823, 18.038185)
 24:6/size_in_atlas = Vector2i(2, 4)
 24:6/0 = 0
 28:1/size_in_atlas = Vector2i(2, 5)
@@ -23,6 +23,8 @@ texture = ExtResource("1_fyuof")
 [sub_resource type="TileSet" id="TileSet_py2yn"]
 physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 15
+terrain_set_0/mode = 0
+navigation_layer_0/layers = 0
 sources/0 = SubResource("TileSetAtlasSource_hhduy")
 
 [node name="Layer1Stuff" type="TileMapLayer"]

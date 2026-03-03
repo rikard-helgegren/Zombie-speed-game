@@ -84,7 +84,7 @@ func load_level(index: int) -> void:
 	level_container.add_child(current_level_instance)
 
 	current_level_index = index
-
+	
 	# Ensure game is unpaused
 	get_tree().paused = false
 	pause_menu.visible = false

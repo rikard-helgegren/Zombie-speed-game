@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://v52sjpesgced"]
+[gd_scene load_steps=19 format=3 uid="uid://v52sjpesgced"]
 
 [ext_resource type="Script" uid="uid://cjlum2dqkjgey" path="res://src/main/game.gd" id="1_weeck"]
 [ext_resource type="Script" uid="uid://dmhjebbnyxtl0" path="res://src/main/world.gd" id="2_q1dum"]
@@ -18,12 +18,17 @@
 [ext_resource type="Resource" uid="uid://bdrgr31jlex6f" path="res://src/upgrades/move_speed.tres" id="15_8n4em"]
 [ext_resource type="Resource" uid="uid://be2pwwbsi0rue" path="res://src/upgrades/reload_speed.tres" id="16_po5mj"]
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_fo4vm"]
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_weeck")
 
 [node name="World" type="Node2D" parent="."]
 y_sort_enabled = true
 script = ExtResource("2_q1dum")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="World"]
+navigation_polygon = SubResource("NavigationPolygon_fo4vm")
 
 [node name="Level" type="Node2D" parent="World"]
 y_sort_enabled = true

@@ -120,6 +120,8 @@ exit={
 2d_physics/layer_4="border"
 2d_navigation/layer_4="border"
 2d_navigation/layer_5="objects"
+avoidance/layer_1="Objects"
+avoidance/layer_2="Enemies"
 
 [physics]
 

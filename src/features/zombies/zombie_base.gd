@@ -15,6 +15,7 @@ class_name ZombieBase
 
 @onready var hitbox: Hitbox = $Hitbox
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var agent: NavigationAgent2D = $NavigationAgent2D
 
 signal zombie_died
 
@@ -44,10 +45,25 @@ func _ready():
 	MySoundEventSystem.sound_emitted.connect(_on_sound_emitted)
 
 func _physics_process(_delta):
+	queue_redraw()
+	# update the nav agent target every frame during walking so the agent can
+	# track a moving player or new sound.  Afterwards check for arrival.
+	if state == ZombieState.WALK:
+		update_navigation_target()
+		if agent.is_navigation_finished():
+			# we've reached whatever destination the agent was heading for
+			if has_heard_sound:
+				has_heard_sound = false
+				# if the player is far away we can go idle again
+				if not player_in_range(detection_range * 2):
+					change_state(ZombieState.IDLE)
+
 	if target == null:
 		target = get_tree().get_first_node_in_group("player")
 		if target == null:
 			return
+	
+	
 
 	# State transitions
 	match state:
@@ -63,6 +79,12 @@ func _physics_process(_delta):
 	move_zombie()
 
 
+func update_navigation_target():
+	if has_heard_sound:
+		agent.target_position = heard_sound_position
+	elif target:
+		agent.target_position = target.global_position
+
 func move_zombie():
 	# Recoil overrides everything
 	if recoil_time_left > 0.0:
@@ -70,26 +92,27 @@ func move_zombie():
 		recoil_time_left -= get_physics_process_delta_time()
 		move_and_slide()
 		return
-	
-		# Movement (only if walking)
-	if state == ZombieState.WALK:
-		var target_pos: Vector2
-		if has_heard_sound:
-			target_pos = heard_sound_position
-		else:
-			target_pos = target.global_position
 
-		var dir = (target_pos - global_position).normalized()
-		velocity = dir * (move_speed + 50 * Global.zombies_extra_speed)
+	if state == ZombieState.WALK:
+		var next_pos := agent.get_next_path_position()
+		var dir := (next_pos - global_position)
+
+		if dir.length() > 1.0:
+			dir = dir.normalized()
+			velocity = dir * (move_speed + 50 * Global.zombies_extra_speed)
+		else:
+			velocity = Vector2.ZERO
+
 		move_and_slide()
 	else:
 		velocity = Vector2.ZERO
 		move_and_slide()
 
-	# If reached sound location
-	if has_heard_sound and global_position.distance_to(heard_sound_position) < 10.0:
+	# if we're heading toward a sound but walked all the way there, stop
+	if state == ZombieState.WALK and has_heard_sound and agent.is_navigation_finished():
 		has_heard_sound = false
-		change_state(ZombieState.IDLE)
+		if not player_in_range(detection_range * 2):
+			change_state(ZombieState.IDLE)
 
 
 func take_damage(amount: int, hit_dir: Vector2):
@@ -129,10 +152,13 @@ func walk_state():
 	sprite.play("walk")
 	if player_in_range(attack_range):
 		change_state(ZombieState.ATTACK)
-	elif player_in_range(detection_range):
+	# while walking we still want to "see" the player out to twice the
+	# detection radius.  if we lose sight of the sound but the player is
+	# nearby we should switch to directly chasing the player.
+	elif player_in_range(detection_range * 2):
 		has_heard_sound = false
 	
-	if not player_in_range(detection_range*2) and not has_heard_sound:
+	if not player_in_range(detection_range * 2) and not has_heard_sound:
 		change_state(ZombieState.IDLE)
 
 func attack_state():
@@ -164,7 +190,11 @@ func die_state():
 func change_state(new: ZombieState):
 	if state == new:
 		return
+
 	state = new
+
+	if state == ZombieState.WALK:
+		update_navigation_target()
 
 func player_in_range(range_to_player: float) -> bool:
 	if not target:
