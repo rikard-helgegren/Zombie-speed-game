@@ -21,6 +21,7 @@ func set_health(amount):
 		
 
 func set_ammo(amount):
+	print("Updating ammo display: ", amount)
 	for child in $MarginContainer3/AmmoCounter.get_children():
 		child.queue_free()
 		

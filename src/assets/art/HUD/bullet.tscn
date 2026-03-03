@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c5t0uytsb03m4"]
 
-[ext_resource type="Texture2D" uid="uid://c075dwimu5cwg" path="res://src/assets/art/HUD/bullet-U.png" id="1_8gf4n"]
+[ext_resource type="Texture2D" uid="uid://7cuqb0uuawrs" path="res://src/assets/art/HUD/ammo.png" id="1_8gf4n"]
 
 [node name="Bullet" type="TextureRect"]
 anchors_preset = 15

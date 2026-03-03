@@ -31,7 +31,7 @@ func set_ammo(amount):
 	for i in amount:
 		var texture_rect = ammo_scene.instantiate()
 		$MarginContainer3/AmmoCounter.add_child(texture_rect)
-		
+	
 "
 
 [node name="Hud" type="CanvasLayer" groups=["ui"]]
@@ -59,18 +59,22 @@ layout_mode = 2
 size_flags_horizontal = 0
 
 [node name="MarginContainer3" type="MarginContainer" parent="."]
-layout_direction = 3
-anchors_preset = 2
+custom_minimum_size = Vector2(20, 20)
+layout_direction = 2
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -171.0
-offset_top = 137.0
-offset_right = -151.0
-offset_bottom = 157.0
+offset_left = -312.0
+offset_top = 8.0
+offset_right = 280.0
+offset_bottom = 80.0
+grow_horizontal = 0
 grow_vertical = 0
-rotation = 3.1415927
 scale = Vector2(0.5, 0.5)
 
 [node name="AmmoCounter" type="HBoxContainer" parent="MarginContainer3"]
-layout_direction = 3
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
+alignment = 2
