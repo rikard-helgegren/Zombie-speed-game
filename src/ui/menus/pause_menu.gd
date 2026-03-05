@@ -10,6 +10,8 @@ func _ready():
 	visible = false
 	
 func show_menu():
+	move_to_front()
+	visible = true
 	first_button.grab_focus()
 
 func _on_resume_pressed():

@@ -52,13 +52,13 @@ func _unhandled_input(event):
 func toggle_pause():
 	var paused = not get_tree().paused
 	get_tree().paused = paused
-	pause_menu.visible = paused
 	
 	if paused:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		pause_menu.show_menu()
 	else:
 		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
-		pause_menu.show_menu()
+		pause_menu.visible = false
 		
 
 func load_level(index: int) -> void:
