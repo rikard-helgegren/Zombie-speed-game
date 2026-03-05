@@ -20,22 +20,32 @@ offset_bottom = 175.02423
 scale = Vector2(5.76, 4.9599996)
 color = Color(0.7529412, 0.8352941, 0.5529412, 0.8352941)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 377.0
-offset_top = 89.99999
-offset_right = 501.0
-offset_bottom = 172.0
-scale = Vector2(3.039998, 5.92)
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.535
+anchor_right = 0.5
+anchor_bottom = 0.535
+offset_left = -167.0
+offset_top = -143.19998
+offset_right = -9.601929
+offset_bottom = 10.871948
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.9052006, 1.9796575)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Zombie Shooter"
 
-[node name="OptionButton" type="OptionButton" parent="VBoxContainer"]
+[node name="OptionButton" type="OptionButton" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Start Game"

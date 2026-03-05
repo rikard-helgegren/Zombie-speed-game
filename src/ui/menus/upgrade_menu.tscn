@@ -19,7 +19,7 @@ offset_left = -270.0
 offset_top = -196.99998
 offset_right = 1536.0
 offset_bottom = -56.180786
-scale = Vector2(1, 7.08)
+scale = Vector2(2.140917, 18.421022)
 color = Color(1, 0.22745098, 1, 0.44705883)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]

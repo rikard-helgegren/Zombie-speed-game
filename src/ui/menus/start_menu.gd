@@ -1,7 +1,7 @@
 extends Control
 
-@onready var start_button := $VBoxContainer/Button
-@onready var level_selector := $VBoxContainer/OptionButton
+@onready var start_button := $MarginContainer/VBoxContainer/Button
+@onready var level_selector := $MarginContainer/VBoxContainer/OptionButton
 
 # Reference to GameManager
 @onready var game_manager := get_node("/root/Game/GameManager") # adjust path if needed
