@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5pdt62mraq4e"]
+[gd_scene load_steps=4 format=3 uid="uid://c5pdt62mraq4e"]
 
 [ext_resource type="Script" uid="uid://ik083vll1btq" path="res://src/ui/menus/pause_menu.gd" id="1_xfja3"]
+[ext_resource type="Shader" uid="uid://c7c2m5hgggai5" path="res://src/ui/menus/blur_overlay.gdshader" id="2_c0x8x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aorvp"]
+shader = ExtResource("2_c0x8x")
+shader_parameter/blur_amount = 4.00000019
 
 [node name="PauseMenu" type="Control"]
 process_mode = 3
@@ -19,20 +24,21 @@ grow_vertical = 2
 script = ExtResource("1_xfja3")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_aorvp")
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -1857.0
-offset_top = -1063.0
-offset_right = 1286.2671
-offset_bottom = 1370.6345
+offset_left = -1625.0
+offset_top = -1233.0
+offset_right = 3513.33
+offset_bottom = 1823.4583
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(2.529852, 2.2069871)
-color = Color(0.10980392, 0.08235294, 0.13725491, 0.3529412)
+scale = Vector2(0.61551946, 0.82206255)
+color = Color(0, 0, 0, 0.3529412)
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
