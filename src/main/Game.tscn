@@ -1,6 +1,7 @@
-[gd_scene load_steps=19 format=3 uid="uid://v52sjpesgced"]
+[gd_scene load_steps=20 format=3 uid="uid://v52sjpesgced"]
 
 [ext_resource type="Script" uid="uid://cjlum2dqkjgey" path="res://src/main/game.gd" id="1_weeck"]
+[ext_resource type="Script" path="res://src/main/light_radious.gd" id="2_light"]
 [ext_resource type="Script" uid="uid://dmhjebbnyxtl0" path="res://src/main/world.gd" id="2_q1dum"]
 [ext_resource type="PackedScene" uid="uid://c5pdt62mraq4e" path="res://src/ui/menus/pause_menu.tscn" id="3_8xfwg"]
 [ext_resource type="PackedScene" uid="uid://c4grb4so5k0vx" path="res://src/levels/test/test_level.tscn" id="3_xd34j"]
@@ -44,7 +45,17 @@ light_mask = 4
 visibility_layer = 15
 y_sort_enabled = true
 
+[node name="FogOfWarLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="LightRadious" type="ColorRect" parent="FogOfWarLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("2_light")
+
 [node name="UI" type="CanvasLayer" parent="."]
+layer = 100
 
 [node name="PauseMenu" parent="UI" instance=ExtResource("3_8xfwg")]
 offset_left = 0.0
@@ -53,8 +64,10 @@ offset_right = 0.0
 offset_bottom = 0.0
 
 [node name="Hud" parent="UI" instance=ExtResource("4_y1g32")]
+layer = 100
 
 [node name="StartMenu" parent="UI" instance=ExtResource("4_ufkep")]
+layer = 100
 
 [node name="UpgradeMenu" type="Control" parent="UI"]
 layout_mode = 3

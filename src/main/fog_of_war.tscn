@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwabihkk13g5y"]
+
+[ext_resource type="Script" uid="uid://gyram6wholuq" path="res://src/main/light_radious.gd" id="1_mawqg"]
+
+[node name="FogOfWar" type="Node2D"]
+
+[node name="LightRadious" type="Node2D" parent="."]
+script = ExtResource("1_mawqg")
+
+[node name="ExploredMap" type="Node2D" parent="."]
