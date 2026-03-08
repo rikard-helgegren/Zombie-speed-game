@@ -87,8 +87,10 @@ func _process(_delta: float) -> void:
 		elif not zombies_node:
 			print("[LightRadious] WARNING: Zombies node not available in _process")
 
+var _original_mods := {}  # zombie -> original modulate color
+
 func update_zombie_visibility() -> void:
-	# Check all zombies and fade them based on distance from player
+	# Check all zombies and adjust them based on distance from player
 	if not zombies_node:
 		return
 	
@@ -96,18 +98,20 @@ func update_zombie_visibility() -> void:
 		if not zombie or not is_instance_valid(zombie):
 			continue
 		
+		# remember original modulation
+		if not _original_mods.has(zombie):
+			_original_mods[zombie] = zombie.modulate
+		
 		var distance = player.global_position.distance_to(zombie.global_position)
 		
-		# Calculate visibility alpha using smoothstep for smooth fade
-		var alpha = 0.0
-		if distance < vision_radius:
-			# Fully visible inside radius
-			alpha = 1.0
-		else:
-			# Fade out at the edge
-			alpha = 1.0 - smoothstep(vision_radius, vision_radius + edge_softness, distance)
+		# visibility factor v: 0 when fully outside, 1 at vision_radius
+		var v = clamp((vision_radius + edge_softness - distance) / edge_softness, 0.0, 1.0)
+		# smooth it for gradient
+		v = smoothstep(0.0, 1.0, v)
 		
-		# Apply to zombie's modulation
-		var modulation = zombie.modulate
-		modulation.a = alpha
-		zombie.modulate = modulation
+		# color shifts from black to original using v
+		var orig = _original_mods[zombie]
+		var new_color = Color(0,0,0).lerp(orig, v)
+		# opacity equals v (fully transparent when pitch black)
+		new_color.a = v
+		zombie.modulate = new_color
