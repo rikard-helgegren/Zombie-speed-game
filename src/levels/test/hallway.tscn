@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://d3somu1pkl3cd" path="res://src/assets/art/environment/tileLayers/layer_1_stuff.tscn" id="4_n78bt"]
 [ext_resource type="PackedScene" uid="uid://btfyht0jb0w7b" path="res://src/systems/spawning/player_spawner.tscn" id="5_uiksr"]
 [ext_resource type="PackedScene" uid="uid://ur0go5xbdqrm" path="res://src/systems/spawning/zombie/zombie_spawner.tscn" id="7_1s3j2"]
-[ext_resource type="Script" path="res://src/assets/art/environment/tileLayers/layer_1_stuff.gd" id="8_ffjvw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uiksr"]
 texture = ExtResource("3_3igg4")
@@ -92,7 +91,7 @@ tile_set = SubResource("TileSet_6p7au")
 [node name="Layer1Stuff" parent="Map" instance=ExtResource("4_n78bt")]
 visibility_layer = 31
 tile_map_data = PackedByteArray("AAAbABoAAAAWAAsAAAAbABsAAAAWAAwAAAAbABwAAAAWAA0AAAAbAB0AAAAWAA4AAAAbAB4AAAAWAA8AAAAcABoAAAAXAAsAAAAcABsAAAAXAAwAAAAcABwAAAAXAA0AAAAcAB0AAAAXAA4AAAAcAB4AAAAXAA8AAAAvABwAAAASAAUAAAAvAB0AAAASAAYAAAAvAB4AAAASAAcAAAAwABwAAAATAAUAAAAwAB0AAAATAAYAAAAwAB4AAAATAAcAAAAxABwAAAAUAAUAAAAxAB0AAAAUAAYAAAAxAB4AAAAUAAcAAAAyABwAAAAVAAUAAAAyAB0AAAAVAAYAAAAyAB4AAAAVAAcAAAApAAUAAAASAAUAAAApAAgAAAASAAUAAAAyAAcAAAAWABAAAAAfAP//AAAWAAoAAAAnAP//AAAWAAoAAAAvAP//AAAWAAoAAAAfAAwAAAAWAAoAAAAnAAwAAAAWAAoAAAAvAAwAAAAWAAoAAAA=")
-script = ExtResource("8_ffjvw")
+
 
 [node name="ground" type="TileMapLayer" parent="Map"]
 z_index = -1
