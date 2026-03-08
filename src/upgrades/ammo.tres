@@ -7,5 +7,5 @@
 script = ExtResource("1_8gffw")
 id = "ammo"
 icon = ExtResource("1_mjh1t")
-description = "Ammo"
+description = "Ammonition +1"
 metadata/_custom_type_script = "uid://cs52uhn2ghuk7"

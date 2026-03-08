@@ -79,6 +79,7 @@ texture = ExtResource("3_kba5d")
 expand_mode = 1
 stretch_mode = 4
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="infoText" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "Confirm"
+text = "PLACE HOLDER!!"
+horizontal_alignment = 1
