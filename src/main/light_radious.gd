@@ -1,7 +1,6 @@
 extends ColorRect
 
-@export var vision_radius: float = 200.0
-var player: Player
+@export var vision_radius: float = 300.0
 var game_manager: Node
 var world: Node
 
@@ -40,30 +39,12 @@ func _setup_signal_connections() -> void:
 func _on_level_started() -> void:
 	print("[LightRadious] Level started - showing fog")
 	visible = true
-	# Try to get player immediately
-	var players = get_tree().get_nodes_in_group("player")
-	if players.size() > 0:
-		player = players[0]
-		print("[LightRadious] Player found immediately: ", player != null)
-	else:
-		# If player not ready yet, defer and try again
-		await get_tree().process_frame
-		players = get_tree().get_nodes_in_group("player")
-		if players.size() > 0:
-			player = players[0]
-			print("[LightRadious] Player found after defer: ", player != null)
-		else:
-			print("[LightRadious] ERROR: Player still not found!")
 
 func _on_level_cleared() -> void:
 	print("[LightRadious] Level cleared - hiding fog")
 	visible = false
 
 func _process(_delta: float) -> void:
-	if visible and player:
-		# Pass player's position and radius to the shader
-		material.set_shader_parameter("player_position", player.global_position)
+	if visible:
+		# Just pass the vision radius to the shader
 		material.set_shader_parameter("vision_radius", vision_radius)
-		material.set_shader_parameter("screen_size", get_viewport_rect().size)
-	elif visible and not player:
-		print("[LightRadious] Visible but no player found")
