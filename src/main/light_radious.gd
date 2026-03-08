@@ -35,30 +35,42 @@ func _setup_signal_connections() -> void:
 		
 func _on_level_started() -> void:
 		visible = true
-		# Get player and zombies node
+		print("[LightRadious] Level started - refreshing references")
+		
+		# Wait a frame to ensure all nodes are ready
+		await get_tree().process_frame
+		
+		# Get player - search fresh each time
 		var players = get_tree().get_nodes_in_group("player")
 		if players.size() > 0:
 			player = players[0]
+			print("[LightRadious] Player found: ", player)
 		else:
-			await get_tree().process_frame
-			players = get_tree().get_nodes_in_group("player")
-			if players.size() > 0:
-				player = players[0]
+			print("[LightRadious] WARNING: No player found")
+			player = null
 		
-		# Get zombies node
-		zombies_node = get_tree().get_first_node_in_group("world")
-		if zombies_node:
-			zombies_node = zombies_node.get_node("Zombies")
+		# Get zombies node - search fresh each time
+		var world_node = get_tree().get_first_node_in_group("world")
+		if world_node:
+			zombies_node = world_node.get_node("Zombies")
+			print("[LightRadious] Zombies node found: ", zombies_node)
+		else:
+			print("[LightRadious] WARNING: World node not found")
+			zombies_node = null
 
 func _on_level_cleared() -> void:
+		print("[LightRadious] Level cleared - hiding fog and resetting zombies")
 		visible = false
-		# Reset zombie visibility
+		# Reset zombie visibility before level changes
 		if zombies_node:
+			var reset_count = 0
 			for zombie in zombies_node.get_children():
 				if zombie and is_instance_valid(zombie):
 					var modulation = zombie.modulate
 					modulation.a = 1.0
 					zombie.modulate = modulation
+					reset_count += 1
+			print("[LightRadious] Reset visibility for ", reset_count, " zombies")
 
 func _process(_delta: float) -> void:
 	if visible:
@@ -70,9 +82,16 @@ func _process(_delta: float) -> void:
 		# Update zombie visibility
 		if player and zombies_node:
 			update_zombie_visibility()
+		elif not player:
+			print("[LightRadious] WARNING: Player not available in _process")
+		elif not zombies_node:
+			print("[LightRadious] WARNING: Zombies node not available in _process")
 
 func update_zombie_visibility() -> void:
 	# Check all zombies and fade them based on distance from player
+	if not zombies_node:
+		return
+	
 	for zombie in zombies_node.get_children():
 		if not zombie or not is_instance_valid(zombie):
 			continue
