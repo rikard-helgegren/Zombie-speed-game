@@ -3,8 +3,10 @@ extends ColorRect
 @export var vision_radius: float = 300.0
 @export var fog_opacity: float = 0.6  # 0 = fully transparent, 1 = fully opaque
 @export var edge_softness: float = 100.0  # How soft the fade edges are
+var player: Node2D
 var game_manager: Node
 var world: Node
+var zombies_node: Node2D
 
 func _ready() -> void:
 		# Hidden by default (only show during levels)
@@ -33,9 +35,30 @@ func _setup_signal_connections() -> void:
 		
 func _on_level_started() -> void:
 		visible = true
+		# Get player and zombies node
+		var players = get_tree().get_nodes_in_group("player")
+		if players.size() > 0:
+			player = players[0]
+		else:
+			await get_tree().process_frame
+			players = get_tree().get_nodes_in_group("player")
+			if players.size() > 0:
+				player = players[0]
+		
+		# Get zombies node
+		zombies_node = get_tree().get_first_node_in_group("world")
+		if zombies_node:
+			zombies_node = zombies_node.get_node("Zombies")
 
 func _on_level_cleared() -> void:
 		visible = false
+		# Reset zombie visibility
+		if zombies_node:
+			for zombie in zombies_node.get_children():
+				if zombie and is_instance_valid(zombie):
+					var modulation = zombie.modulate
+					modulation.a = 1.0
+					zombie.modulate = modulation
 
 func _process(_delta: float) -> void:
 	if visible:
@@ -43,3 +66,29 @@ func _process(_delta: float) -> void:
 		material.set_shader_parameter("vision_radius", vision_radius)
 		material.set_shader_parameter("fog_opacity", fog_opacity)
 		material.set_shader_parameter("edge_softness", edge_softness)
+		
+		# Update zombie visibility
+		if player and zombies_node:
+			update_zombie_visibility()
+
+func update_zombie_visibility() -> void:
+	# Check all zombies and fade them based on distance from player
+	for zombie in zombies_node.get_children():
+		if not zombie or not is_instance_valid(zombie):
+			continue
+		
+		var distance = player.global_position.distance_to(zombie.global_position)
+		
+		# Calculate visibility alpha using smoothstep for smooth fade
+		var alpha = 0.0
+		if distance < vision_radius:
+			# Fully visible inside radius
+			alpha = 1.0
+		else:
+			# Fade out at the edge
+			alpha = 1.0 - smoothstep(vision_radius, vision_radius + edge_softness, distance)
+		
+		# Apply to zombie's modulation
+		var modulation = zombie.modulate
+		modulation.a = alpha
+		zombie.modulate = modulation
