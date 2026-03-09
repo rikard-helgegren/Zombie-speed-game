@@ -34,6 +34,8 @@ var has_heard_sound: bool = false
 
 var recoil_velocity: Vector2 = Vector2.ZERO
 var recoil_time_left: float = 0.0
+var grapple_velocity: Vector2 = Vector2.ZERO
+var grapple_active := false
 
 const FACING_EPSILON := 0.01
 var hitbox_shape_default_position: Vector2
@@ -108,11 +110,20 @@ func update_navigation_target():
 		agent.target_position = target.global_position
 
 func move_zombie():
+	
 	# Recoil overrides everything
 	if recoil_time_left > 0.0:
 		update_facing_from_x(recoil_velocity.x)
 		velocity = recoil_velocity
 		recoil_time_left -= get_physics_process_delta_time()
+		move_and_slide()
+		return
+
+	
+	# Grapple pull overrides normal movement while active.
+	if grapple_active:
+		update_facing_from_x(grapple_velocity.x)
+		velocity = grapple_velocity
 		move_and_slide()
 		return
 
@@ -131,6 +142,15 @@ func move_zombie():
 	else:
 		velocity = Vector2.ZERO
 		move_and_slide()
+
+
+func apply_grapple_pull(direction: Vector2, speed: float) -> void:
+	grapple_velocity = direction.normalized() * speed
+	grapple_active = true
+
+
+func clear_grapple_pull() -> void:
+	grapple_active = false
 
 func update_facing_from_x(x_direction: float) -> void:
 	if absf(x_direction) <= FACING_EPSILON:

@@ -14,3 +14,7 @@ func _process(_delta):
 		emit_signal("action_input", "shoot")
 	if Input.is_action_just_pressed("reload"): # 'R'
 		emit_signal("action_input", "reload")
+	if Input.is_action_just_pressed("grapple"): # E
+		emit_signal("action_input", "grapple_hold_start")
+	if Input.is_action_just_released("grapple"):
+		emit_signal("action_input", "grapple_hold_end")

@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://3u5enf8wkqfo" path="res://src/assets/art/weapons/x-hair.png" id="2_2kda4"]
 
 [node name="Crosshair" type="Node2D"]
+z_index = 90
 script = ExtResource("1_tdqng")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

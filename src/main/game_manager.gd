@@ -38,7 +38,6 @@ var _upgrade_menu: Node
 
 func _ready():
 	add_to_group("game_manager")
-	print("[GameManager] Registered in game_manager group")
 	var world := get_tree().get_first_node_in_group("world")
 	world.level_cleared.connect(_on_level_cleared)
 
@@ -48,7 +47,6 @@ func register_world(world: World) -> void:
 
 
 func _on_level_cleared():
-	print("[GameManager] Level cleared")
 	load_upgrade_menu()
 	
 func _unhandled_input(event):
@@ -97,7 +95,6 @@ func load_level(index: int) -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	
 	# Emit level started signal
-	print("[GameManager] Emitting level_started signal")
 	level_started.emit()
 	
 func load_first_level():
