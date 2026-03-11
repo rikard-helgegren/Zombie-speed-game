@@ -6,8 +6,10 @@ func _init() -> void:
 	fire_rate = 0.5 - minf(0.4, 0.1 * Global.player_fire_rate_modifier)
 	damage = 2 + Global.player_damage_modifier
 	max_ammo = 3 + Global.player_ammo_modifier
+	print("Debug max_ammo set (pistol init): max_ammo=", max_ammo)
 	
 	ammo = max_ammo
+	print("Debug ammo set (pistol init): ammo=", ammo, " max_ammo=", max_ammo)
 	
 
 @onready var muzzle_flash: MuzzleFlash = $Muzzle

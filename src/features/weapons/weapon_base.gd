@@ -25,6 +25,7 @@ func _ready():
 		default_muzzle_pos = muzzle.position
 		
 	ammo = max_ammo
+	print("Debug ammo set: ammo=", ammo, " max_ammo=", max_ammo)
 		
 		
 func set_aim_direction(direction: Vector2):
@@ -87,7 +88,9 @@ func hitscan_fire(damage: int, max_distance := 1000.0):
 
 
 func consume_ammo():
+	var prev_ammo := ammo
 	ammo -= 1
+	print("Debug ammo adjusted: ammo=", ammo, " (was ", prev_ammo, ") max_ammo=", max_ammo)
 	EventBus.player_ammo_changed.emit(ammo)
 	
 	if ammo <= 0:
@@ -95,7 +98,9 @@ func consume_ammo():
 
 func reload():
 	reloading = true
+	var prev_ammo := ammo
 	ammo = max_ammo
+	print("Debug ammo set (reload): ammo=", ammo, " (was ", prev_ammo, ") max_ammo=", max_ammo)
 	
 	var delay = maxf(0.7 - 0.1 * Global.player_reload_speed_modifier, 0.1)
 	$HolsterOff.play()

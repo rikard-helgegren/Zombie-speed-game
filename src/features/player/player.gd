@@ -24,6 +24,7 @@ var state: PlayerState = PlayerState.IDLE
 var new_state: PlayerState = PlayerState.IDLE
 var is_alive := true
 var hook_weapon_selected := false
+var _action_blocked := false
 
 var max_ammo := 10
 var ammo: int = max_ammo
@@ -46,6 +47,11 @@ func _ready():
 	
 	add_to_group("player")
 	
+	if game_manager and game_manager.has_signal("level_started"):
+		game_manager.level_started.connect(_on_level_started)
+	
+	_start_action_cooldown()
+	
 	
 func _physics_process(delta):
 	Global.player_position = global_position
@@ -66,6 +72,8 @@ func _on_move_input(direction: Vector2):
 	move_direction = direction
 
 func _on_action_input(action_name: String):
+	if _action_blocked:
+		return
 	if is_alive:
 			match action_name:
 				"shoot":
@@ -103,7 +111,19 @@ func move_player(_delta):
 	move_and_slide()
 
 
+func _on_level_started() -> void:
+	_start_action_cooldown()
+
+
+# Avoid shooting gun when starting level.
+func _start_action_cooldown() -> void:
+	_action_blocked = true
+	await get_tree().create_timer(0.5, true).timeout
+	_action_blocked = false
+
+
 func shoot():
+	print("Player shoot called. hook_weapon_selected=", hook_weapon_selected)
 	if weapon:
 		weapon.fire()
 
