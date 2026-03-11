@@ -70,7 +70,6 @@ func _ready():
 	MySoundEventSystem.sound_emitted.connect(_on_sound_emitted)
 
 func _physics_process(delta):
-	queue_redraw()
 	# Update nav agent target every frame during walking to track the player
 	# or investigated sound location, then check if we've arrived.
 	if state == ZombieState.WALK:
