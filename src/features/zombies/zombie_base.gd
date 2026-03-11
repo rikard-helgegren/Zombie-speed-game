@@ -38,11 +38,13 @@ var grapple_velocity: Vector2 = Vector2.ZERO
 var grapple_active := false
 
 const FACING_EPSILON := 0.01
+const NAV_UPDATE_INTERVAL := 0.2
 var hitbox_shape_default_position: Vector2
 var hitbox_shape_default_rotation: float
 var body_collision_shape_default_position: Vector2
 var body_collision_shape_default_rotation: float
 var facing_pivot_x: float
+var _nav_update_timer := 0.0
 
 # FSM
 enum ZombieState { IDLE, WALK, ATTACK, DIE }
@@ -67,12 +69,15 @@ func _ready():
 		hit_splatter.visible = false
 	MySoundEventSystem.sound_emitted.connect(_on_sound_emitted)
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	queue_redraw()
 	# Update nav agent target every frame during walking to track the player
 	# or investigated sound location, then check if we've arrived.
 	if state == ZombieState.WALK:
-		update_navigation_target()
+		_nav_update_timer += delta
+		if _nav_update_timer >= NAV_UPDATE_INTERVAL:
+			_nav_update_timer = 0.0
+			update_navigation_target()
 		if agent.is_navigation_finished():
 			# we've reached whatever destination the agent was heading for
 			if has_heard_sound:
@@ -251,6 +256,7 @@ func change_state(new: ZombieState):
 	state = new
 
 	if state == ZombieState.WALK:
+		_nav_update_timer = NAV_UPDATE_INTERVAL
 		update_navigation_target()
 
 func player_in_range(range_to_player: float) -> bool:
