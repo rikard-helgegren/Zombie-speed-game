@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbo26ukbsc7ok"]
+
+[ext_resource type="Texture2D" uid="uid://r61txy4i7anu" path="res://src/assets/art/environment/house/church.png" id="1_xg542"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rcuot"]
+texture = ExtResource("1_xg542")
+4:2/size_in_atlas = Vector2i(55, 59)
+4:2/0 = 0
+4:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-385.79037, 426.05316, -234.9881, 421.66083, -237.91626, 448.01465, -145.67798, 445.08643, 242.30853, 446.55054, 240.84442, 428.98132, 406.28778, 424.58905, 398.96722, 73.20502, 248.16498, 76.13324, 117.86005, -14.640991, -109.07544, -20.497406, -234.9881, 74.66913, -390.18268, 79.0614)
+
+[sub_resource type="TileSet" id="TileSet_wm14y"]
+physics_layer_0/collision_layer = 8
+physics_layer_0/collision_mask = 8
+sources/0 = SubResource("TileSetAtlasSource_rcuot")
+
+[node name="Buldings" type="TileMapLayer"]
+tile_set = SubResource("TileSet_wm14y")

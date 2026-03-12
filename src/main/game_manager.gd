@@ -43,9 +43,6 @@ func _ready():
 	var world := get_tree().get_first_node_in_group("world")
 	world.level_cleared.connect(_on_level_cleared)
 
-	#debug performance remove:
-	Global.spawner_extra_zombies = 50
-
 func register_world(world: World) -> void:
 	_current_world = world
 	world.level_cleared.connect(_on_level_cleared)
