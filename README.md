@@ -35,22 +35,6 @@ Adjust these to match the actual input mapping in the project.
 
 **Development & Contributing**
 
-- **Work in progress:**: This README is a starter. Use `TODO.md` to find tasks and project priorities.
 - **Contributing:**: Fork, add a branch for your change, and open a pull request. Include screenshots and short notes for gameplay changes.
 - **Testing:**: Add small reproducible steps for bugs and include expected vs actual behavior.
 
-**Files of interest**
-
-- `overview` — design notes and goals for the project.
-- `TODO.md` — short-term tasks and priorities.
-- `README.md` — this file.
-
-**License & Contact**
-
-- **License:**: Add a license file (`LICENSE`) when ready.
-- **Contact:**: Open an issue or PR on this repository to discuss features.
-
----
-
-Notes:
-- This is intentionally minimal. Replace placeholders with engine-specific setup and expand the Features and Controls sections once the implementation details are known.

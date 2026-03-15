@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://ds2ubtl53ll2b"]
+
+[ext_resource type="Texture2D" uid="uid://canmbs6rj7btn" path="res://src/assets/art/environment/walls/wall-block-2.png" id="2_2cpv7"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6ktpq"]
+texture = ExtResource("2_2cpv7")
+texture_region_size = Vector2i(2, 2)
+0:0/size_in_atlas = Vector2i(34, 51)
+0:0/0 = 0
+0:0/0/y_sort_origin = 40
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-33.54225, 51.470016, -33.950134, -16.64862, 33.950127, -16.866251, 34.698883, 51.470016)
+
+[sub_resource type="TileSet" id="TileSet_6ktpq"]
+tile_size = Vector2i(64, 64)
+physics_layer_0/collision_layer = 1
+physics_layer_0/collision_mask = 15
+sources/1 = SubResource("TileSetAtlasSource_6ktpq")
+
+[node name="WallsBlock" type="TileMapLayer"]
+visibility_layer = 31
+y_sort_enabled = true
+scale = Vector2(3.435027, 2.6655514)
+tile_set = SubResource("TileSet_6ktpq")

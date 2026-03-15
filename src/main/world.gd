@@ -13,6 +13,8 @@ var active_spawners := 0
 
 func _ready():
 	add_to_group("world")
+	Global.zombies_node = zombies
+	print("World: zombies node set -> ", zombies, " path=", zombies.get_path())
 
 
 func request_zombie_spawn(position: Vector2,

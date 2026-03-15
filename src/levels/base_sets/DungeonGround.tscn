@@ -1,0 +1,74 @@
+[gd_scene load_steps=7 format=3 uid="uid://dtwnia5u5c2rj"]
+
+[ext_resource type="Texture2D" uid="uid://chkcp454nauyu" path="res://src/assets/art/environment/floor/TX Tileset Stone Ground-dark.png" id="1_crpnt"]
+[ext_resource type="Texture2D" uid="uid://ce2enef7vc0x6" path="res://src/assets/art/environment/floor/no-walk-Stone-Ground-dark.png" id="2_fdla1"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_crpnt"]
+vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
+agent_radius = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fdla1"]
+texture = ExtResource("1_crpnt")
+1:1/0 = 0
+1:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_crpnt")
+2:1/0 = 0
+2:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_crpnt")
+2:2/0 = 0
+2:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_crpnt")
+3:2/0 = 0
+3:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_crpnt")
+3:3/0 = 0
+3:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_crpnt")
+1:2/0 = 0
+1:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_crpnt")
+1:3/0 = 0
+1:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_crpnt")
+2:3/0 = 0
+2:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_crpnt")
+4:3/0 = 0
+4:3/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_crpnt")
+4:2/0 = 0
+4:2/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_crpnt")
+4:1/0 = 0
+4:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_crpnt")
+3:1/0 = 0
+3:1/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_crpnt")
+1:4/0 = 0
+1:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_crpnt")
+2:4/0 = 0
+2:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_crpnt")
+3:4/0 = 0
+3:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_crpnt")
+4:4/0 = 0
+4:4/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_crpnt")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_imwxs"]
+texture = ExtResource("2_fdla1")
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+2:2/0 = 0
+1:2/0 = 0
+1:3/0 = 0
+3:3/0 = 0
+2:3/0 = 0
+3:2/0 = 0
+4:1/0 = 0
+4:2/0 = 0
+4:4/0 = 0
+4:3/0 = 0
+3:4/0 = 0
+2:4/0 = 0
+1:4/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_imwxs"]
+navigation_layer_0/layers = 1
+sources/1 = SubResource("TileSetAtlasSource_fdla1")
+sources/2 = SubResource("TileSetAtlasSource_imwxs")
+
+[node name="DungeonGround" type="TileMapLayer"]
+z_index = -1
+y_sort_enabled = true
+tile_set = SubResource("TileSet_imwxs")

@@ -10,3 +10,5 @@ var player_hp_modifier := 0
 
 var spawner_extra_zombies := 0
 var zombies_extra_speed := 0
+
+var zombies_node: Node2D = null

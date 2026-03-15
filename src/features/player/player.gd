@@ -123,7 +123,6 @@ func _start_action_cooldown() -> void:
 
 
 func shoot():
-	print("Player shoot called. hook_weapon_selected=", hook_weapon_selected)
 	if weapon:
 		weapon.fire()
 

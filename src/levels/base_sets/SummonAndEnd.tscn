@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://g2d57yfxsw1q"]
+
+[ext_resource type="Script" uid="uid://bt2gjfms18ldu" path="res://src/levels/base_sets/summon_and_end.gd" id="1_8r7l3"]
+[ext_resource type="Texture2D" uid="uid://bwcxcjmaxd3ls" path="res://src/assets/art/environment/props/TX Props-dark.png" id="1_vpary"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8r7l3"]
+texture = ExtResource("1_vpary")
+22:16/size_in_atlas = Vector2i(6, 6)
+22:16/0 = 0
+22:16/0/y_sort_origin = -50
+
+[sub_resource type="TileSet" id="TileSet_xhqwp"]
+sources/0 = SubResource("TileSetAtlasSource_8r7l3")
+
+[node name="SummonAndEnd" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_8r7l3")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+y_sort_enabled = true
+position = Vector2(8, -8)
+tile_map_data = PackedByteArray(0, 0, 255, 255, 0, 0, 0, 0, 22, 0, 16, 0, 0, 0)
+tile_set = SubResource("TileSet_xhqwp")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+physics_interpolation_mode = 2
+polygon = PackedVector2Array(35, -19, 43, -6, 43, 9, 36, 22, 28, 30, 21, 34, 11, 36, -1, 37, -20, 31, -39, 21, -44, 12, -46, 7, -47, 4, -47, -2, -45, -8, -37, -16, -29, -24, -15, -30, 2, -33, 21, -26)

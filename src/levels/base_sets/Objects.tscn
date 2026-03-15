@@ -44,6 +44,9 @@ texture = ExtResource("1_xh28h")
 28:7/size_in_atlas = Vector2i(2, 3)
 28:7/0 = 0
 28:7/0/physics_layer_0/polygon_0/points = PackedVector2Array(-2.428093, 8, -6.205124, 8, -7.1044235, 10.881454, -6.205124, 13.759193, 1.1690826, 14.118912, 6.0252686, 12.680038, 6.0252686, 9.982159, 3.5072403, 8)
+22:16/size_in_atlas = Vector2i(6, 6)
+22:16/0 = 0
+22:16/0/y_sort_origin = -40
 
 [sub_resource type="TileSet" id="TileSet_0g8k3"]
 physics_layer_0/collision_layer = 8
