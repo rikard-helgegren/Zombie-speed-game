@@ -10,7 +10,7 @@ class_name GrapplingHook
 @onready var hook_sprite: Sprite2D = $Hook
 @onready var gun_sprite: Sprite2D = $Gun
 @onready var gun_and_hook_sprite: Sprite2D = $GunAndHook
-@onready var hook_connection: Node2D = $Hook/conectionPointHook
+@onready var hook_connection: Node2D = $Hook/ConectionPointHook
 @onready var gun_connection: Node2D = $Gun/ConnectionpiontGun
 
 var active := false
@@ -69,7 +69,7 @@ func set_aim_direction(direction: Vector2) -> void:
 	gun_sprite.flip_v = facing_left
 	gun_and_hook_sprite.flip_v = facing_left
 	if gun_connection:
-		gun_connection.position.x = -_gun_connection_base.x if facing_left else _gun_connection_base.x
+		gun_connection.position.y = -_gun_connection_base.y if facing_left else _gun_connection_base.y
 	var rotated_offset := _equipped_offset_base.rotated(rotation)
 	_equipped_offset = rotated_offset
 	gun_sprite.position = _equipped_offset
