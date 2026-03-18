@@ -1,0 +1,62 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7b7j5j2x2q7y"]
+
+[ext_resource type="Script" uid="uid://jwvhwjq27kk" path="res://src/ui/menus/settings_menu.gd" id="1_3k2m7"]
+
+[node name="SettingsMenu" type="PanelContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -298.0
+offset_top = -202.0
+offset_right = -79.08093
+offset_bottom = -74.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2.9599986, 2.920002)
+script = ExtResource("1_3k2m7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="SettingsTitle" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+horizontal_alignment = 1
+
+[node name="MusicRow" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MusicLabel" type="Label" parent="VBoxContainer/MusicRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Music"
+
+[node name="MusicSlider" type="HSlider" parent="VBoxContainer/MusicRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+
+[node name="SfxRow" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="SfxLabel" type="Label" parent="VBoxContainer/SfxRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Game Sounds"
+
+[node name="SfxSlider" type="HSlider" parent="VBoxContainer/SfxRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+
+[node name="Back" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[connection signal="value_changed" from="VBoxContainer/MusicRow/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/SfxRow/SfxSlider" to="." method="_on_sfx_slider_value_changed"]
+[connection signal="pressed" from="VBoxContainer/Back" to="." method="_on_back_pressed"]

@@ -1,0 +1,221 @@
+[gd_scene load_steps=2 format=3 uid="uid://dly8waujsbja3"]
+
+[ext_resource type="Script" uid="uid://bv7puwtc6yalu" path="res://src/ui/menus/controls_menu.gd" id="1_controls"]
+
+[node name="ControlsMenu" type="PanelContainer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -179.00006
+offset_top = -262.00003
+offset_right = 95.94867
+offset_bottom = 39.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.4986082, 1.737211)
+script = ExtResource("1_controls")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ControlsTitle" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Controls"
+horizontal_alignment = 1
+
+[node name="GridContainerComputer" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="MoveLabel" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+text = "Move"
+
+[node name="MoveValue" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "WASD / Arrow Keys"
+horizontal_alignment = 2
+
+[node name="AimLabel" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+text = "Aim"
+
+[node name="AimValue" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Mouse"
+horizontal_alignment = 2
+
+[node name="ShootLabel" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+text = "Shoot"
+
+[node name="ShootValue" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Space / Left Click"
+horizontal_alignment = 2
+
+[node name="GrappleLabel" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+text = "Grapple"
+
+[node name="GrappleValue" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "E"
+horizontal_alignment = 2
+
+[node name="DashLabel" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+text = "Dash"
+
+[node name="DashValue" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Shift"
+horizontal_alignment = 2
+
+[node name="ReloadLabel" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+text = "Reload"
+
+[node name="ReloadValue" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "R"
+horizontal_alignment = 2
+
+[node name="SelectLabel" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+text = "Select"
+
+[node name="SelectValue" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "F"
+horizontal_alignment = 2
+
+[node name="PauseLabel" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+text = "Pause"
+
+[node name="PauseValue" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Esc or P"
+horizontal_alignment = 2
+
+[node name="ExitLabel" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+text = "Exit"
+
+[node name="ExitValue" type="Label" parent="VBoxContainer/GridContainerComputer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Esc"
+horizontal_alignment = 2
+
+[node name="GridContainerXbox" type="GridContainer" parent="VBoxContainer"]
+visible = false
+layout_mode = 2
+columns = 2
+
+[node name="MoveLabel" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+text = "Move"
+
+[node name="MoveValue" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Left Stick"
+horizontal_alignment = 2
+
+[node name="AimLabel" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+text = "Aim"
+
+[node name="AimValue" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Not Bound"
+horizontal_alignment = 2
+
+[node name="ShootLabel" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+text = "Shoot"
+
+[node name="ShootValue" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Button 1 / D-Pad Up"
+horizontal_alignment = 2
+
+[node name="GrappleLabel" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+text = "Grapple"
+
+[node name="GrappleValue" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Not Bound"
+horizontal_alignment = 2
+
+[node name="DashLabel" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+text = "Dash"
+
+[node name="DashValue" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "RT"
+horizontal_alignment = 2
+
+[node name="ReloadLabel" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+text = "Reload"
+
+[node name="ReloadValue" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Button 3"
+horizontal_alignment = 2
+
+[node name="SelectLabel" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+text = "Select"
+
+[node name="SelectValue" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Button 0"
+horizontal_alignment = 2
+
+[node name="PauseLabel" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+text = "Pause"
+
+[node name="PauseValue" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Button 15"
+horizontal_alignment = 2
+
+[node name="ExitLabel" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+text = "Exit"
+
+[node name="ExitValue" type="Label" parent="VBoxContainer/GridContainerXbox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Not Bound"
+horizontal_alignment = 2
+
+[node name="Back" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Back"
+
+[connection signal="pressed" from="VBoxContainer/Back" to="." method="_on_back_pressed"]

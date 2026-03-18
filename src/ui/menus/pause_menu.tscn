@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c5pdt62mraq4e"]
+[gd_scene load_steps=6 format=3 uid="uid://c5pdt62mraq4e"]
 
 [ext_resource type="Script" uid="uid://ik083vll1btq" path="res://src/ui/menus/pause_menu.gd" id="1_xfja3"]
 [ext_resource type="Shader" uid="uid://c7c2m5hgggai5" path="res://src/ui/menus/blur_overlay.gdshader" id="2_c0x8x"]
+[ext_resource type="PackedScene" uid="uid://b7b7j5j2x2q7y" path="res://src/ui/menus/settings_menu.tscn" id="3_6t8lo"]
+[ext_resource type="PackedScene" uid="uid://dly8waujsbja3" path="res://src/ui/menus/controls_menu.tscn" id="4_controls"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_aorvp"]
 shader = ExtResource("2_c0x8x")
@@ -47,10 +49,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -97.0
-offset_top = -197.0
-offset_right = -27.0
-offset_bottom = -69.0
+offset_left = -108.0
+offset_top = -284.0
+offset_right = -16.0
+offset_bottom = -86.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(2.9599986, 2.920002)
@@ -71,10 +73,45 @@ text = "Resume"
 layout_mode = 2
 text = "Restart"
 
+[node name="Settings" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="Controls" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Controls"
+
 [node name="Quit" type="Button" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-text = "Quit"
+text = "Quit Game"
+
+[node name="SettingsMenu" parent="." instance=ExtResource("3_6t8lo")]
+visible = false
+layout_mode = 0
+anchors_preset = 0
+offset_left = -263.00003
+offset_top = -197.0
+offset_right = -44.080994
+offset_bottom = -69.0
+
+[node name="ControlsMenu" parent="." instance=ExtResource("4_controls")]
+visible = false
+layout_mode = 0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -179.00006
+offset_top = -262.00003
+offset_right = 95.94867
+offset_bottom = 39.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.4986082, 1.737211)
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Controls" to="." method="_on_controls_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

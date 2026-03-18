@@ -15,6 +15,8 @@ var can_fire := true
 var ammo : int
 var facing_left := false
 var reloading := false
+var _sfx_players: Array[AudioStreamPlayer2D] = []
+var _sfx_base_db: Dictionary = {}
 
 
 func _ready():
@@ -25,6 +27,33 @@ func _ready():
 		default_muzzle_pos = muzzle.position
 		
 	ammo = max_ammo
+	_init_sfx_players()
+
+func _exit_tree() -> void:
+	if AudioManager and AudioManager.sfx_volume_changed.is_connected(_on_sfx_volume_changed):
+		AudioManager.sfx_volume_changed.disconnect(_on_sfx_volume_changed)
+
+func _init_sfx_players() -> void:
+	_sfx_players.clear()
+	_sfx_base_db.clear()
+	var players = find_children("*", "AudioStreamPlayer2D", true, false)
+	for player in players:
+		_sfx_players.append(player)
+		_sfx_base_db[player.get_instance_id()] = player.volume_db
+	_apply_sfx_volume()
+	if AudioManager and not AudioManager.sfx_volume_changed.is_connected(_on_sfx_volume_changed):
+		AudioManager.sfx_volume_changed.connect(_on_sfx_volume_changed)
+
+func _on_sfx_volume_changed(_value: float) -> void:
+	_apply_sfx_volume()
+
+func _apply_sfx_volume() -> void:
+	var offset_db = AudioManager.get_sfx_volume_db_offset()
+	for player in _sfx_players:
+		if not is_instance_valid(player):
+			continue
+		var base_db = _sfx_base_db.get(player.get_instance_id(), player.volume_db)
+		player.volume_db = base_db + offset_db
 		
 		
 func set_aim_direction(direction: Vector2):
