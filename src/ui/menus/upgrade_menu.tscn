@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bqrh1xv2143ef" path="res://src/ui/menus/upgrade_menu.gd" id="1_oj2w3"]
 [ext_resource type="Texture2D" uid="uid://7cuqb0uuawrs" path="res://src/assets/art/HUD/ammo.png" id="2_3tbj3"]
 [ext_resource type="Texture2D" uid="uid://dwiew1do81b2m" path="res://src/assets/art/backgrounds/upgrade2.png" id="2_wjep2"]
-[ext_resource type="Texture2D" uid="uid://drtt6qib8aj12" path="res://src/assets/art/HUD/hearts_full.png" id="3_kba5d"]
+[ext_resource type="Texture2D" uid="uid://bq78dhne73a8c" path="res://src/assets/art/weapons/pistol.png" id="4_kba5d"]
 
 [node name="UpgardeMenu" type="Control"]
 layout_mode = 3
@@ -60,7 +60,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_3tbj3")
 expand_mode = 1
-stretch_mode = 4
+stretch_mode = 5
 
 [node name="Panel2" type="Panel" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(128, 128)
@@ -75,9 +75,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_kba5d")
+texture = ExtResource("4_kba5d")
 expand_mode = 1
-stretch_mode = 4
+stretch_mode = 5
 
 [node name="infoText" type="Label" parent="VBoxContainer"]
 layout_mode = 2

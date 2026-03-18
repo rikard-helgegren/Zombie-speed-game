@@ -69,11 +69,8 @@ layer = 100
 
 [node name="StartMenu" parent="UI" instance=ExtResource("4_ufkep")]
 
-[node name="UpgradeMenu" type="Control" parent="UI"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="UpgardeMenu" parent="UI" instance=ExtResource("5_ufkep")]
+visible = false
 
 [node name="GameManager" parent="." instance=ExtResource("4_xd34j")]
 process_mode = 3
