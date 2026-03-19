@@ -1,7 +1,5 @@
 extends Control
 
-const MENU_MUSIC_PATH := "res://src/assets/audio/music/deuslower-dark-ambient-emotions/main.mp3"
-
 @onready var start_button := $MarginContainer/VBoxContainer/Button
 @onready var level_selector := $MarginContainer/VBoxContainer/OptionButton
 
@@ -11,7 +9,7 @@ const MENU_MUSIC_PATH := "res://src/assets/audio/music/deuslower-dark-ambient-em
 #TODO: make button shaded when having focus
 
 func _ready():
-	AudioManager.play_music_path(MENU_MUSIC_PATH)
+	AudioManager.play_music_clip("music_start_menu")
 
 	# Populate level selector
 	level_selector.clear()

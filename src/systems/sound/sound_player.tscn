@@ -6,7 +6,7 @@
 script = ExtResource("1_4fo7f")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-volume_db = -40.0
+volume_db = 0.0
 autoplay = true
 
 [connection signal="finished" from="AudioStreamPlayer2D" to="." method="_on_audio_stream_player_2d_finished"]

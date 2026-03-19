@@ -2,10 +2,12 @@ extends Node2D
 
 @onready var player := $AudioStreamPlayer2D
 @onready var _base_volume_db: float = player.volume_db
+@onready var _base_pitch_scale: float = player.pitch_scale
 
 func play(stream: AudioStream, pos: Vector2, delay: float):
 	player.stream = stream
-	player.volume_db = _base_volume_db + AudioManager.get_sfx_volume_db_offset()
+	player.volume_db = _base_volume_db + AudioManager.get_sfx_volume_db_offset() + AudioManager.get_sfx_clip_db(stream)
+	player.pitch_scale = _base_pitch_scale * AudioManager.get_sfx_clip_pitch(stream)
 	global_position = pos
 	
 	await get_tree().create_timer(delay).timeout

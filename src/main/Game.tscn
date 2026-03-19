@@ -78,6 +78,7 @@ pause_menu_path = NodePath("../UI/PauseMenu")
 levels = Array[PackedScene]([ExtResource("8_8n4em"), ExtResource("8_3ryma"), ExtResource("8_846yi"), ExtResource("3_y1g32")])
 level_container_path = NodePath("../World/Levels")
 player_node_path = NodePath("../World/Player")
+world_node_path = null
 zombies_node_path = NodePath("../World/Zombies")
 ui_layer_path = NodePath("../UI")
 all_upgrades = Array[ExtResource("10_fo4vm")]([ExtResource("11_21ye4"), ExtResource("12_3ryma"), ExtResource("13_0kwkg"), ExtResource("14_846yi"), ExtResource("15_8n4em"), ExtResource("16_po5mj")])

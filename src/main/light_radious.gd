@@ -94,7 +94,6 @@ func update_zombie_visibility() -> void:
 			_original_mods[zombie] = zombie.modulate
 		
 		var distance = player.global_position.distance_to(zombie.global_position)
-		
 		# visibility factor v: 0 when fully outside, 1 at vision_radius
 		var v = clamp((vision_radius + edge_softness - distance) / edge_softness, 0.0, 1.0)
 		# smooth it for gradient

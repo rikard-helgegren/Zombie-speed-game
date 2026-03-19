@@ -1,0 +1,23 @@
+# Gemini Code Assist Configuration
+version: 1.0
+
+project:
+  # Explicitly include the root directory
+  root: "."
+  
+  # Fine-tune what the AI should index for context
+  context:
+    include:
+      - "./src/**/*"        # Your source code
+      - "README.md"         # High-level architecture info
+      
+    exclude:
+      - "**/node_modules/**" # Don't let it get lost in dependency hell
+      - "**/dist/**"         # Ignore build artifacts
+      - "**/.git/**"         # Ignore version control internals
+      - "*.log"              # Ignore noise
+
+# Behavior overrides
+search:
+  max_results: 50           # Increase the number of file matches it considers
+  depth: 10                 # How deep into the folder tree it should dig

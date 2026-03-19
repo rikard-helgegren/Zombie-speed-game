@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://bfu3nao6fn6yi"]
+[gd_scene load_steps=38 format=3 uid="uid://bfu3nao6fn6yi"]
 
 [ext_resource type="Script" uid="uid://cbbsj5l3rhdax" path="res://src/features/player/player.gd" id="1_oubcf"]
 [ext_resource type="Texture2D" uid="uid://bkw3x5fxnrn35" path="res://src/assets/art/player/idle/Idle (1).png" id="2_0ph83"]
@@ -32,6 +32,7 @@
 [ext_resource type="Texture2D" uid="uid://b8h73q5kqhob7" path="res://src/assets/art/player/run/Run (7).png" id="18_kpimf"]
 [ext_resource type="Texture2D" uid="uid://3mi7irudgew1" path="res://src/assets/art/player/run/Run (8).png" id="19_frcqk"]
 [ext_resource type="Script" uid="uid://dgmpxvpyy51x" path="res://src/features/weapons/weapon_base.gd" id="21_xmri6"]
+[ext_resource type="Script" uid="uid://y0qb0oo07bwn" path="res://src/features/player/game_camera.gd" id="30_qkicq"]
 [ext_resource type="AudioStream" uid="uid://d2r77uxforcns" path="res://src/assets/audio/sfx/powerup-off.ogg" id="31_ppdf5"]
 [ext_resource type="AudioStream" uid="uid://bdjewl3ykghgh" path="res://src/assets/audio/sfx/suffering-damage.mp3" id="32_52glq"]
 
@@ -161,6 +162,7 @@ autoplay = "idle"
 shape = SubResource("CapsuleShape2D_0ph83")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("30_qkicq")
 
 [node name="player_health" type="Node" parent="."]
 script = ExtResource("3_p2vpv")

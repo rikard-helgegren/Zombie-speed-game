@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfa1ed3l56ghh"]
+[gd_scene load_steps=9 format=3 uid="uid://cfa1ed3l56ghh"]
 
 [ext_resource type="Script" uid="uid://k47x4dd8nu6m" path="res://src/features/weapons/grapling_hook/grapling_hook.gd" id="1_2p4rh"]
 [ext_resource type="Texture2D" uid="uid://co2116oj4po6l" path="res://src/assets/art/weapons/rope.png" id="3_4r1bd"]
 [ext_resource type="Texture2D" uid="uid://dnx2mrowb67ef" path="res://src/assets/art/weapons/gray-grapling-hook.png" id="4_5e2qt"]
 [ext_resource type="Texture2D" uid="uid://bw70360tv550l" path="res://src/assets/art/weapons/gray-grapling-gun.png" id="5_v0j1e"]
 [ext_resource type="Texture2D" uid="uid://cimnny817ysjt" path="res://src/assets/art/weapons/gray-grapling-hook-gun.png" id="6_6nr74"]
+[ext_resource type="AudioStream" uid="uid://d4bqh1lcifaus" path="res://src/assets/audio/sfx/graplinghook/wire-whoosh-no-reverb-short.mp3" id="7_vxq4w"]
+[ext_resource type="AudioStream" uid="uid://cx4gm36lympsc" path="res://src/assets/audio/sfx/graplinghook/grappling-hook-hit-object.mp3" id="8_8j0ve"]
+[ext_resource type="AudioStream" uid="uid://drfqq3bigb776" path="res://src/assets/audio/sfx/graplinghook/cable-tieghtening-short.mp3" id="9_3o2nq"]
 
 [node name="GraplingHook" type="Node2D"]
 script = ExtResource("1_2p4rh")
@@ -36,3 +39,12 @@ scale = Vector2(-84.681816, -11.926463)
 position = Vector2(43, -5)
 scale = Vector2(-0.056690674, 0.0511068)
 texture = ExtResource("6_6nr74")
+
+[node name="FireWhoosh" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_vxq4w")
+
+[node name="HitObject" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_8j0ve")
+
+[node name="ReelTighten" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_3o2nq")

@@ -8,13 +8,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -298.0
-offset_top = -202.0
-offset_right = -79.08093
-offset_bottom = -74.0
+offset_left = -225.0
+offset_top = -251.0
+offset_right = -6.0809326
+offset_bottom = -33.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(2.9599986, 2.920002)
+scale = Vector2(2.0512316, 2.0095606)
 script = ExtResource("1_3k2m7")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -53,10 +53,45 @@ size_flags_horizontal = 3
 max_value = 1.0
 step = 0.01
 
+[node name="DevClipRow" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="DevClipLabel" type="Label" parent="VBoxContainer/DevClipRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Dev Clip
+
+"
+
+[node name="DevClipScroll" type="ScrollContainer" parent="VBoxContainer/DevClipRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_scroll_mode = 0
+
+[node name="DevClipList" type="VBoxContainer" parent="VBoxContainer/DevClipRow/DevClipScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DevClipVolumeRow" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="DevClipVolumeLabel" type="Label" parent="VBoxContainer/DevClipVolumeRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Volume"
+
+[node name="DevClipVolumeSlider" type="HSlider" parent="VBoxContainer/DevClipVolumeRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = -30.0
+max_value = 10.0
+step = 0.5
+
 [node name="Back" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Back"
 
 [connection signal="value_changed" from="VBoxContainer/MusicRow/MusicSlider" to="." method="_on_music_slider_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/SfxRow/SfxSlider" to="." method="_on_sfx_slider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/DevClipVolumeRow/DevClipVolumeSlider" to="." method="_on_dev_clip_volume_changed"]
 [connection signal="pressed" from="VBoxContainer/Back" to="." method="_on_back_pressed"]

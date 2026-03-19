@@ -1,7 +1,5 @@
 extends Control
 
-const MENU_MUSIC_PATH := "res://src/assets/audio/music/everything_is_dead-dark-ambient/main.mp3"
-
 @onready var upgrade_option_1 := $VBoxContainer/HBoxContainer/Panel1/TextureRect1
 @onready var upgrade_option_2 := $VBoxContainer/HBoxContainer/Panel2/TextureRect2
 @onready var panel_1 := $VBoxContainer/HBoxContainer/Panel1
@@ -49,7 +47,7 @@ func show_menu(upgrades: Array[UpgradeDef]):
 	selected_upgrade = -1
 	hovered_upgrade = -1
 
-	AudioManager.play_music_path(MENU_MUSIC_PATH)
+	AudioManager.play_music_clip("music_upgrade_menu")
 
 	upgrade_option_1.texture = upgrades[0].icon
 	upgrade_option_2.texture = upgrades[1].icon

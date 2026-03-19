@@ -11,7 +11,17 @@ class_name ZombieBase
 @export var attack_cooldown: float = 1.0  
 @export var recoil_strength: float = 220.0
 @export var recoil_duration: float = 0.06
+@export var groan_sound: AudioStream
+@export var groan_enabled := true
+@export var groan_start_distance: float = 600.0
+@export var groan_full_distance: float = 180.0
+@export var groan_min_db: float = -28.0
+@export var groan_max_db: float = -8.0
+@export var groan_fade_speed: float = 6.0
+@export var groan_cooldown_min: float = 2.0
+@export var groan_cooldown_max: float = 5.0
 
+const TAKE_DAMAGE_SOUNDS_DIR := "res://src/assets/audio/zombie_sounds/take-damage"
 
 @onready var hitbox: Hitbox = $Hitbox
 @onready var hitbox_shape: CollisionShape2D = $Hitbox/CollisionShape2D
@@ -36,6 +46,13 @@ var recoil_velocity: Vector2 = Vector2.ZERO
 var recoil_time_left: float = 0.0
 var grapple_velocity: Vector2 = Vector2.ZERO
 var grapple_active := false
+var _take_damage_sounds: Array[AudioStream] = []
+var _rng := RandomNumberGenerator.new()
+var _groan_player: AudioStreamPlayer2D = null
+var _groan_base_db: float = 0.0
+var _groan_base_pitch: float = 1.0
+var _groan_target_db: float = -80.0
+var _groan_cooldown_timer: float = 0.0
 
 const FACING_EPSILON := 0.01
 const NAV_UPDATE_INTERVAL := 0.2
@@ -53,6 +70,9 @@ var new_state: ZombieState = ZombieState.IDLE
 
 func _ready():
 	health = max_health
+	_rng.randomize()
+	_load_take_damage_sounds()
+	_init_groan_player()
 	var players = get_tree().get_nodes_in_group("player")
 	if players.size() > 0:
 		target = players[0]
@@ -89,6 +109,7 @@ func _physics_process(delta):
 		target = get_tree().get_first_node_in_group("player")
 		if target == null:
 			return
+	_update_groan_audio(delta)
 	
 	
 
@@ -183,6 +204,9 @@ func take_damage(amount: int, hit_dir: Vector2):
 	if hitbox:
 		hitbox.feedback_expand()
 	play_sound(hit_sound)
+	var damage_sound := _get_random_damage_sound()
+	if damage_sound:
+		play_sound(damage_sound, 0.2)
 	
 	change_state(ZombieState.WALK)
 	
@@ -199,10 +223,90 @@ func die():
 	emit_signal("zombie_died")
 	queue_free()
 
-func play_sound(sound : AudioStream):
+func play_sound(sound : AudioStream, delay := 0.0):
 	var player = preload("res://src/systems/sound/sound_player.tscn").instantiate()
 	get_tree().current_scene.add_child(player)
-	player.play(sound, global_position, 0.0)
+	player.play(sound, global_position, delay)
+
+func _init_groan_player() -> void:
+	if not groan_enabled:
+		return
+	var stream := groan_sound
+	if stream == null and AudioManager:
+		var path := AudioManager.get_clip_path("sfx_zombie_groan")
+		if path != "":
+			stream = load(path)
+	if stream == null:
+		return
+	if "loop" in stream:
+		stream.loop = false
+	_groan_player = AudioStreamPlayer2D.new()
+	_groan_player.name = "GroanPlayer"
+	_groan_player.stream = stream
+	_groan_player.autoplay = false
+	_groan_player.volume_db = -80.0
+	add_child(_groan_player)
+	_groan_base_db = _groan_player.volume_db
+	_groan_base_pitch = _groan_player.pitch_scale
+
+func _update_groan_audio(delta: float) -> void:
+	if not groan_enabled or not is_alive:
+		return
+	if _groan_player == null:
+		return
+	if target == null:
+		return
+	if state == ZombieState.WALK:
+		_groan_target_db = -80.0
+		_groan_player.stop()
+		_groan_cooldown_timer = 0.0
+		return
+
+	_groan_target_db = _compute_groan_target_db()
+	var clip_db := 0.0
+	var clip_pitch := 1.0
+	if AudioManager:
+		clip_db = AudioManager.get_sfx_clip_db(_groan_player.stream)
+		clip_pitch = AudioManager.get_sfx_clip_pitch(_groan_player.stream)
+	var sfx_offset := AudioManager.get_sfx_volume_db_offset() if AudioManager else 0.0
+	var target_db := _groan_target_db + sfx_offset + clip_db
+	_groan_player.volume_db = lerp(_groan_player.volume_db, target_db, clamp(groan_fade_speed * delta, 0.0, 1.0))
+	_groan_player.pitch_scale = _groan_base_pitch * clip_pitch
+	_groan_cooldown_timer -= delta
+	if _groan_cooldown_timer <= 0.0 and not _groan_player.playing:
+		_groan_player.play()
+		_groan_cooldown_timer = _rng.randf_range(groan_cooldown_min, groan_cooldown_max)
+
+func _compute_groan_target_db() -> float:
+	var dist := global_position.distance_to(target.global_position)
+	var range: float = maxf(groan_start_distance - groan_full_distance, 0.001)
+	var t : float = clamp((groan_start_distance - dist) / range, 0.0, 1.0)
+	return lerp(groan_min_db, groan_max_db, t)
+
+func _load_take_damage_sounds() -> void:
+	_take_damage_sounds.clear()
+	var dir := DirAccess.open(TAKE_DAMAGE_SOUNDS_DIR)
+	if dir == null:
+		push_warning("ZombieBase: missing take-damage sounds dir: %s" % TAKE_DAMAGE_SOUNDS_DIR)
+		return
+	dir.list_dir_begin()
+	while true:
+		var file_name := dir.get_next()
+		if file_name == "":
+			break
+		if dir.current_is_dir():
+			continue
+		if not file_name.to_lower().ends_with(".mp3"):
+			continue
+		var stream := load("%s/%s" % [TAKE_DAMAGE_SOUNDS_DIR, file_name])
+		if stream:
+			_take_damage_sounds.append(stream)
+	dir.list_dir_end()
+
+func _get_random_damage_sound() -> AudioStream:
+	if _take_damage_sounds.is_empty():
+		return null
+	return _take_damage_sounds[_rng.randi_range(0, _take_damage_sounds.size() - 1)]
 
 # --- State Functions ---
 func idle_state():

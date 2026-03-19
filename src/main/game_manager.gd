@@ -3,8 +3,6 @@ extends Node
 # Signals
 signal level_started
 
-const LEVEL_MUSIC_PATH := "res://src/assets/audio/music/psychronic-echoes-of-the-precursors/main.mp3"
-
 # Export a NodePath to your PauseMenu
 @export var pause_menu_path: NodePath
 @export var levels: Array[PackedScene] = []
@@ -101,7 +99,7 @@ func load_level(index: int) -> void:
 	# Emit level started signal
 	level_started.emit()
 
-	AudioManager.play_music_path(LEVEL_MUSIC_PATH)
+	AudioManager.play_music_clip("music_level")
 	
 func load_first_level():
 	load_level(0)

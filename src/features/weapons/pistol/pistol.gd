@@ -37,6 +37,7 @@ func fire():
 		sound_radius
 	)
 
+	apply_recoil()
 	hitscan_fire(damage)
 
 	await get_tree().create_timer(fire_rate).timeout

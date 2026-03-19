@@ -96,15 +96,20 @@ func move_player(_delta):
 	var move_velocity: Vector2 = move_direction * (speed + 100 * Global.player_move_speed_modifier)
 
 	if grappling_hook and grappling_hook.active:
-		var target_position := grappling_hook.get_target_position()
-		var to_target := target_position - global_position
+		if grappling_hook.should_pull_player():
+			var target_position := grappling_hook.get_target_position()
+			var to_target := target_position - global_position
 
-		if to_target.length() <= grappling_hook.stop_distance:
-			grappling_hook.cancel()
-			velocity = move_velocity
+			if to_target.length() <= grappling_hook.stop_distance:
+				grappling_hook.cancel()
+				velocity = move_velocity
+			elif grappling_hook.is_pull_ready():
+				velocity = move_velocity + to_target.normalized() * grappling_hook.pull_speed
+			else:
+				velocity = move_velocity
+			grappling_hook.apply_target_pull(global_position)
 		else:
-			velocity = move_velocity + to_target.normalized() * grappling_hook.pull_speed
-		grappling_hook.apply_target_pull(global_position)
+			velocity = move_velocity
 	else:
 		velocity = move_velocity
 

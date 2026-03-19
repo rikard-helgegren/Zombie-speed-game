@@ -23,6 +23,7 @@ tile_map_data = PackedByteArray(0, 0, 255, 255, 0, 0, 0, 0, 22, 0, 16, 0, 0, 0)
 tile_set = SubResource("TileSet_xhqwp")
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]

@@ -5,6 +5,9 @@ class_name WeaponBase
 @export var damage: int = 1
 @export var max_ammo: int = 3
 @export var sound_radius: float = 1000.0 
+@export_group("Visuals")
+@export var recoil_amount: float = 10.0
+@export var recoil_return_speed: float = 10.0
 
 var sprite: Sprite2D
 var muzzle: Node2D
@@ -17,6 +20,8 @@ var facing_left := false
 var reloading := false
 var _sfx_players: Array[AudioStreamPlayer2D] = []
 var _sfx_base_db: Dictionary = {}
+var _sfx_base_pitch: Dictionary = {}
+var _current_recoil_offset: float = 0.0
 
 
 func _ready():
@@ -29,6 +34,14 @@ func _ready():
 	ammo = max_ammo
 	_init_sfx_players()
 
+func _process(delta: float) -> void:
+	if _current_recoil_offset > 0.01:
+		_current_recoil_offset = lerp(_current_recoil_offset, 0.0, recoil_return_speed * delta)
+		position = -aim_direction * _current_recoil_offset
+	elif position != Vector2.ZERO:
+		_current_recoil_offset = 0.0
+		position = Vector2.ZERO
+
 func _exit_tree() -> void:
 	if AudioManager and AudioManager.sfx_volume_changed.is_connected(_on_sfx_volume_changed):
 		AudioManager.sfx_volume_changed.disconnect(_on_sfx_volume_changed)
@@ -36,10 +49,12 @@ func _exit_tree() -> void:
 func _init_sfx_players() -> void:
 	_sfx_players.clear()
 	_sfx_base_db.clear()
+	_sfx_base_pitch.clear()
 	var players = find_children("*", "AudioStreamPlayer2D", true, false)
 	for player in players:
 		_sfx_players.append(player)
 		_sfx_base_db[player.get_instance_id()] = player.volume_db
+		_sfx_base_pitch[player.get_instance_id()] = player.pitch_scale
 	_apply_sfx_volume()
 	if AudioManager and not AudioManager.sfx_volume_changed.is_connected(_on_sfx_volume_changed):
 		AudioManager.sfx_volume_changed.connect(_on_sfx_volume_changed)
@@ -53,7 +68,9 @@ func _apply_sfx_volume() -> void:
 		if not is_instance_valid(player):
 			continue
 		var base_db = _sfx_base_db.get(player.get_instance_id(), player.volume_db)
-		player.volume_db = base_db + offset_db
+		var base_pitch = _sfx_base_pitch.get(player.get_instance_id(), player.pitch_scale)
+		player.volume_db = base_db + offset_db + AudioManager.get_sfx_clip_db(player.stream)
+		player.pitch_scale = base_pitch * AudioManager.get_sfx_clip_pitch(player.stream)
 		
 		
 func set_aim_direction(direction: Vector2):
@@ -80,10 +97,13 @@ func apply_flip():
 			-default_muzzle_pos.y if facing_left else default_muzzle_pos.y
 		)
 	
+func apply_recoil() -> void:
+	_current_recoil_offset = recoil_amount
 		
 func fire():
 	# To be overridden by child weapons
 	pass
+
 
 
 func hitscan_fire(damage: int, max_distance := 1000.0):
@@ -112,6 +132,20 @@ func hitscan_fire(damage: int, max_distance := 1000.0):
 			var hit_dir = (collider.get_parent().global_position - global_position).normalized()
 			collider.get_parent().take_damage(damage, hit_dir)
 			collider.get_parent().show_hit_splatter(result.position, hit_dir)
+		else:
+			var sfx = AudioStreamPlayer2D.new()
+			sfx.stream = load("res://src/assets/audio/sfx/gun/bullet-hit-rock.mp3")
+			add_child(sfx)
+
+			if AudioManager:
+				var offset_db = AudioManager.get_sfx_volume_db_offset()
+				var clip_db = AudioManager.get_sfx_clip_db(sfx.stream)
+				var clip_pitch = AudioManager.get_sfx_clip_pitch(sfx.stream)
+				sfx.volume_db = offset_db + clip_db
+				sfx.pitch_scale = clip_pitch
+
+			sfx.play()
+			sfx.finished.connect(sfx.queue_free)
 			
 
 
