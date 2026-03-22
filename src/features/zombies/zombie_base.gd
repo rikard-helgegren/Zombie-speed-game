@@ -328,21 +328,25 @@ func walk_state():
 
 func attack_state():
 	sprite.play("attack")
-	if not player_in_range(attack_range):
-		change_state(ZombieState.WALK)
-		
-	velocity = Vector2.ZERO  # Stop moving while attacking
 
-	if _can_attack and player_in_range(attack_range):
+	if not player_in_range(attack_range):
+		_can_attack = true  # Reset attack immediately
+		change_state(ZombieState.WALK)
+		return
+		
+	velocity = Vector2.ZERO
+
+	if _can_attack:
 		deal_damage_to_player()
 		_can_attack = false
-		# Start attack cooldown timer
+
 		var t = Timer.new()
 		t.one_shot = true
 		t.wait_time = attack_cooldown
 		add_child(t)
 		t.start()
 		t.timeout.connect(Callable(self, "_on_attack_cooldown_finished"))
+
 
 func die_state():
 	is_alive = false
