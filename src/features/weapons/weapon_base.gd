@@ -158,6 +158,9 @@ func consume_ammo():
 		reload()
 
 func reload():
+	if reloading:
+		return  # prevent spamming
+
 	reloading = true
 	var prev_ammo := ammo
 	ammo = max_ammo
