@@ -62,11 +62,13 @@ var body_collision_shape_default_position: Vector2
 var body_collision_shape_default_rotation: float
 var facing_pivot_x: float
 var _nav_update_timer := 0.0
+var attack_timer: Timer
 
 # FSM
 enum ZombieState { IDLE, WALK, ATTACK, DIE }
 var state: ZombieState = ZombieState.IDLE
 var new_state: ZombieState = ZombieState.IDLE
+
 
 func _ready():
 	health = max_health
@@ -89,31 +91,33 @@ func _ready():
 		hit_splatter.visible = false
 	MySoundEventSystem.sound_emitted.connect(_on_sound_emitted)
 
+	attack_timer = Timer.new()
+	attack_timer.one_shot = true
+	attack_timer.wait_time = attack_cooldown
+	attack_timer.timeout.connect(_on_attack_cooldown_finished)
+	add_child(attack_timer)
+
+	
 func _physics_process(delta):
-	# Update nav agent target every frame during walking to track the player
-	# or investigated sound location, then check if we've arrived.
+	if target == null:
+		target = get_tree().get_first_node_in_group("player")
+		if target == null:
+			return
+
 	if state == ZombieState.WALK:
 		_nav_update_timer += delta
 		if _nav_update_timer >= NAV_UPDATE_INTERVAL:
 			_nav_update_timer = 0.0
 			update_navigation_target()
+
 		if agent.is_navigation_finished():
-			# we've reached whatever destination the agent was heading for
 			if has_heard_sound:
 				has_heard_sound = false
-				# if the player is far away we can go idle again
 				if not player_in_range(detection_range * 2):
 					change_state(ZombieState.IDLE)
 
-	if target == null:
-		target = get_tree().get_first_node_in_group("player")
-		if target == null:
-			return
 	_update_groan_audio(delta)
-	
-	
 
-	# State transitions
 	match state:
 		ZombieState.IDLE:
 			idle_state()
@@ -123,9 +127,8 @@ func _physics_process(delta):
 			attack_state()
 		ZombieState.DIE:
 			die_state()
-	
-	move_zombie()
 
+	move_zombie()
 
 func update_navigation_target():
 	# Point agent toward sound or player, whichever takes priority
@@ -135,8 +138,6 @@ func update_navigation_target():
 		agent.target_position = target.global_position
 
 func move_zombie():
-	
-	# Recoil overrides everything
 	if recoil_time_left > 0.0:
 		update_facing_from_x(recoil_velocity.x)
 		velocity = recoil_velocity
@@ -144,30 +145,28 @@ func move_zombie():
 		move_and_slide()
 		return
 
-	
-	# Grapple pull overrides normal movement while active.
 	if grapple_active:
 		update_facing_from_x(grapple_velocity.x)
 		velocity = grapple_velocity
 		move_and_slide()
 		return
 
-	if state == ZombieState.WALK:
-		var next_pos := agent.get_next_path_position()
-		var dir := (next_pos - global_position)
-
-		if dir.length() > 1.0:
-			dir = dir.normalized()
-			update_facing_from_x(dir.x)
-			velocity = dir * (move_speed + 50 * Global.zombies_extra_speed)
-		else:
-			velocity = Vector2.ZERO
-
-		move_and_slide()
-	else:
+	if state != ZombieState.WALK:
 		velocity = Vector2.ZERO
 		move_and_slide()
+		return
 
+	var next_pos := agent.get_next_path_position()
+	var dir := next_pos - global_position
+
+	if dir.length() > 1.0:
+		dir = dir.normalized()
+		update_facing_from_x(dir.x)
+		velocity = dir * (move_speed + 50 * Global.zombies_extra_speed)
+	else:
+		velocity = Vector2.ZERO
+
+	move_and_slide()
 
 func apply_grapple_pull(direction: Vector2, speed: float) -> void:
 	grapple_velocity = direction.normalized() * speed
@@ -330,7 +329,8 @@ func attack_state():
 	sprite.play("attack")
 
 	if not player_in_range(attack_range):
-		_can_attack = true  # Reset attack immediately
+		_can_attack = true
+		attack_timer.stop()  # Cancel cooldown
 		change_state(ZombieState.WALK)
 		return
 		
@@ -339,14 +339,7 @@ func attack_state():
 	if _can_attack:
 		deal_damage_to_player()
 		_can_attack = false
-
-		var t = Timer.new()
-		t.one_shot = true
-		t.wait_time = attack_cooldown
-		add_child(t)
-		t.start()
-		t.timeout.connect(Callable(self, "_on_attack_cooldown_finished"))
-
+		attack_timer.start()
 
 func die_state():
 	is_alive = false
@@ -356,34 +349,35 @@ func die_state():
 	velocity = Vector2.ZERO 
 
 # --- Utility ---
-func change_state(new: ZombieState):
-	if state == new:
+func change_state(new_state: ZombieState):
+	if state == new_state:
 		return
 
-	state = new
+	state = new_state
 
 	if state == ZombieState.WALK:
 		_nav_update_timer = NAV_UPDATE_INTERVAL
 		update_navigation_target()
 
 func player_in_range(range_to_player: float) -> bool:
-	if not target:
+	if target == null:
 		return false
 	return global_position.distance_to(target.global_position) <= range_to_player
 
+func _on_attack_cooldown_finished():
+	_can_attack = true
 
 func _on_animation_finished() -> void:
 	if state == ZombieState.DIE:
 		die()
 
 func deal_damage_to_player():
-	if not target:
+	if target == null:
 		return
-	# Check if target has a PlayerHealth node
-	if target.has_node("player_health"):
-		var health_node = target.get_node("player_health") as PlayerHealth
-		health_node.take_damage(attack_damage)
 
+	var health_node := target.get_node_or_null("player_health") as PlayerHealth
+	if health_node:
+		health_node.take_damage(attack_damage)
 
 func _on_animation_looped() -> void:
 	if  state == ZombieState.ATTACK:
@@ -393,8 +387,7 @@ func _on_sound_emitted(sound_pos: Vector2, radius: float):
 	if not is_alive:
 		return
 
-	var dist = global_position.distance_to(sound_pos)
-	if dist > radius:
+	if global_position.distance_to(sound_pos) > radius:
 		return
 
 	# Zombie heard the sound
