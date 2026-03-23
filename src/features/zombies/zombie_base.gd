@@ -34,6 +34,7 @@ signal zombie_died
 
 
 var _can_attack: bool = true
+var can_deal_damage_on_frame := false
 var is_alive := true
 
 var health: int
@@ -90,6 +91,7 @@ func _ready():
 		hit_splatter.top_level = true
 		hit_splatter.visible = false
 	MySoundEventSystem.sound_emitted.connect(_on_sound_emitted)
+	sprite.frame_changed.connect(_on_sprite_frame_changed)
 
 	attack_timer = Timer.new()
 	attack_timer.one_shot = true
@@ -337,7 +339,7 @@ func attack_state():
 	velocity = Vector2.ZERO
 
 	if _can_attack:
-		deal_damage_to_player()
+		can_deal_damage_on_frame = true
 		_can_attack = false
 		attack_timer.start()
 
@@ -378,6 +380,11 @@ func deal_damage_to_player():
 	var health_node := target.get_node_or_null("player_health") as PlayerHealth
 	if health_node:
 		health_node.take_damage(attack_damage)
+
+func _on_sprite_frame_changed():
+	if state == ZombieState.ATTACK and sprite.animation == "attack" and sprite.frame == 3 and can_deal_damage_on_frame:
+		deal_damage_to_player()
+		can_deal_damage_on_frame = false
 
 func _on_animation_looped() -> void:
 	if  state == ZombieState.ATTACK:
