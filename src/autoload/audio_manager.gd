@@ -217,3 +217,31 @@ func _save_clip_value(clip_name: String, key: String, value: Variant) -> void:
 	var save_err := _audio_cfg.save(AUDIO_CONFIG_PATH)
 	if save_err != OK:
 		push_warning("AudioManager: failed to save audio config at %s" % AUDIO_CONFIG_PATH)
+
+func play_sfx_clip_at_position(clip_name: String, position: Vector2) -> void:
+	var path := get_clip_path(clip_name)
+	if path == "":
+		return
+	var stream: AudioStream = load(path)
+	if not stream:
+		return
+
+	var player := AudioStreamPlayer2D.new()
+	player.stream = stream
+	player.position = position
+	player.volume_db = get_sfx_clip_db(stream) + get_sfx_volume_db_offset()
+	player.pitch_scale = get_sfx_clip_pitch(stream)
+	get_tree().current_scene.add_child(player)
+	player.play()
+
+	# Queue free after the audio finishes
+	var duration := 2.0 # fallback duration
+	if stream.has_method("get_length"):
+		duration = stream.get_length() / player.pitch_scale
+
+	var t := Timer.new()
+	t.one_shot = true
+	t.wait_time = duration
+	t.timeout.connect(Callable(player, "queue_free"))
+	player.add_child(t)
+	t.start()

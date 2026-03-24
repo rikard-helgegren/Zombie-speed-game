@@ -14,29 +14,44 @@ func _on_area_body_entered(body: Node) -> void:
 		return
 	_teleport_zombies_to_circle()
 
-
 func _teleport_zombies_to_circle() -> void:
 	var zombies_node := _find_zombies_node()
 	if zombies_node == null:
 		push_error("SummonAndEnd: Zombies node not found")
 		return
 
-	var zombies := zombies_node.get_children()
+	var zombies := zombies_node.get_children().filter(func(z): 
+		return z is Node2D and is_instance_valid(z)
+	)
+
 	var count := zombies.size()
 	if count == 0:
 		return
 
 	var center := area.global_position
+
+	# Total animation time
+	var total_time := 2.0
+
 	for i in range(count):
-		var zombie := zombies[i]
-		if not zombie or not is_instance_valid(zombie):
-			continue
-		if zombie is Node2D:
-			var angle := TAU * float(i) / float(count)
-			var offset := Vector2(cos(angle), sin(angle)) * spawn_radious
-			zombie.global_position = center + offset
+		var zombie: Node2D = zombies[i]
 
+		# Position in circle
+		var angle := TAU * float(i) / float(count)
+		var offset := Vector2(cos(angle), sin(angle)) * spawn_radious
+		var target_pos := center + offset
 
+		# Teleport this zombie
+		zombie.global_position = target_pos
+
+		# --- Tempo curve (slow → fast) ---
+		var t := float(i) / float(count)  # 0 → 1
+		var delay : float = lerp(0.15, 0.01, t * t)  # quadratic acceleration
+		AudioManager.play_sfx_clip_at_position("zombie_summon", zombie.global_position)
+
+		await get_tree().create_timer(delay).timeout
+		
+		
 func _find_zombies_node() -> Node2D:
 	if Global.zombies_node and is_instance_valid(Global.zombies_node):
 		return Global.zombies_node
