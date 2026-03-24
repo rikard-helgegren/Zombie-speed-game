@@ -9,6 +9,9 @@ class_name WeaponBase
 @export var recoil_amount: float = 10.0
 @export var recoil_return_speed: float = 10.0
 
+@export var bullet_scene: PackedScene
+@export var bullet_speed: float = 3000.0
+
 var sprite: Sprite2D
 var muzzle: Node2D
 var default_muzzle_pos: Vector2
@@ -22,6 +25,8 @@ var _sfx_players: Array[AudioStreamPlayer2D] = []
 var _sfx_base_db: Dictionary = {}
 var _sfx_base_pitch: Dictionary = {}
 var _current_recoil_offset: float = 0.0
+
+
 
 
 func _ready():
@@ -111,6 +116,7 @@ func hitscan_fire(damage: int, max_distance := 1000.0):
 	
 	var from = muzzle.global_position if muzzle else global_position
 	var to = from + aim_direction * max_distance
+	var hit_position = to
 	
 	var query = PhysicsRayQueryParameters2D.create(from, to)
 	query.exclude = [self]
@@ -121,8 +127,10 @@ func hitscan_fire(damage: int, max_distance := 1000.0):
 	var result = space_state.intersect_ray(query)
 	
 	if result:
+		hit_position = result.position 
+		
 		var collider = result.collider
-
+		
 		if collider is Hitbox:
 			#TODO: unsafe code
 			if not collider.get_parent().has_method("take_damage"):
@@ -147,7 +155,41 @@ func hitscan_fire(damage: int, max_distance := 1000.0):
 			sfx.play()
 			sfx.finished.connect(sfx.queue_free)
 			
+	spawn_bullet(from, hit_position)
+	spawn_tracer(from, hit_position)
 
+func spawn_tracer(from: Vector2, to: Vector2):
+	var line := Line2D.new()
+	
+	line.width = 2.5
+	line.default_color = Color(1.0, 0.85, 0.4, 0.4) # softer, less bright
+	
+	# IMPORTANT: global positions
+	line.add_point(from)
+	line.add_point(to)
+	
+	get_tree().current_scene.add_child(line)
+
+	# Fade out quickly
+	var tween = create_tween()
+	tween.tween_property(line, "modulate:a", 0.0, 0.12)
+	tween.finished.connect(line.queue_free)
+	
+	
+func spawn_bullet(from: Vector2, to: Vector2):
+	if not bullet_scene:
+		return
+		
+	var bullet = bullet_scene.instantiate()
+	get_tree().current_scene.add_child(bullet)
+
+	bullet.global_position = from
+	
+	var direction = (to - from).normalized()
+	
+	# Pass movement data to bullet
+	if bullet.has_method("init"):
+		bullet.init(direction, bullet_speed, to)
 
 func consume_ammo():
 	var prev_ammo := ammo

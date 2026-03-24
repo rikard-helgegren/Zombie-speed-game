@@ -42,3 +42,4 @@ func fire():
 
 	await get_tree().create_timer(fire_rate).timeout
 	can_fire = true
+	

@@ -11,6 +11,7 @@ texture = ExtResource("1_yjwvj")
 texture_region_size = Vector2i(1, 1)
 2:3/size_in_atlas = Vector2i(71, 99)
 2:3/0 = 0
+2:3/0/y_sort_origin = 20
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_esed8"]
 texture = ExtResource("2_x15ai")

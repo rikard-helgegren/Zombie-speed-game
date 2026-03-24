@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://fs2qdn8h1av6"]
+[gd_scene load_steps=12 format=3 uid="uid://fs2qdn8h1av6"]
 
 [ext_resource type="Script" uid="uid://dlf8yslvy3bxd" path="res://src/features/weapons/pistol/pistol.gd" id="1_4insx"]
 [ext_resource type="Texture2D" uid="uid://bq78dhne73a8c" path="res://src/assets/art/weapons/pistol.png" id="2_4insx"]
+[ext_resource type="PackedScene" uid="uid://cslnno0cx5d1j" path="res://src/features/weapons/pistol/Bullet.tscn" id="2_jlsrv"]
 [ext_resource type="Script" uid="uid://d0rx2idhpcsrk" path="res://src/features/weapons/muzzle_flash.gd" id="3_cvuy2"]
 [ext_resource type="AudioStream" uid="uid://dpsevljttkxfv" path="res://src/assets/audio/sfx/shot-single2.mp3" id="5_2cyx6"]
 [ext_resource type="Texture2D" uid="uid://d1irhkfyqwiui" path="res://src/assets/art/weapons/muzzle-explosion.png" id="5_xhetg"]
@@ -13,6 +14,7 @@
 
 [node name="Pistol" type="Node2D"]
 script = ExtResource("1_4insx")
+bullet_scene = ExtResource("2_jlsrv")
 metadata/_custom_type_script = "uid://dgmpxvpyy51x"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

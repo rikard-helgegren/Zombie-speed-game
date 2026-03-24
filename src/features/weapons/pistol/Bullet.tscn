@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://cslnno0cx5d1j"]
+
+[ext_resource type="Script" uid="uid://b0xfac0ncsul2" path="res://src/features/weapons/bullet.gd" id="1_abcde"]
+[ext_resource type="Texture2D" uid="uid://cgsl26tcvhrk1" path="res://src/assets/art/weapons/bullet.png" id="2_qqa52"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_12345"]
+radius = 8.589661
+height = 17.179321
+
+[node name="Bullet" type="Area2D"]
+y_sort_enabled = true
+scale = Vector2(0.2752855, 0.22643907)
+collision_layer = 8
+collision_mask = 3
+script = ExtResource("1_abcde")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_qqa52")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_12345")
+
+[node name="Trail" type="Line2D" parent="."]
+y_sort_enabled = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
