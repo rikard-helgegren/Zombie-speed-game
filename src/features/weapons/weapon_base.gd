@@ -11,6 +11,7 @@ class_name WeaponBase
 
 @export var bullet_scene: PackedScene
 @export var bullet_speed: float = 3000.0
+@export var bullet_trace_scene: PackedScene = preload("res://src/features/weapons/bullet_trace.tscn")
 
 var sprite: Sprite2D
 var muzzle: Node2D
@@ -159,21 +160,20 @@ func hitscan_fire(damage: int, max_distance := 1000.0):
 	spawn_tracer(from, hit_position)
 
 func spawn_tracer(from: Vector2, to: Vector2):
-	var line := Line2D.new()
+	if not bullet_trace_scene:
+		return
 	
-	line.width = 2.5
-	line.default_color = Color(1.0, 0.85, 0.4, 0.4) # softer, less bright
+	var tracer = bullet_trace_scene.instantiate()
 	
-	# IMPORTANT: global positions
-	line.add_point(from)
-	line.add_point(to)
+	var scene := get_tree().current_scene
+	var world := scene.get_node_or_null("World") if scene else null
+	if world:
+		world.add_child(tracer)
+	elif scene:
+		scene.add_child(tracer)
 	
-	get_tree().current_scene.add_child(line)
-
-	# Fade out quickly
-	var tween = create_tween()
-	tween.tween_property(line, "modulate:a", 0.0, 0.12)
-	tween.finished.connect(line.queue_free)
+	if tracer.has_method("setup"):
+		tracer.setup(from, to)
 	
 	
 func spawn_bullet(from: Vector2, to: Vector2):

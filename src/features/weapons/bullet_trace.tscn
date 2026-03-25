@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmwrwfjmjwiq6"]
+
+[ext_resource type="Script" uid="uid://b1l1trace0gdsc" path="res://src/features/weapons/bullet_trace.gd" id="1_trace"]
+
+[node name="BulletTrace" type="Node2D"]
+script = ExtResource("1_trace")
+
+[node name="Rect" type="Polygon2D" parent="."]
