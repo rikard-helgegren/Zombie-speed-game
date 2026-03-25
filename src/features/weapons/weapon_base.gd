@@ -181,7 +181,12 @@ func spawn_bullet(from: Vector2, to: Vector2):
 		return
 		
 	var bullet = bullet_scene.instantiate()
-	get_tree().current_scene.add_child(bullet)
+	var scene := get_tree().current_scene
+	var world := scene.get_node_or_null("World") if scene else null
+	if world:
+		world.add_child(bullet)
+	elif scene:
+		scene.add_child(bullet)
 
 	bullet.global_position = from
 	
