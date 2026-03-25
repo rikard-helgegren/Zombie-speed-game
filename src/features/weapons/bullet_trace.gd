@@ -7,14 +7,20 @@ extends Node2D
 @onready var rect: Polygon2D = $Rect
 
 func setup(from: Vector2, to: Vector2) -> void:
-	var dir := from - to
+	var anchor := from
+	var other := to
+	if to.y < from.y:
+		anchor = to
+		other = from
+	
+	var dir := other - anchor
 	var length := dir.length()
 	if length <= 0.001:
 		queue_free()
 		return
 	
-	# Anchor at hit position so y-sort uses the impact depth.
-	global_position = to
+	# Anchor at the smallest Y so the tracer tends to sort behind objects.
+	global_position = anchor
 	rotation = dir.angle()
 	
 	var half := thickness * 0.5
