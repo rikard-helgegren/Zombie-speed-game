@@ -45,6 +45,7 @@ var _pending_target_body: Node2D
 var _pending_target_local_point := Vector2.ZERO
 var _pending_damage_target: Node2D
 var _pending_hit_is_zombie := false
+var _visual_parent: Node = null
 
 const MISSED_SHOT_DISTANCE_FACTOR := 0.7
 const MISSED_SHOT_HOLD_TIME := 0.1
@@ -76,9 +77,13 @@ func _ready() -> void:
 			rope_parent = scene.get_node_or_null("World/Level")
 		if rope_parent == null:
 			rope_parent = scene.get_node_or_null("World")
-	if rope_parent and rope_root.get_parent() != rope_parent:
+	_visual_parent = rope_parent
+	if _visual_parent and rope_root.get_parent() != _visual_parent:
 		rope_root.get_parent().remove_child(rope_root)
-		rope_parent.add_child(rope_root)
+		_visual_parent.add_child(rope_root)
+	if _visual_parent and hook_sprite.get_parent() != _visual_parent:
+		hook_sprite.get_parent().remove_child(hook_sprite)
+		_visual_parent.add_child(hook_sprite)
 	_init_sfx_players()
 	if reel_tighten_sfx and reel_tighten_sfx.stream and "loop" in reel_tighten_sfx.stream:
 		reel_tighten_sfx.stream.loop = true
@@ -89,6 +94,8 @@ func _exit_tree() -> void:
 		AudioManager.sfx_volume_changed.disconnect(_on_sfx_volume_changed)
 	if is_instance_valid(rope_root):
 		rope_root.queue_free()
+	if is_instance_valid(hook_sprite):
+		hook_sprite.queue_free()
 
 
 func _process(delta: float) -> void:
@@ -186,7 +193,7 @@ func fire(direction: Vector2, exclude: Array) -> bool:
 	_pending_hit_is_zombie = hit_is_zombie
 	gun_and_hook_sprite.visible = false
 	gun_sprite.visible = true
-	hook_sprite.top_level = true
+	hook_sprite.top_level = false
 
 	if grapple_target is Node2D:
 		_pending_target_body = grapple_target
