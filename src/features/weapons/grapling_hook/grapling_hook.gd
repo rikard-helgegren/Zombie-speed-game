@@ -8,7 +8,8 @@ class_name GrapplingHook
 @export var pull_delay_time: float = 0.1
 @export var hook_travel_speed: float = 1800.0
 
-@onready var rope: Line2D = $Rope
+@onready var rope_root: Node2D = $RopeRoot
+@onready var rope: Line2D = $RopeRoot/Rope
 @onready var hook_sprite: Sprite2D = $Hook
 @onready var gun_sprite: Sprite2D = $Gun
 @onready var gun_and_hook_sprite: Sprite2D = $GunAndHook
@@ -52,6 +53,9 @@ const MISSED_SHOT_RETRACT_TIME := 0.3
 
 func _ready() -> void:
 	rope.visible = false
+	rope_root.visible = false
+	rope_root.y_sort_enabled = true
+	rope.z_index = 0
 	hook_sprite.visible = false
 	gun_sprite.visible = false
 	gun_and_hook_sprite.visible = false
@@ -59,10 +63,22 @@ func _ready() -> void:
 	_equipped_offset_base = gun_and_hook_sprite.position
 	if gun_connection:
 		_gun_connection_base = gun_connection.position
-	rope.top_level = true
+	rope_root.top_level = false
 	hook_sprite.top_level = false
 	gun_sprite.top_level = false
 	gun_and_hook_sprite.top_level = false
+	
+	var scene := get_tree().current_scene
+	var rope_parent: Node = null
+	if scene:
+		rope_parent = scene.get_node_or_null("World/Current_level")
+		if rope_parent == null:
+			rope_parent = scene.get_node_or_null("World/Level")
+		if rope_parent == null:
+			rope_parent = scene.get_node_or_null("World")
+	if rope_parent and rope_root.get_parent() != rope_parent:
+		rope_root.get_parent().remove_child(rope_root)
+		rope_parent.add_child(rope_root)
 	_init_sfx_players()
 	if reel_tighten_sfx and reel_tighten_sfx.stream and "loop" in reel_tighten_sfx.stream:
 		reel_tighten_sfx.stream.loop = true
@@ -71,6 +87,8 @@ func _ready() -> void:
 func _exit_tree() -> void:
 	if AudioManager and AudioManager.sfx_volume_changed.is_connected(_on_sfx_volume_changed):
 		AudioManager.sfx_volume_changed.disconnect(_on_sfx_volume_changed)
+	if is_instance_valid(rope_root):
+		rope_root.queue_free()
 
 
 func _process(delta: float) -> void:
@@ -183,6 +201,7 @@ func fire(direction: Vector2, exclude: Array) -> bool:
 func update_visuals(origin: Vector2) -> void:
 	if not active:
 		rope.visible = false
+		rope_root.visible = false
 		_refresh_in_hand_visuals()
 		_stop_reel_sfx()
 		return
@@ -204,8 +223,10 @@ func update_visuals(origin: Vector2) -> void:
 	hook_sprite.global_position = target_position
 	var rope_start := gun_connection.global_position if gun_connection else origin
 	var rope_end := hook_connection.global_position if hook_connection else hook_sprite.global_position
-	rope.points = PackedVector2Array([rope_start, rope_end])
+	rope_root.global_position = rope_start
+	rope.points = PackedVector2Array([Vector2.ZERO, rope_end - rope_start])
 	rope.visible = true
+	rope_root.visible = true
 
 	hook_sprite.rotation = (target_position - origin).angle()
 	hook_sprite.visible = true
@@ -235,6 +256,7 @@ func cancel() -> void:
 	_pending_damage_target = null
 	_pending_hit_is_zombie = false
 	rope.visible = false
+	rope_root.visible = false
 	rope.points = PackedVector2Array()
 	_refresh_in_hand_visuals()
 	_stop_reel_sfx()

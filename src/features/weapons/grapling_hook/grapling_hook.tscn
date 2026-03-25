@@ -10,10 +10,14 @@
 [ext_resource type="AudioStream" uid="uid://drfqq3bigb776" path="res://src/assets/audio/sfx/graplinghook/cable-tieghtening-short.mp3" id="9_3o2nq"]
 
 [node name="GraplingHook" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_2p4rh")
 
-[node name="Rope" type="Line2D" parent="."]
-z_index = 49
+[node name="RopeRoot" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Rope" type="Line2D" parent="RopeRoot"]
+y_sort_enabled = true
 width = 4.0
 texture = ExtResource("3_4r1bd")
 texture_mode = 1
