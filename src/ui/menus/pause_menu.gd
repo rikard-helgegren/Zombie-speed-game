@@ -38,6 +38,7 @@ func _on_resume_pressed():
 	settings_menu.visible = false
 	controls_menu.visible = false
 	main_container.visible = true
+	game_manager._update_mouse_mode()
 
 func _on_restart_pressed():
 	MyGameState.set_paused(false)

@@ -19,6 +19,7 @@ func _ready() -> void:
 
 func show_menu() -> void:
 	visible = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	_populate_dev_clips()
 	_sync_slider_values()
 	music_slider.grab_focus()

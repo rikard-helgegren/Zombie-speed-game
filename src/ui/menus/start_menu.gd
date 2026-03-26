@@ -10,6 +10,7 @@ extends Control
 
 func _ready():
 	AudioManager.play_music_clip("music_start_menu")
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 	# Populate level selector
 	level_selector.clear()

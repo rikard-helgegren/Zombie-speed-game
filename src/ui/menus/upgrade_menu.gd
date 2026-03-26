@@ -48,6 +48,7 @@ func show_menu(upgrades: Array[UpgradeDef]):
 	hovered_upgrade = -1
 
 	AudioManager.play_music_clip("music_upgrade_menu")
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 	upgrade_option_1.texture = upgrades[0].icon
 	upgrade_option_2.texture = upgrades[1].icon

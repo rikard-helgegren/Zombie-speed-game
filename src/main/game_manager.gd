@@ -23,6 +23,7 @@ signal level_started
 
 @export var ui_layer_path: NodePath
 @onready var ui_layer := get_node(ui_layer_path)
+@onready var start_menu: Control = get_node_or_null("../UI/StartMenu")
 
 @export var all_upgrades: Array[UpgradeDef] = []
 
@@ -60,11 +61,10 @@ func toggle_pause():
 	get_tree().paused = paused
 	
 	if paused:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		pause_menu.show_menu()
 	else:
-		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 		pause_menu.visible = false
+	_update_mouse_mode()
 		
 
 func load_level(index: int) -> void:
@@ -94,7 +94,10 @@ func load_level(index: int) -> void:
 	# Ensure game is unpaused
 	get_tree().paused = false
 	pause_menu.visible = false
+	if start_menu:
+		start_menu.visible = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	_update_mouse_mode()
 	
 	# Emit level started signal
 	level_started.emit()
@@ -131,10 +134,20 @@ func load_upgrade_menu():
 	var upgrades := get_random_upgrades(2)
 
 	_upgrade_menu = upgrade_menu_scene.instantiate()
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	ui_layer.add_child(_upgrade_menu)
 
 	_upgrade_menu.show_menu(upgrades)	
+	_update_mouse_mode()
+
+func _update_mouse_mode() -> void:
+	var should_show := false
+	if pause_menu and pause_menu.visible:
+		should_show = true
+	elif start_menu and start_menu.visible:
+		should_show = true
+	elif _upgrade_menu and _upgrade_menu.visible:
+		should_show = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE if should_show else Input.MOUSE_MODE_HIDDEN)
 	
 
 # Called by UpgradeMenu
