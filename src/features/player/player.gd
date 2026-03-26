@@ -4,6 +4,7 @@ class_name Player
 @export var speed: float = 300.0
 @export var default_weapon_scene: PackedScene
 @export var grappling_hook_scene: PackedScene
+@export var knife_scene: PackedScene
 
 var move_direction = Vector2.ZERO
 
@@ -18,6 +19,7 @@ var move_direction = Vector2.ZERO
 @onready var weapon_pivot: Node2D = $WeaponPivot
 var weapon: WeaponBase
 var grappling_hook: GrapplingHook
+var knife: Knife
 
 enum PlayerState { IDLE, WALK, ATTACK, DIE }
 var state: PlayerState = PlayerState.IDLE
@@ -41,6 +43,7 @@ func _ready():
 	
 	spawn_default_weapon()
 	spawn_grappling_hook()
+	spawn_knife()
 	
 	EventBus.player_health_changed.emit(health_node.current_health)
 	EventBus.player_ammo_changed.emit(weapon.ammo)
@@ -81,6 +84,9 @@ func _on_action_input(action_name: String):
 						shoot_grapple()
 					else:
 						shoot()
+				"melee":
+					if knife:
+						knife.fire()
 				"reload":
 					if not hook_weapon_selected:
 						weapon.reload()
@@ -145,6 +151,8 @@ func update_weapon_aim():
 
 	if weapon:
 		weapon.set_aim_direction(aim_direction)
+	if knife:
+		knife.set_aim_direction(aim_direction)
 
 func spawn_default_weapon():
 	if not default_weapon_scene:
@@ -162,6 +170,26 @@ func spawn_grappling_hook():
 	var hook_instance = grappling_hook_scene.instantiate() as GrapplingHook
 	weapon_pivot.add_child(hook_instance)
 	grappling_hook = hook_instance
+
+func spawn_knife():
+	if knife_scene == null:
+		knife_scene = preload("res://src/features/weapons/melee/knife.tscn")
+
+	var knife_instance = knife_scene.instantiate() as Knife
+	weapon_pivot.add_child(knife_instance)
+	knife = knife_instance
+	knife.swing_started.connect(_on_knife_swing_started)
+	knife.swing_finished.connect(_on_knife_swing_finished)
+
+func _on_knife_swing_started() -> void:
+	if weapon:
+		weapon.hide()
+
+func _on_knife_swing_finished() -> void:
+	if hook_weapon_selected:
+		return
+	if weapon:
+		weapon.show()
 
 func get_grappling_hook() -> GrapplingHook:
 	return grappling_hook

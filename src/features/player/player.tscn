@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cbbsj5l3rhdax" path="res://src/features/player/player.gd" id="1_oubcf"]
 [ext_resource type="Texture2D" uid="uid://bkw3x5fxnrn35" path="res://src/assets/art/player/idle/Idle (1).png" id="2_0ph83"]
 [ext_resource type="PackedScene" uid="uid://fs2qdn8h1av6" path="res://src/features/weapons/pistol/pistol.tscn" id="2_hktew"]
+[ext_resource type="PackedScene" uid="uid://cefmtwhjf3m6x" path="res://src/features/weapons/melee/knife.tscn" id="2_knife"]
 [ext_resource type="Texture2D" uid="uid://rdst5p4psn45" path="res://src/assets/art/player/die/Dead (1).png" id="3_6d4q7"]
 [ext_resource type="Script" uid="uid://dnsn2r33eyo5l" path="res://src/features/player/player_health.gd" id="3_p2vpv"]
 [ext_resource type="Texture2D" uid="uid://dif7k0i404xfp" path="res://src/assets/art/player/idle/Idle (2).png" id="3_wy6v3"]
@@ -150,6 +151,7 @@ collision_layer = 2
 collision_mask = 13
 script = ExtResource("1_oubcf")
 default_weapon_scene = ExtResource("2_hktew")
+knife_scene = ExtResource("2_knife")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-1.9999999, -29.999998)
