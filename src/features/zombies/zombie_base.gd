@@ -57,6 +57,7 @@ var _groan_cooldown_timer: float = 0.0
 
 const FACING_EPSILON := 0.01
 const NAV_UPDATE_INTERVAL := 0.2
+const DIE_SPRITE_OFFSET := Vector2(40.0, 0.0)
 var hitbox_shape_default_position: Vector2
 var hitbox_shape_default_rotation: float
 var body_collision_shape_default_position: Vector2
@@ -64,6 +65,7 @@ var body_collision_shape_default_rotation: float
 var facing_pivot_x: float
 var _nav_update_timer := 0.0
 var attack_timer: Timer
+var _collision_extra_offset := Vector2.ZERO
 
 # FSM
 enum ZombieState { IDLE, WALK, ATTACK, DIE }
@@ -188,15 +190,23 @@ func update_facing_from_x(x_direction: float) -> void:
 	# Mirror hitbox and body collision when zombie turns
 	if not hitbox_shape or not body_collision_shape:
 		return
-		
-	var mirrored_hitbox_x := (2.0 * facing_pivot_x) - hitbox_shape_default_position.x if facing_left else hitbox_shape_default_position.x
+
+	_apply_collision_from_facing(facing_left, _collision_extra_offset)
+
+func _apply_collision_from_facing(facing_left: bool, extra_offset: Vector2) -> void:
+	if not hitbox_shape or not body_collision_shape:
+		return
+
+	var base_hitbox_pos := hitbox_shape_default_position + extra_offset
+	var base_body_pos := body_collision_shape_default_position + extra_offset
+	var mirrored_hitbox_x := (2.0 * facing_pivot_x) - base_hitbox_pos.x if facing_left else base_hitbox_pos.x
 	hitbox_shape.position.x = mirrored_hitbox_x
-	hitbox_shape.position.y = hitbox_shape_default_position.y
+	hitbox_shape.position.y = base_hitbox_pos.y
 	hitbox_shape.rotation = -hitbox_shape_default_rotation if facing_left else hitbox_shape_default_rotation
 
-	var hitbox_x_delta := mirrored_hitbox_x - hitbox_shape_default_position.x
-	body_collision_shape.position.x = body_collision_shape_default_position.x + hitbox_x_delta
-	body_collision_shape.position.y = body_collision_shape_default_position.y
+	var hitbox_x_delta := mirrored_hitbox_x - base_hitbox_pos.x
+	body_collision_shape.position.x = base_body_pos.x + hitbox_x_delta
+	body_collision_shape.position.y = base_body_pos.y
 	body_collision_shape.rotation = -body_collision_shape_default_rotation if facing_left else body_collision_shape_default_rotation
 
 
@@ -346,7 +356,6 @@ func attack_state():
 func die_state():
 	is_alive = false
 	recoil_time_left = 0.0
-	sprite.offset = Vector2(40, 0)
 	sprite.play("die")
 	velocity = Vector2.ZERO 
 
@@ -356,6 +365,17 @@ func change_state(new_state: ZombieState):
 		return
 
 	state = new_state
+
+	if state == ZombieState.DIE:
+		_collision_extra_offset = DIE_SPRITE_OFFSET
+		if sprite:
+			sprite.offset = DIE_SPRITE_OFFSET
+		if sprite:
+			_apply_collision_from_facing(sprite.flip_h, _collision_extra_offset)
+	else:
+		_collision_extra_offset = Vector2.ZERO
+		if sprite:
+			sprite.offset = Vector2.ZERO
 
 	if state == ZombieState.WALK:
 		_nav_update_timer = NAV_UPDATE_INTERVAL
