@@ -1,5 +1,7 @@
 extends MenuInteraction
 
+class_name PauseMenu
+
 @onready var first_button: Button = $PanelContainer/VBoxContainer/Resume
 @onready var main_container: VBoxContainer = $PanelContainer/VBoxContainer
 @onready var pause_panel: PanelContainer = $PanelContainer

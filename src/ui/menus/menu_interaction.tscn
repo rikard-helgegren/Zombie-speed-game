@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://keo277wpqnxc"]
+
+[ext_resource type="Script" uid="uid://4pdhens6iu1a" path="res://src/ui/menus/menu_interaction.gd" id="1_o6akt"]
+
+[node name="MenuInteraction" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_o6akt")

@@ -12,6 +12,7 @@ var _aim_using_stick := false
 
 @export var aim_stick_deadzone: float = 0.25
 @export var aim_stick_distance: float = 180.0
+@export var aim_assist_max_angle_deg: float = 10.0
 
 var _mouse_moved_recent := false
 
@@ -214,7 +215,7 @@ func _get_current_aim_direction() -> Vector2:
 	var stick_dir := Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down", aim_stick_deadzone)
 	if stick_dir.length() > 0.0:
 		_aim_using_stick = true
-		return stick_dir.normalized()
+		return _apply_aim_assist(stick_dir.normalized())
 
 	if _mouse_moved_recent:
 		_mouse_moved_recent = false
@@ -227,6 +228,73 @@ func _get_current_aim_direction() -> Vector2:
 
 	# No stick input and mouse is still: keep last aim + mode.
 	return aim_direction
+
+func _apply_aim_assist(stick_dir: Vector2) -> Vector2:
+	if aim_assist_max_angle_deg <= 0.0:
+		return stick_dir
+
+	var zombies_node := _get_zombies_node()
+	if zombies_node == null:
+		return stick_dir
+
+	var max_angle_rad := deg_to_rad(aim_assist_max_angle_deg)
+	var best_dir := Vector2.ZERO
+	var best_angle := max_angle_rad
+	var best_dist := INF
+
+	for zombie in zombies_node.get_children():
+		if not (zombie is Node2D) or not is_instance_valid(zombie):
+			continue
+		if not _is_zombie_visible_to_player(zombie):
+			continue
+		var to_zombie : Vector2= zombie.global_position - global_position
+		if to_zombie.length() <= 0.001:
+			continue
+		var dir : Vector2 = to_zombie.normalized()
+		var angle_diff : float = abs(stick_dir.angle_to(dir))
+		if angle_diff <= max_angle_rad:
+			var dist : float = to_zombie.length()
+			if angle_diff < best_angle or (is_equal_approx(angle_diff, best_angle) and dist < best_dist):
+				best_angle = angle_diff
+				best_dist = dist
+				best_dir = dir
+
+	return stick_dir if best_dir == Vector2.ZERO else best_dir
+
+func _is_zombie_visible_to_player(zombie: Node2D) -> bool:
+	if zombie is CanvasItem:
+		if not zombie.visible:
+			return false
+		# Fog-of-war fades zombies by modulating alpha; treat near-zero as not visible.
+		if zombie.modulate.a <= 0.05:
+			return false
+	return true
+
+func _get_zombies_node() -> Node2D:
+	if Global.zombies_node and is_instance_valid(Global.zombies_node):
+		return Global.zombies_node
+
+	if game_manager:
+		var gm_zombies = game_manager.get("zombies_node")
+		if gm_zombies and is_instance_valid(gm_zombies):
+			return gm_zombies
+
+	var world := get_tree().get_first_node_in_group("world")
+	if world:
+		var world_zombies := world.get_node_or_null("Zombies")
+		if world_zombies and world_zombies is Node2D:
+			return world_zombies
+
+	var scene := get_tree().current_scene
+	if scene:
+		var scene_zombies := scene.get_node_or_null("Zombies")
+		if scene_zombies and scene_zombies is Node2D:
+			return scene_zombies
+		var found := scene.find_child("Zombies", true, false)
+		if found and found is Node2D:
+			return found
+
+	return null
 
 func idle_state():
 	sprite.play("idle")

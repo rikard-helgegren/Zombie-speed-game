@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bqrh1xv2143ef" path="res://src/ui/menus/upgrade_menu.gd" id="1_oj2w3"]
 [ext_resource type="Texture2D" uid="uid://7cuqb0uuawrs" path="res://src/assets/art/HUD/ammo.png" id="2_3tbj3"]
-[ext_resource type="Texture2D" uid="uid://dwiew1do81b2m" path="res://src/assets/art/backgrounds/upgrade2.png" id="2_wjep2"]
+[ext_resource type="Texture2D" uid="uid://dkvwnnw2sk14o" path="res://src/assets/art/backgrounds/upgarde wall2.png" id="2_kba5d"]
 [ext_resource type="Texture2D" uid="uid://bq78dhne73a8c" path="res://src/assets/art/weapons/pistol.png" id="4_kba5d"]
 
 [node name="UpgardeMenu" type="Control"]
@@ -16,12 +16,12 @@ script = ExtResource("1_oj2w3")
 
 [node name="TextureRect2" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = -26.0
-offset_top = -64.0
-offset_right = 1276.0
-offset_bottom = 704.0
-scale = Vector2(1.0201082, 1.0468938)
-texture = ExtResource("2_wjep2")
+offset_left = -11.0
+offset_top = -21.0
+offset_right = 1525.0
+offset_bottom = 1003.0
+scale = Vector2(0.8522886, 0.7482112)
+texture = ExtResource("2_kba5d")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -36,10 +36,20 @@ offset_right = 117.5
 offset_bottom = 93.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1.1909655, 1.1707253)
 
 [node name="Label" type="Label" parent="VBoxContainer"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.9882353, 0.7607843, 0, 1)
+theme_override_font_sizes/font_size = 40
 text = "Upgrades"
+horizontal_alignment = 1
+
+[node name="space" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9882353, 0.7607843, 0, 1)
+theme_override_font_sizes/font_size = 3
+text = "  "
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
