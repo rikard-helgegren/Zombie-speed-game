@@ -2,8 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://dynon060g87t0" path="res://src/assets/art/weapons/knife.png" id="1_3x6r6"]
 [ext_resource type="Script" uid="uid://dnmrugyat1cv4" path="res://src/features/weapons/melee/knife.gd" id="1_4qokf"]
-[ext_resource type="AudioStream" uid="uid://coh3iggl7sh6c" path="res://src/assets/audio/sfx/knife/knife-on-air.mp3" id="2_air"]
-[ext_resource type="AudioStream" uid="uid://cjjl7l2ih2w66" path="res://src/assets/audio/sfx/knife/knife-on-flesh.mp3" id="2_flesh"]
+[ext_resource type="AudioStream" uid="uid://dy0erhua2ejwd" path="res://src/assets/audio/sfx/knife/knife-on-air.mp3" id="2_air"]
+[ext_resource type="AudioStream" uid="uid://c4aclck7qpoky" path="res://src/assets/audio/sfx/knife/knife-on-flesh.mp3" id="2_flesh"]
 
 [node name="Knife" type="Node2D"]
 scale = Vector2(0.65390927, 0.57187355)

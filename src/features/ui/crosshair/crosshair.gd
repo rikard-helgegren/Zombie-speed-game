@@ -21,8 +21,12 @@ var _wobble_phase := 0.0
 
 
 func _process(delta):
-	global_position = get_global_mouse_position()
 	_resolve_hook()
+	_resolve_player()
+	if _player and _player.has_method("get_aim_position"):
+		global_position = _player.get_aim_position()
+	else:
+		global_position = get_global_mouse_position()
 
 	if _hook:
 		# Hide ring entirely when grappling hook is not selected.
@@ -61,6 +65,13 @@ func _resolve_hook() -> void:
 	if player_node and player_node.has_method("get_grappling_hook"):
 		_player = player_node as Player
 		_hook = player_node.get_grappling_hook() as GrapplingHook
+
+func _resolve_player() -> void:
+	if _player:
+		return
+	var player_node = get_tree().get_first_node_in_group("player")
+	if player_node:
+		_player = player_node as Player
 
 
 func _draw() -> void:

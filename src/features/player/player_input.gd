@@ -16,7 +16,7 @@ func _process(_delta):
 		emit_signal("action_input", "melee")
 	if Input.is_action_just_pressed("reload"): # 'R'
 		emit_signal("action_input", "reload")
-	if Input.is_action_just_pressed("grapple"): # E
+	if Input.is_action_just_pressed("grappleHook"): # E
 		emit_signal("action_input", "grapple_hold_start")
-	if Input.is_action_just_released("grapple"):
+	if Input.is_action_just_released("grappleHook"):
 		emit_signal("action_input", "grapple_hold_end")

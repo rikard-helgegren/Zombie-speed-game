@@ -1,4 +1,4 @@
-extends Control
+extends MenuInteraction
 
 @onready var first_button: Button = $PanelContainer/VBoxContainer/Resume
 @onready var main_container: VBoxContainer = $PanelContainer/VBoxContainer
@@ -9,8 +9,6 @@ extends Control
 @onready var game_manager := get_node("/root/Game/GameManager")
 var _controls_open_mode := "computer"
 
-#TODO: adjust selected buttun with inpupt arrows, jouystick and enter
-
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
@@ -18,6 +16,18 @@ func _ready():
 	controls_menu.visible = false
 	settings_menu.back_requested.connect(_on_settings_back_requested)
 	controls_menu.back_requested.connect(_on_controls_back_requested)
+
+func _should_handle_input() -> bool:
+	return not settings_menu.visible and not controls_menu.visible
+
+func _get_focusable_controls() -> Array[Control]:
+	if not main_container:
+		return []
+	var controls: Array[Control] = []
+	for child in main_container.get_children():
+		if child is Control and child.focus_mode != Control.FOCUS_NONE and child.visible:
+			controls.append(child)
+	return controls
 	
 func show_menu():
 	move_to_front()

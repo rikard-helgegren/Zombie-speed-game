@@ -1,4 +1,4 @@
-extends Control
+extends MenuInteraction
 
 signal back_requested
 
@@ -11,11 +11,34 @@ signal back_requested
 var _dev_clip_names: Array[String] = []
 var _dev_clip_button_group: ButtonGroup
 var _selected_dev_clip_index := -1
-
 func _ready() -> void:
 	visible = false
+	if music_slider:
+		music_slider.focus_mode = Control.FOCUS_ALL
+	if sfx_slider:
+		sfx_slider.focus_mode = Control.FOCUS_ALL
+	if dev_clip_volume_slider:
+		dev_clip_volume_slider.focus_mode = Control.FOCUS_ALL
+	if back_button:
+		back_button.focus_mode = Control.FOCUS_ALL
 	_populate_dev_clips()
 	_sync_slider_values()
+
+func _get_focusable_controls() -> Array[Control]:
+	var controls: Array[Control] = []
+	if music_slider and music_slider.visible:
+		controls.append(music_slider)
+	if sfx_slider and sfx_slider.visible:
+		controls.append(sfx_slider)
+	if dev_clip_list and dev_clip_list.visible:
+		for child in dev_clip_list.get_children():
+			if child is Control and child.focus_mode != Control.FOCUS_NONE and child.visible:
+				controls.append(child)
+	if dev_clip_volume_slider and dev_clip_volume_slider.visible and dev_clip_volume_slider.editable:
+		controls.append(dev_clip_volume_slider)
+	if back_button and back_button.visible:
+		controls.append(back_button)
+	return controls
 
 func show_menu() -> void:
 	visible = true
@@ -65,6 +88,7 @@ func _populate_dev_clips() -> void:
 		var button := Button.new()
 		button.text = name
 		button.toggle_mode = true
+		button.focus_mode = Control.FOCUS_ALL
 		button.button_group = _dev_clip_button_group
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.pressed.connect(_on_dev_clip_button_pressed.bind(index))

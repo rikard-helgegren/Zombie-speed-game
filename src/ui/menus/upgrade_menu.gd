@@ -1,4 +1,4 @@
-extends Control
+extends MenuInteraction
 
 @onready var upgrade_option_1 := $VBoxContainer/HBoxContainer/Panel1/TextureRect1
 @onready var upgrade_option_2 := $VBoxContainer/HBoxContainer/Panel2/TextureRect2
@@ -11,7 +11,6 @@ var selected_upgrade: int = -1
 var hovered_upgrade: int = -1
 var _shown_upgrades: Array[UpgradeDef] = []
 var _shine_timer: float = 0.0
-
 # Reference to GameManager
 @onready var game_manager := get_node("/root/Game/GameManager") # adjust path if needed
 
@@ -36,6 +35,9 @@ func _ready():
 	_update_highlight()
 
 func _process(delta: float):
+	super._process(delta)
+	if not visible:
+		return
 	if hovered_upgrade != -1:
 		_shine_timer += delta * 5.0
 		_update_highlight()
@@ -90,6 +92,38 @@ func _on_upgrade_unhovered2():
 	hovered_upgrade = -1
 	_update_highlight()
 	info_text.text = "Select an upgrade"
+
+func _handle_stick_navigation(delta: float) -> void:
+	var stick := Input.get_vector("left", "right", "up", "down", stick_deadzone)
+	if stick.length() <= 0.0:
+		_stick_neutral = true
+		return
+
+	if _stick_neutral:
+		_stick_neutral = false
+		if absf(stick.x) >= absf(stick.y):
+			if stick.x > 0.0:
+				_set_hovered_upgrade(2)
+			elif stick.x < 0.0:
+				_set_hovered_upgrade(1)
+
+func _set_hovered_upgrade(index: int) -> void:
+	if index == hovered_upgrade:
+		return
+	if index == 1:
+		_on_upgrade_hovered1()
+	elif index == 2:
+		_on_upgrade_hovered2()
+
+func _handle_select() -> void:
+	if not Input.is_action_just_pressed("select"):
+		return
+	var index := hovered_upgrade
+	if index == -1:
+		index = 1
+	selected_upgrade = index
+	_update_highlight()
+	_apply_upgrade()
 
 func _update_highlight():
 	# Keep icon colors neutral; shine is done on the card background.

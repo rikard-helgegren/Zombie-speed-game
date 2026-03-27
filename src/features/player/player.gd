@@ -7,6 +7,13 @@ class_name Player
 @export var knife_scene: PackedScene
 
 var move_direction = Vector2.ZERO
+var aim_direction := Vector2.RIGHT
+var _aim_using_stick := false
+
+@export var aim_stick_deadzone: float = 0.25
+@export var aim_stick_distance: float = 180.0
+
+var _mouse_moved_recent := false
 
 
 @onready var game_manager := get_node("/root/Game/GameManager")
@@ -143,7 +150,7 @@ func _on_player_died():
 	
 	
 func update_weapon_aim():
-	var aim_direction = (get_global_mouse_position() - global_position).normalized()
+	aim_direction = _get_current_aim_direction()
 	if hook_weapon_selected:
 		if grappling_hook:
 			grappling_hook.set_aim_direction(aim_direction)
@@ -195,7 +202,31 @@ func get_grappling_hook() -> GrapplingHook:
 	return grappling_hook
 
 func get_aim_position() -> Vector2:
+	if _aim_using_stick:
+		return global_position + aim_direction * aim_stick_distance
 	return get_global_mouse_position()
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion:
+		_mouse_moved_recent = true
+
+func _get_current_aim_direction() -> Vector2:
+	var stick_dir := Input.get_vector("aim_left", "aim_right", "aim_up", "aim_down", aim_stick_deadzone)
+	if stick_dir.length() > 0.0:
+		_aim_using_stick = true
+		return stick_dir.normalized()
+
+	if _mouse_moved_recent:
+		_mouse_moved_recent = false
+		var mouse_pos := get_global_mouse_position()
+		var mouse_dir := mouse_pos - global_position
+		if mouse_dir.length() <= 0.001:
+			return aim_direction
+		_aim_using_stick = false
+		return mouse_dir.normalized()
+
+	# No stick input and mouse is still: keep last aim + mode.
+	return aim_direction
 
 func idle_state():
 	sprite.play("idle")
@@ -265,7 +296,7 @@ func shoot_grapple() -> void:
 		return
 
 	var origin := grappling_hook.get_origin()
-	var direction := get_global_mouse_position() - origin
+	var direction := get_aim_position() - origin
 	grappling_hook.fire(direction, [self])
 
 func _update_grapple_visuals() -> void:
