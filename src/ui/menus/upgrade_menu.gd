@@ -129,6 +129,18 @@ func _set_hovered_upgrade(index: int) -> void:
 func _handle_select() -> void:
 	if not Input.is_action_just_pressed("select"):
 		return
+	_confirm_selection()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible:
+		return
+	if event is InputEventKey and event.pressed and not event.echo:
+		var key_event := event as InputEventKey
+		if key_event.keycode == KEY_ENTER or key_event.keycode == KEY_KP_ENTER:
+			_confirm_selection()
+			get_viewport().set_input_as_handled()
+
+func _confirm_selection() -> void:
 	if _upgrade_locked:
 		return
 	var index := hovered_upgrade
@@ -221,7 +233,7 @@ func _position_sparkle_on_panel(panel: Panel) -> void:
 	var center := panel.global_position + panel.size * 0.5
 	sparkle_sprite.global_position = center
 
-func _on_sparkle_finished(_anim_name: StringName) -> void:
+func _on_sparkle_finished() -> void:
 	_hide_sparkle()
 
 func _hide_sparkle() -> void:

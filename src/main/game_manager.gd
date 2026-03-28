@@ -32,9 +32,12 @@ var current_level_instance: Node = null
 
 
 @export var upgrade_menu_scene: PackedScene
+@export var completed_map_scene: PackedScene = preload("res://src/ui/menus/MapComplete.tscn")
 
 var _current_world: World
 var _upgrade_menu: Node
+var _completed_map: Node
+const COMPLETED_MAP_DISPLAY_SECONDS := 10.0
 
 
 
@@ -50,6 +53,10 @@ func register_world(world: World) -> void:
 
 
 func _on_level_cleared():
+	AudioManager.play_sfx_clip("sfx_game_complete")
+	_show_completed_map()
+	await _wait_for_map_complete_continue()
+	_hide_completed_map()
 	load_upgrade_menu()
 	
 func _unhandled_input(event):
@@ -78,6 +85,7 @@ func load_level(index: int) -> void:
 	
 	world_node.alive_zombies = 0
 	world_node.active_spawners = 0
+	world_node.kill_count = 0
 	
 	# Remove current level
 	if current_level_instance:
@@ -138,6 +146,36 @@ func load_upgrade_menu():
 
 	_upgrade_menu.show_menu(upgrades)	
 	_update_mouse_mode()
+
+func _show_completed_map() -> void:
+	if completed_map_scene == null:
+		return
+	if _completed_map and is_instance_valid(_completed_map):
+		_completed_map.queue_free()
+	_completed_map = completed_map_scene.instantiate()
+	ui_layer.add_child(_completed_map)
+	_update_completed_map_count()
+
+func _hide_completed_map() -> void:
+	if _completed_map and is_instance_valid(_completed_map):
+		_completed_map.queue_free()
+		_completed_map = null
+
+func _update_completed_map_count() -> void:
+	if _completed_map == null:
+		return
+	var count_label := _completed_map.get_node_or_null("KillCount/Count")
+	if count_label and count_label is Label:
+		count_label.text = str(world_node.kill_count)
+
+func _wait_for_map_complete_continue() -> void:
+	var timer := get_tree().create_timer(COMPLETED_MAP_DISPLAY_SECONDS, true)
+	while true:
+		if Input.is_anything_pressed():
+			return
+		if timer.time_left <= 0.0:
+			return
+		await get_tree().process_frame
 
 func _update_mouse_mode() -> void:
 	var should_show := false

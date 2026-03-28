@@ -10,6 +10,7 @@ signal level_cleared
 var max_zombies := 400
 var alive_zombies := 0
 var active_spawners := 0
+var kill_count := 0
 
 func _ready():
 	add_to_group("world")
@@ -57,6 +58,7 @@ func on_zombie_spawned():
 
 func on_zombie_died():
 	alive_zombies -= 1
+	kill_count += 1
 	_check_level_cleared()
 
 
