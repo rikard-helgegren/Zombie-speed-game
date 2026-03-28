@@ -16,6 +16,8 @@ func _init() -> void:
 func fire():
 	if not can_fire:
 		return
+	if Global and not Global.can_use_weapon():
+		return
 	
 	if reloading:
 		return
@@ -25,6 +27,8 @@ func fire():
 		return
 
 	can_fire = false
+	if Global:
+		Global.start_weapon_cooldown(fire_rate)
 
 	if muzzle_flash:
 		muzzle_flash.flash()

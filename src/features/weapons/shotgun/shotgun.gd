@@ -7,8 +7,12 @@ class_name Shotgun
 func fire():
 	if not can_fire:
 		return
+	if Global and not Global.can_use_weapon():
+		return
 
 	can_fire = false
+	if Global:
+		Global.start_weapon_cooldown(fire_rate)
 
 	for i in pellet_count:
 		var angle_offset = deg_to_rad(randf_range(-spread, spread))

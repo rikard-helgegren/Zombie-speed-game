@@ -5,12 +5,18 @@ extends MenuInteraction
 @onready var panel_1 := $VBoxContainer/HBoxContainer/Panel1
 @onready var panel_2 := $VBoxContainer/HBoxContainer/Panel2
 @onready var info_text := $VBoxContainer/infoText
+@onready var sparkle_sprite: AnimatedSprite2D = $AnimatedSprite2D2
+
+const UPGRADE_SFX_CLIP := "sfx_upgrade_selected"
+const SPARKLE_SPEED_SCALE := 2.5
+const SPARKLE_ANIM_NAME := "default"
 
 # Stores which upgrade the player selected
 var selected_upgrade: int = -1
 var hovered_upgrade: int = -1
 var _shown_upgrades: Array[UpgradeDef] = []
 var _shine_timer: float = 0.0
+var _upgrade_locked: bool = false
 # Reference to GameManager
 @onready var game_manager := get_node("/root/Game/GameManager") # adjust path if needed
 
@@ -33,6 +39,7 @@ func _ready():
 
 	# Optional: highlight default selection
 	_update_highlight()
+	_init_sparkle_sprite()
 
 func _process(delta: float):
 	super._process(delta)
@@ -48,6 +55,7 @@ func show_menu(upgrades: Array[UpgradeDef]):
 	_shown_upgrades = upgrades
 	selected_upgrade = -1
 	hovered_upgrade = -1
+	_upgrade_locked = false
 
 	AudioManager.play_music_clip("music_upgrade_menu")
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -58,6 +66,7 @@ func show_menu(upgrades: Array[UpgradeDef]):
 
 	visible = true
 	_update_highlight()
+	_hide_sparkle()
 
 func _on_upgrade_clicked1(event: InputEvent):
 	_on_upgrade_clicked(event, 1)
@@ -67,6 +76,8 @@ func _on_upgrade_clicked2(event: InputEvent):
 
 func _on_upgrade_clicked(event: InputEvent, option_index: int):
 	if event is InputEventMouseButton and event.pressed:
+		if _upgrade_locked:
+			return
 		selected_upgrade = option_index
 		_update_highlight()
 		_apply_upgrade()
@@ -117,6 +128,8 @@ func _set_hovered_upgrade(index: int) -> void:
 
 func _handle_select() -> void:
 	if not Input.is_action_just_pressed("select"):
+		return
+	if _upgrade_locked:
 		return
 	var index := hovered_upgrade
 	if index == -1:
@@ -172,7 +185,46 @@ func _apply_upgrade():
 		return
 
 	var chosen_upgrade := _shown_upgrades[selected_upgrade - 1]
+	_upgrade_locked = true
+	var sparkle_started := _play_upgrade_feedback(selected_upgrade)
 	game_manager.apply_upgrade(chosen_upgrade)
 
+	if sparkle_started:
+		await sparkle_sprite.animation_finished
 	visible = false
 	game_manager.load_next_level()
+
+func _init_sparkle_sprite() -> void:
+	if sparkle_sprite == null:
+		push_warning("UpgradeMenu: Sparkle sprite missing.")
+		return
+	sparkle_sprite.visible = false
+	sparkle_sprite.speed_scale = SPARKLE_SPEED_SCALE
+	if sparkle_sprite.sprite_frames:
+		sparkle_sprite.sprite_frames.set_animation_loop(SPARKLE_ANIM_NAME, false)
+	sparkle_sprite.animation_finished.connect(Callable(self, "_on_sparkle_finished"))
+
+func _play_upgrade_feedback(option_index: int) -> bool:
+	AudioManager.play_sfx_clip(UPGRADE_SFX_CLIP)
+	if sparkle_sprite == null:
+		return false
+	var panel := panel_1 if option_index == 1 else panel_2
+	if panel == null:
+		return false
+	_position_sparkle_on_panel(panel)
+	sparkle_sprite.visible = true
+	sparkle_sprite.stop()
+	sparkle_sprite.play(SPARKLE_ANIM_NAME)
+	return true
+
+func _position_sparkle_on_panel(panel: Panel) -> void:
+	var center := panel.global_position + panel.size * 0.5
+	sparkle_sprite.global_position = center
+
+func _on_sparkle_finished(_anim_name: StringName) -> void:
+	_hide_sparkle()
+
+func _hide_sparkle() -> void:
+	if sparkle_sprite:
+		sparkle_sprite.visible = false
+		sparkle_sprite.stop()

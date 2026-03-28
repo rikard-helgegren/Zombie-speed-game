@@ -245,3 +245,29 @@ func play_sfx_clip_at_position(clip_name: String, position: Vector2) -> void:
 	t.timeout.connect(Callable(player, "queue_free"))
 	player.add_child(t)
 	t.start()
+
+func play_sfx_clip(clip_name: String) -> void:
+	var path := get_clip_path(clip_name)
+	if path == "":
+		return
+	var stream: AudioStream = load(path)
+	if not stream:
+		return
+
+	var player := AudioStreamPlayer.new()
+	player.stream = stream
+	player.volume_db = get_sfx_clip_db(stream) + get_sfx_volume_db_offset()
+	player.pitch_scale = get_sfx_clip_pitch(stream)
+	add_child(player)
+	player.play()
+
+	var duration := 2.0 # fallback duration
+	if stream.has_method("get_length"):
+		duration = stream.get_length() / player.pitch_scale
+
+	var t := Timer.new()
+	t.one_shot = true
+	t.wait_time = duration
+	t.timeout.connect(Callable(player, "queue_free"))
+	player.add_child(t)
+	t.start()

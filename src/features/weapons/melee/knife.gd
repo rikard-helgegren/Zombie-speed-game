@@ -6,7 +6,7 @@ signal swing_finished
 
 @export var swing_arc_degrees: float = 110.0
 @export var swing_duration: float = 0.12
-@export var swing_cooldown: float = 0.25
+@export var swing_cooldown: float = 0.5
 @export var swing_range: float = 52.0
 @export var swing_radius: float = 34.0
 @export var damage_amount: int = 3
@@ -34,8 +34,13 @@ func _process(delta: float) -> void:
 func fire() -> void:
 	if _swinging or not can_fire:
 		return
+	if Global and not Global.can_use_weapon():
+		return
 
 	can_fire = false
+
+	if Global:
+		Global.start_weapon_cooldown(swing_cooldown)
 	_swinging = true
 	_damaged_this_swing.clear()
 	_hit_any = false
